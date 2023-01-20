@@ -477,7 +477,7 @@ setup_weave_gitops() {
     _log "INFO(${FUNCNAME[0]})" "Using admin password '${WEAVE_GITOPS_ADMIN_PASSWORD}' for Weave Gitops"
     # Convert password to bcrypt hash
     # shellcheck disable=SC2155
-    export BOOTSTRAP_WEAVE_GITOPS_ADMIN_PASSWORD="$(echo -n "${BOOTSTRAP_WEAVE_GITOPS_ADMIN_PASSWORD}" | gitops get bcrypt-hash)"
+    # export BOOTSTRAP_WEAVE_GITOPS_ADMIN_PASSWORD="$(echo -n "${BOOTSTRAP_WEAVE_GITOPS_ADMIN_PASSWORD}" | gitops get bcrypt-hash)"
     envsubst < "${PROJECT_DIR}/tmpl/kubernetes/weave-gitops-secret.sops.yaml" \
         > "${PROJECT_DIR}/kubernetes/apps/flux-system/weave-gitops/app/secret.sops.yaml"
     sops --encrypt --in-place "${PROJECT_DIR}/kubernetes/apps/flux-system/weave-gitops/app/secret.sops.yaml"

@@ -9,10 +9,10 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: "${SECRET_DOMAIN}"
+  commonName: "rengo.dev"
   dnsNames:
-    - "${SECRET_DOMAIN}"
-    - "*.${SECRET_DOMAIN}"
+    - "rengo.dev"
+    - "*.rengo.dev"
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -24,7 +24,7 @@ spec:
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
-  commonName: "${SECRET_DOMAIN}"
+  commonName: "rengo.dev"
   dnsNames:
-    - "${SECRET_DOMAIN}"
-    - "*.${SECRET_DOMAIN}"
+    - "rengo.dev"
+    - "*.rengo.dev"

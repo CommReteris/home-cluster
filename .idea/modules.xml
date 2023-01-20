@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/second_cluster.iml" filepath="$PROJECT_DIR$/.idea/second_cluster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/home-cluster.iml" filepath="$PROJECT_DIR$/.idea/home-cluster.iml" />
     </modules>
   </component>
 </project>

@@ -547,3 +547,9 @@ The world is your cluster, have at it!
 Big shout out to all the authors and contributors to the projects that we are using in this repository.
 
 [@whazor](https://github.com/whazor) created [this website](https://nanne.dev/k8s-at-home-search/) as a creative way to search Helm Releases across GitHub. You may use it as a means to get ideas on how to configure an applications' Helm values.
+
+
+## Notes
+  ```sh
+  get secret cluster-user-auth --output jsonpath='{.data.password}' -n flux-system | base64 --decode
+  ```

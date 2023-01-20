@@ -35,7 +35,7 @@ spec:
       annotations:
         # nginx.ingress.kubernetes.io/whitelist-source-range: |
         #  10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-        external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+        external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
         external-dns.home.arpa/enabled: "true"
         hajimari.io/icon: sawtooth-wave
       hosts:
@@ -49,7 +49,7 @@ spec:
     networkPolicy:
       create: false
     metrics:
-      enabled: true
+      enabled: false
     rbac:
       create: true
       impersonationResourceNames: ["admin"]

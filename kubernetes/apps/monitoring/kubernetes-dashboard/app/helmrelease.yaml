@@ -37,12 +37,12 @@ spec:
       enabled: true
       className: nginx
       annotations:
-        external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+        external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
         external-dns.home.arpa/enabled: "true"
         cert-manager.io/cluster-issuer: letsencrypt-production
         hajimari.io/icon: mdi:kubernetes
       hosts:
-        - &host "kubernetes.${SECRET_DOMAIN}"
+        - &host "kubernetes.rengo.dev"
       tls:
         - hosts:
             - *host

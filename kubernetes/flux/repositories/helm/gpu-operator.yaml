@@ -6,4 +6,4 @@ metadata:
   namespace: nvidia
 spec:
   interval: 30s
-  url: nvidia https://nvidia.github.io/gpu-operator
+  url: https://nvidia.github.io/gpu-operator

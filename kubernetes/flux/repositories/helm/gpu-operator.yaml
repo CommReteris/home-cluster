@@ -1,11 +1,9 @@
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: GitRepository
+kind: HelmRepository
 metadata:
   name: gpu-operator
   namespace: nvidia
 spec:
   interval: 30s
-  ref:
-    branch: master
-  url: https://github.com/NVIDIA/gpu-operator
+  url: nvidia https://nvidia.github.io/gpu-operator

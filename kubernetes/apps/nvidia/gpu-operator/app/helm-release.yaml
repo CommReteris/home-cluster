@@ -5,9 +5,8 @@ metadata:
   # https://github.com/solidDoWant/infra-mk2/blob/main/cluster/apps/kube-system/nvidia-gpu-operator/helm-release.yaml
   name: nvidia-gpu-operator
   namespace: nvidia
-
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       # renovate: registryUrl=https://helm.ngc.nvidia.com/nvidia
@@ -15,9 +14,19 @@ spec:
       version: v22.9.1
       sourceRef:
         kind: HelmRepository
-        name: nvidia-charts
+        name: gpu-operator
         namespace: flux-system
-      interval: 5m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     nfd:
       enabled: false

@@ -5,6 +5,7 @@ metadata:
   # https://github.com/solidDoWant/infra-mk2/blob/main/cluster/apps/kube-system/nvidia-gpu-operator/helm-release.yaml
   name: nvidia-gpu-operator
   namespace: nvidia
+
 spec:
   interval: 5m
   chart:

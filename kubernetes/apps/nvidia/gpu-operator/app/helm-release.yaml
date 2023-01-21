@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   # https://github.com/solidDoWant/infra-mk2/blob/main/cluster/apps/kube-system/nvidia-gpu-operator/helm-release.yaml
-  name: nvidia-gpu-operator
+  name: gpu-operator
   namespace: nvidia
 spec:
   interval: 15m

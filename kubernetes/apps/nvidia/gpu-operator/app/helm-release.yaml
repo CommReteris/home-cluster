@@ -29,9 +29,9 @@ spec:
     keepHistory: false
   values:
     nfd:
-      enabled: false
+      enabled: true
     driver:
-      enabled: false
+      enabled: true
     toolkit:
       env:
         - name: CONTAINERD_SOCKET

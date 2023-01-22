@@ -6,11 +6,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="terraform-proxmox-docker-swarm" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$USER_HOME$/home-cluster/ansible/playbooks/templates" />
+        <option value="$MODULE_DIR$/ansible/playbooks/templates" />
       </list>
     </option>
   </component>

@@ -1,0 +1,35 @@
+---
+variant: flatcar
+version: 1.0.0
+systemd:
+  units:
+    - name: installer.service
+      enabled: true
+      contents: |
+        [Unit]
+        Requires=network-online.target
+        After=network-online.target
+        [Service]
+        Type=simple
+        ExecStart=/opt/installer
+        [Install]
+        WantedBy=multi-user.target
+storage:
+  files:
+    - path: /opt/installer
+      mode: 0500
+      contents:
+        inline: |
+          #!/bin/bash -ex
+          curl --retry 10 "${matchbox_http_endpoint}/ignition?os=installed" -o ignition.json
+          flatcar-install \
+            -d /dev/vda \
+            -b ${matchbox_http_endpoint}/assets/flatcar \
+            -i ignition.json
+          udevadm settle
+          systemctl reboot
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        - ${ssh_authorized_key}

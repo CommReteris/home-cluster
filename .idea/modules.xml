@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/home-cluster.iml" filepath="$PROJECT_DIR$/.idea/home-cluster.iml" />
-      <module fileurl="file://$PROJECT_DIR$/terraform/terraform-proxmox-docker-swarm/.idea/terraform-proxmox-docker-swarm.iml" filepath="$PROJECT_DIR$/terraform/terraform-proxmox-docker-swarm/.idea/terraform-proxmox-docker-swarm.iml" />
     </modules>
   </component>
 </project>

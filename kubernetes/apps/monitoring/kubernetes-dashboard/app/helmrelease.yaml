@@ -38,7 +38,7 @@ spec:
       className: nginx
       annotations:
         external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
-        external-dns.home.arpa/enabled: "true"
+        external-dns.home.arpa/enabled: "false"
         cert-manager.io/cluster-issuer: letsencrypt-production
         hajimari.io/icon: mdi:kubernetes
       hosts:

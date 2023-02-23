@@ -20,7 +20,7 @@ spec:
               service:
                 name: rgw-ceph-objectstore
                 port:
-                  number: 80
+                  number: 443
             path: /
             pathType: Prefix
   tls:

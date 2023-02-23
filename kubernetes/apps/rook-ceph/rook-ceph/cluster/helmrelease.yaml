@@ -76,9 +76,9 @@ spec:
           - name: droplet-5
             devices:
               - name: /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180869
-  #        - name: droplet-6
-  #          devices:
-  #            - name: /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180711
+          - name: droplet-6
+            devices:
+              - name: /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180711
     cephBlockPools:
       - name: ceph-blockpool
         spec:

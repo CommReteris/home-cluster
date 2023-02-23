@@ -6,3 +6,4 @@ resources:
   - ./ingress.yaml
   - ./service-nfs.yaml
   - ./storage-class-nfs.yaml
+  - ./user.yaml

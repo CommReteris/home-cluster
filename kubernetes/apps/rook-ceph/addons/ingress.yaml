@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: &host "hajimari.rengo.dev"
+    - host: &host "s3.rengo.dev"
       http:
         paths:
           - backend:

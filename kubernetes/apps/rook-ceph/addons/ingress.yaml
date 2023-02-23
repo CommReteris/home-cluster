@@ -5,7 +5,8 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
     external-dns.home.arpa/enabled: "true"
-  name: rook-ceph-rgw-ceph-objectstore
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  name: rgw-ceph-objectstore
   namespace: rook-ceph
 spec:
   ingressClassName: nginx
@@ -15,7 +16,7 @@ spec:
         paths:
           - backend:
               service:
-                name: rook-ceph-rgw-fast-ceph-objectstore
+                name: rgw-ceph-objectstore
                 port:
                   number: 80
             path: /

@@ -32,18 +32,17 @@ spec:
     ingress:
       dashboard:
         enabled: true
-        ClassName: nginx
+        className: nginx
         annotations:
-          # nginx.ingress.kubernetes.io/whitelist-source-range: |
-          #  10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          nginx.ingress.kubernetes.io/whitelist-source-range: |
+            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
           external-dns.home.arpa/enabled: "false"
           cert-manager.io/cluster-issuer: letsencrypt-production
           hajimari.io/appName: "Rook"
           hajimari.io/icon: mdi:chess-rook
         host:
-          name: &host rook.rengo.dev
-          path: /
+          name: &host "rook.rengo.dev"
         tls:
           - hosts:
               - *host

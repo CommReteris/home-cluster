@@ -31,6 +31,12 @@ spec:
     pspEnable: false
     monitoring:
       enabled: true
+    csi:
+      # enableOMAPGenerator: true
+      # enablePluginSelinuxHostMount: true
+      nfs:
+        enabled: true
+    enableDiscoveryDaemon: true
     resources:
       requests:
         cpu: 10m

@@ -1,0 +1,17 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephNFS
+metadata:
+  name: nfs
+  namespace: rook-ceph
+spec:
+  server:
+    active: 1
+    resources:
+      limits:
+        cpu: "900m"
+        memory: "500Mi"
+      requests:
+        cpu: "500m"
+        memory: "250Mi"
+    logLevel: NIV_INFO

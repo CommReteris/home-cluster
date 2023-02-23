@@ -61,6 +61,22 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: true
+      placement:
+        mgr:
+          modules:
+            - name: rook
+              enabled: true
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/control-plane
+                      operator: In
+                      values:
+                        - ""
+          tolerations:
+            - effect: NoSchedule
+              key: node-role.kubernetes.io/control-plane
       storage:
         useAllNodes: false
         useAllDevices: false

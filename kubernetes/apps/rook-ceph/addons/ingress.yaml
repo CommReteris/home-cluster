@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
+    external-dns.home.arpa/enabled: "true"
+  name: rook-ceph-rgw-ceph-objectstore
+  namespace: rook-ceph
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host "hajimari.rengo.dev"
+      http:
+        paths:
+          - backend:
+              service:
+                name: rook-ceph-rgw-fast-ceph-objectstore
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
+      secretName: s3-tls

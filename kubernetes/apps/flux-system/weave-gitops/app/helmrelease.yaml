@@ -39,7 +39,7 @@ spec:
         external-dns.home.arpa/enabled: "true"
         hajimari.io/icon: sawtooth-wave
       hosts:
-        - host: &host "gitops.rengo.dev"
+        - host: &host gitops.rengo.dev
           paths:
             - path: /
               pathType: Prefix

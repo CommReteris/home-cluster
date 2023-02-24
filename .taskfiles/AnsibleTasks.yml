@@ -11,6 +11,11 @@ vars:
 
 tasks:
 
+  hosts:
+    desc: Updates ansible hosts file from .config.env
+    cmds:
+      - ./configure --ansible
+
   init:
     desc: Install / Upgrade Ansible galaxy deps
     dir: "{{.ANSIBLE_DIR}}"

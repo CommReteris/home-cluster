@@ -22,6 +22,7 @@ EOF
 
 main() {
     local verify=
+    local ansible=
     parse_command_line "$@"
     if [[ "${verify}" == 1 ]]; then
         verify_start
@@ -35,6 +36,9 @@ main() {
         verify_git_repository
         verify_cloudflare
         verify_success
+    elif [[ "${ansible}" == 1 ]]; then
+        generate_ansible_hosts
+        generate_ansible_host_secrets
     else
         # generate sops configuration file
         envsubst < "${PROJECT_DIR}/tmpl/.sops.yaml" \
@@ -81,6 +85,9 @@ parse_command_line() {
                 ;;
             --verify)
                 verify=1
+                ;;
+            --ansible)
+                ansible=1
                 ;;
             *)
                 break

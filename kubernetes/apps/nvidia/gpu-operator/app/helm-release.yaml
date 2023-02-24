@@ -28,11 +28,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    nfd:
-      enabled: true
     driver:
-      enabled: false
-    toolkit:
-      env:
-        - name: CONTAINERD_SOCKET
-          value: '/var/run/k3s/containerd/containerd.sock'
+      enabled: true
+    # toolkit:
+      # env:
+      #   - name: CONTAINERD_SOCKET
+      #    value: '/var/run/k3s/containerd/containerd.sock'

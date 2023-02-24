@@ -82,36 +82,37 @@ spec:
               - name: /dev/disk/by-id/ata-TEAM_T253X2002T_AA000000000000000204
                 config:
                   osdsPerDevice: "1"
-                  primaryAffinity: .33
+                  primaryAffinity: ".33"
           - name: droplet-4
             devices:
               - name: /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180808
                 config:
                   osdsPerDevice: "1"
-                  primaryAffinity: .33
+                  primaryAffinity: ".33"
           - name: droplet-5
             devices:
               - name: /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180869
                 config:
                   osdsPerDevice: "1"
-                  primaryAffinity: .33
+                  primaryAffinity: ".33"
           - name: droplet-6
             devices:
               - name: /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180711
                 config:
                   osdsPerDevice: "1"
+                  primaryAffinity: ".33"
           - name: droplet-7
             devices:
               - name: /dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PJD7E9F
                 config:
                   osdsPerDevice: "1"
-                  primaryAffinity: 0
+                  primaryAffinity: "0"
           - name: droplet-oneiros
             devices:
               - name: /dev/disk/by-id/nvme-INTEL_SSDPEDME016T4S_CVMD510400NG1P6KGN
                 config:
                   osdsPerDevice: "2"
-                  primaryAffinity: 1
+                  primaryAffinity: "1"
     cephBlockPools:
       - name: ceph-blockpool
         spec:

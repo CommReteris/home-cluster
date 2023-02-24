@@ -30,7 +30,7 @@ spec:
   values:
     driver:
       enabled: true
-    # toolkit:
-      # env:
-      #   - name: CONTAINERD_SOCKET
-      #    value: '/var/run/k3s/containerd/containerd.sock'
+    toolkit:
+      env:
+        - name: CONTAINERD_SOCKET
+          value: '/var/run/k3s/containerd/containerd.sock'

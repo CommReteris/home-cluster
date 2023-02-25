@@ -158,8 +158,8 @@ spec:
               - targets: ["10.13.20.1:9100"]
                 labels:
                   app: "opnsense"
-      # thanosService:
-      #  enabled: true
+      thanosService:
+        enabled: false
       # thanosServiceMonitor:
       #  enabled: true
       # thanosIngress:

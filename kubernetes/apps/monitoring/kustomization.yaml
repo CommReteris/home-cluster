@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./kubernetes-dashboard/ks.yaml
+  - ./smartctl-exporter/ks.yaml
+  - ./kube-prometheus-stack/ks.yaml

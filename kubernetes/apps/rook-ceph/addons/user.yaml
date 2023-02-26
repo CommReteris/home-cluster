@@ -1,3 +1,4 @@
+---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStoreUser
 metadata:
@@ -6,10 +7,9 @@ metadata:
 spec:
   store: ceph-objectstore
   displayName: rengo
-  # quotas:
-    # maxBuckets: 100
-    # maxSize: 10G
-    # maxObjects: 10000
   capabilities:
-    user: "*"
+    users: "*"
     bucket: "*"
+    usage: "*"
+    metadata: "*"
+    zone: "*"

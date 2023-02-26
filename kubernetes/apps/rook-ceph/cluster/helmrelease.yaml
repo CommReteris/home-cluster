@@ -36,17 +36,34 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: |
             10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-          external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
-          external-dns.home.arpa/enabled: "false"
-          cert-manager.io/cluster-issuer: letsencrypt-production
           hajimari.io/appName: "Rook"
           hajimari.io/icon: mdi:chess-rook
-        host:
-          name: &host "rook.rengo.dev"
+        hosts:
+          - host: &host "rook.rengo.dev"
+            paths:
+              -path: /
+              pathType: Prefix
         tls:
           - hosts:
               - *host
             secretName: rook-dashboard-tls
+#      rgw:
+#        enabled: true
+#        ingressClassName: nginx
+#        annotations:
+#          nginx.ingress.kubernetes.io/whitelist-source-range: |
+#            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+#          hajimari.io/appName: "S3"
+#          hajimari.io/icon: mdi:chess-rook
+#        hosts:
+#          - host: &host "s3.rengo.dev"
+#            paths:
+#              -path: /
+#              pathType: Prefix
+#        tls:
+#          - hosts:
+#              - *host
+#            secretName: rgw-tls
     toolbox:
       enabled: true
     configOverride: |
@@ -184,13 +201,8 @@ spec:
               codingChunks: 1
           preservePoolsOnDelete: true
           gateway:
+            type: s3
             port: 80
-            resources:
-              requests:
-                cpu: 1000m
-                memory: 1Gi
-              limits:
-                memory: 2Gi
             instances: 1
           healthCheck:
             bucket:

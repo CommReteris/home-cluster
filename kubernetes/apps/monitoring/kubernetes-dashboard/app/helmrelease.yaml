@@ -44,7 +44,9 @@ spec:
         cert-manager.io/cluster-issuer: letsencrypt-production
         hajimari.io/icon: mdi:kubernetes
       hosts:
-        - &host "kubernetes.rengo.dev"
+        - host: &host "kubernetes.rengo.dev"
+          paths:
+            - path: /
       tls:
         - hosts:
             - *host

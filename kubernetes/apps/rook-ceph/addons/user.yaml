@@ -8,7 +8,7 @@ spec:
   store: ceph-objectstore
   displayName: rengo
   capabilities:
-    users: "*"
+    user: "*"
     bucket: "*"
     usage: "*"
     metadata: "*"

@@ -42,9 +42,6 @@ spec:
         hajimari.io/icon: mdi:kubernetes
       hosts:
         - host: &host kubernetes.rengo.dev
-          paths:
-            - path: /
-              pathType: Prefix
       tls:
         - hosts:
             - *host

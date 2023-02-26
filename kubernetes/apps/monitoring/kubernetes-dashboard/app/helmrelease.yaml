@@ -44,9 +44,6 @@ spec:
         hajimari.io/icon: sawtooth-wave
       hosts:
         - host: &host k8s.rengo.dev
-          paths:
-            - path: /
-              pathType: Prefix
       tls:
         - hosts:
             - *host

@@ -41,10 +41,10 @@ spec:
           10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hajimari.io/icon: mdi:kubernetes
       hosts:
-        - host: &host "kubernetes.rengo.dev"
+        - host: "kubernetes.rengo.dev"
       tls:
         - hosts:
-            - *host
+            - "kubernetes.rengo.dev"
           secretName: kubernetes-dashboard-tls
     metricsScraper:
       enabled: true

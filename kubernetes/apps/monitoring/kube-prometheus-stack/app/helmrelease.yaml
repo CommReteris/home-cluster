@@ -10,7 +10,9 @@ spec:
       chart: prometheus-community/kube-prometheus-stack
       reconcileStrategy: ChartVersion
       sourceRef:
-        name: ""
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
   interval: 1m0s
   values:
     alertmanager:

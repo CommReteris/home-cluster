@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ./helmrelease.yaml
+  - ./object-bucket-claim.yaml
 labels:
   - pairs:
       app.kubernetes.io/name: kube-prometheus-stack

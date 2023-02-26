@@ -42,12 +42,13 @@ spec:
           hajimari.io/appName: "Rook"
           hajimari.io/icon: mdi:chess-rook
         hosts:
-          - host: &host "rook.rengo.dev"
+          - host: &host rook.rengo.dev
             paths:
               - path: /
         tls:
           - hosts:
               - *host
+            secretName: rook-ceph-dashboard-tls
     toolbox:
       enabled: true
     configOverride: |

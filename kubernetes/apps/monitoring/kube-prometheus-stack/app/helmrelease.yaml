@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 45.4.0
+      version: 44.2.1
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -120,12 +120,12 @@ spec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: local-path
+              storageClassName: ceph-block
               resources:
                 requests:
                   storage: 1Gi
     grafana:
-      enabled: false
+      enabled: true
       forceDeployDashboards: true
       sidecar:
         dashboards:
@@ -195,9 +195,9 @@ spec:
         #   cluster: home # must match with thanos value `.ruler.clusterName`
         thanos:
           image: quay.io/thanos/thanos:v0.30.2
-          objectStorageConfig:
-            name: thanos-objstore-secret
-            key: objstore.yml
+          objectStorageConfigFile: objectbucketclaim.yaml
+            # name: thanos-objstore-secret
+            # key: objstore.yml
         podAntiAffinity: hard
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
@@ -210,7 +210,7 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: local-path
+              storageClassName: ceph-block
               resources:
                 requests:
                   storage: 20Gi

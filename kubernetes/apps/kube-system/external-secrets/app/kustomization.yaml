@@ -4,9 +4,7 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - ./secret.sops.yaml
-  - ./deployment-crds.yaml
   - ./helmrelease.yaml
-  - ./stores-ks.yaml
 # labels:
 #   - pairs:
 #       app.kubernetes.io/name: external-secrets

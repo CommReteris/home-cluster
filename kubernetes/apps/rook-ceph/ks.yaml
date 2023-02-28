@@ -17,7 +17,7 @@ spec:
       namespace: rook-ceph
   interval: 30m
   retryInterval: 1m
-  timeout: 3m
+  timeout: 15m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -37,9 +37,9 @@ spec:
       kind: HelmRelease
       name: rook-ceph-cluster
       namespace: rook-ceph
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+  interval: 60m
+  retryInterval: 5m
+  timeout: 20m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -49,6 +49,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-rook-ceph
+    - name: cluster-apps-rook-ceph-cluster
   path: ./kubernetes/apps/rook-ceph/addons
   prune: true
   sourceRef:
@@ -59,6 +60,6 @@ spec:
       kind: HelmRelease
       name: rook-ceph-cluster
       namespace: rook-ceph
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+  interval: 60m
+  retryInterval: 5m
+  timeout: 20m

@@ -48,7 +48,7 @@ spec:
         sanitizeDisks:
           method: quick
           dataSource: zero
-        allowUninstallWithVolumes: false
+        allowUninstallWithVolumes: true
       dashboard:
         enabled: true
         urlPrefix: /

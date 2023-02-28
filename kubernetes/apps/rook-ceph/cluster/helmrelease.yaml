@@ -279,13 +279,13 @@ spec:
         spec:
           metadataPool:
             enableRBDStats: true
-            failureDomain: host
+            failureDomain: osd
             replicated:
               size: 2
             deviceClass: ssd
           dataPool:
             enableRBDStats: true
-            failureDomain: host
+            failureDomain: osd
             replicated:
               size: 2
               hybridStorage:

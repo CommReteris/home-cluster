@@ -35,7 +35,7 @@ spec:
       # enableOMAPGenerator: true
       # enablePluginSelinuxHostMount: true
       nfs:
-        enabled: true
+        enabled: false
     enableDiscoveryDaemon: true
     resources:
       requests:

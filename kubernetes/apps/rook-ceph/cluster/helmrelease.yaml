@@ -171,10 +171,9 @@ spec:
       - name: ceph-blockpool
         spec:
           enableRBDStats: true
-          failureDomain: osd
-          erasureCoded:
-            dataChunks: 2
-            codingChunks: 1
+          failureDomain: host
+          replicated:
+            size: 3
           deviceClass: ssd
         storageClass:
           enabled: true
@@ -182,7 +181,6 @@ spec:
           isDefault: true
           reclaimPolicy: Delete
           allowVolumeExpansion: true
-          mountOptions: []
           parameters:
             imageFormat: "2"
             imageFeatures: layering

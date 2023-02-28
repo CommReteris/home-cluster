@@ -139,7 +139,7 @@ spec:
           enableRBDStats: true
           failureDomain: host
           replicated:
-            size: 3
+            size: 2
           deviceClass: nvme
         storageClass:
           enabled: true
@@ -205,7 +205,7 @@ spec:
             - failureDomain: host
               enableRBDStats: true
               replicated:
-                size: 3
+                size: 2
               name: fast-data0
               deviceClass: nvme
           metadataServer:

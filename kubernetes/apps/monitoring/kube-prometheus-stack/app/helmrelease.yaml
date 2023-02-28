@@ -114,6 +114,7 @@ spec:
         tls:
           - hosts:
               - *host
+            secretName: alert-manager-tls
       alertmanagerSpec:
         replicas: 3
         podAntiAffinity: hard
@@ -183,6 +184,7 @@ spec:
         tls:
           - hosts:
               - *host
+            secretName: prometheus-tls
       thanosService:
         enabled: true
       thanosServiceMonitor:

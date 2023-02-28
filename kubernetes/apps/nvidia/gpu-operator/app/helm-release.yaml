@@ -6,11 +6,11 @@ metadata:
   name: gpu-operator
   namespace: nvidia
 spec:
-  runtimeClassName: nvidia
   interval: 15m
   chart:
     spec:
       # renovate: registryUrl=https://helm.ngc.nvidia.com/nvidia
+      runtimeClassName: nvidia
       chart: gpu-operator
       version: v22.9.2
       sourceRef:

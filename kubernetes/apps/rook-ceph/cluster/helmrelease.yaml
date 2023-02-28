@@ -48,7 +48,7 @@ spec:
         sanitizeDisks:
           method: quick
           dataSource: zero
-        allowUninstallWithVolumes: false
+        allowUninstallWithVolumes: true
       dashboard:
         enabled: true
         urlPrefix: /
@@ -58,9 +58,9 @@ spec:
           modules:
             - name: rook
               enabled: true
-          tolerations:
-            - effect: NoSchedule
-              key: node-role.kubernetes.io/control-plane
+          # tolerations:
+          #   - effect: NoSchedule
+          #     key: node-role.kubernetes.io/control-plane
       removeOSDsIfOutAndSafeToRemove: true
       priorityClassNames:
         mon: system-node-critical
@@ -101,7 +101,7 @@ spec:
             devices:
               - name: /dev/disk/by-id/nvme-INTEL_SSDPEDME016T4S_CVMD510400NG1P6KGN
                 config:
-                  osdsPerDevice: "3"
+                  osdsPerDevice: "2"
     ingress:
       dashboard:
         enabled: true

@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     driver:
-      enabled: true
+      enabled: false
     migManager:
       enabled: false
     toolkit:

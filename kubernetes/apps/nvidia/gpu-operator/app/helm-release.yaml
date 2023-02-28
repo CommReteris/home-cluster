@@ -6,6 +6,7 @@ metadata:
   name: gpu-operator
   namespace: nvidia
 spec:
+  runtimeClassName: nvidia
   interval: 15m
   chart:
     spec:
@@ -33,12 +34,13 @@ spec:
     migManager:
       enabled: false
     toolkit:
+      enabled: false
       env:
         - name: CONTAINERD_CONFIG
           value: /var/lib/rancher/k3s/agent/etc/containerd/config.toml
         - name: CONTAINERD_SOCKET
           value: /var/run/k3s/containerd/containerd.sock
-    #     - name: CONTAINERD_RUNTIME_CLASS
-    #       value: nvidia
+        - name: CONTAINERD_RUNTIME_CLASS
+          value: nvidia
     #     - name: CONTAINERD_SET_AS_DEFAULT
     #       value: "true"

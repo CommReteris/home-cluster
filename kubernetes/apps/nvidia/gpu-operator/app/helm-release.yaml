@@ -10,7 +10,6 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://helm.ngc.nvidia.com/nvidia
-      runtimeClassName: nvidia
       chart: gpu-operator
       version: v22.9.2
       sourceRef:
@@ -42,5 +41,5 @@ spec:
           value: /var/run/k3s/containerd/containerd.sock
         - name: CONTAINERD_RUNTIME_CLASS
           value: nvidia
-    #     - name: CONTAINERD_SET_AS_DEFAULT
-    #       value: "true"
+        - name: CONTAINERD_SET_AS_DEFAULT
+          value: "false"

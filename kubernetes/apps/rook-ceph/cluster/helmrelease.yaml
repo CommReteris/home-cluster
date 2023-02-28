@@ -58,13 +58,13 @@ spec:
           modules:
             - name: rook
               enabled: true
-          tolerations:
-            - effect: NoSchedule
-              key: node-role.kubernetes.io/control-plane
-        mon:
-          tolerations:
-            - effect: NoSchedule
-              key: node-role.kubernetes.io/control-plane
+        #   tolerations:
+        #     - effect: NoSchedule
+        #       key: node-role.kubernetes.io/control-plane
+        # mon:
+        #   tolerations:
+        #     - effect: NoSchedule
+        #       key: node-role.kubernetes.io/control-plane
       removeOSDsIfOutAndSafeToRemove: true
       priorityClassNames:
         mon: system-node-critical

@@ -30,6 +30,8 @@ spec:
   values:
     driver:
       enabled: false
+    dcgm:
+      enabled: false
     migManager:
       enabled: false
     toolkit:

@@ -44,11 +44,11 @@ spec:
       crashCollector:
         disable: true
       cleanupPolicy:
-        # confirmation: "yes-really-destroy-data"
+        confirmation: "yes-really-destroy-data"
         sanitizeDisks:
           method: quick
           dataSource: zero
-        allowUninstallWithVolumes: true
+        allowUninstallWithVolumes: false
       dashboard:
         enabled: true
         urlPrefix: /

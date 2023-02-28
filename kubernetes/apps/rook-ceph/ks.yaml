@@ -15,9 +15,9 @@ spec:
       kind: HelmRelease
       name: rook-ceph-operator
       namespace: rook-ceph
-  interval: 30m
+  interval: 10m
   retryInterval: 1m
-  timeout: 15m
+  timeout: 5m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -37,9 +37,9 @@ spec:
       kind: HelmRelease
       name: rook-ceph-cluster
       namespace: rook-ceph
-  interval: 60m
+  interval: 10m
   retryInterval: 1m
-  timeout: 20m
+  timeout: 5m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -60,6 +60,6 @@ spec:
       kind: HelmRelease
       name: rook-ceph-cluster
       namespace: rook-ceph
-  interval: 60m
+  interval: 10m
   retryInterval: 1m
-  timeout: 20m
+  timeout: 50m

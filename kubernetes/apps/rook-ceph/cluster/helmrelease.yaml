@@ -58,9 +58,13 @@ spec:
           modules:
             - name: rook
               enabled: true
-          # tolerations:
-          #   - effect: NoSchedule
-          #     key: node-role.kubernetes.io/control-plane
+          tolerations:
+            - effect: NoSchedule
+              key: node-role.kubernetes.io/control-plane
+        mon:
+          tolerations:
+            - effect: NoSchedule
+              key: node-role.kubernetes.io/control-plane
       removeOSDsIfOutAndSafeToRemove: true
       priorityClassNames:
         mon: system-node-critical
@@ -115,7 +119,7 @@ spec:
             10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
           external-dns.home.arpa/enabled: "false"
-          cert-manager.io/cluster-issuer: letsencrypt-production
+          # cert-manager.io/cluster-issuer: letsencrypt-production
           hajimari.io/appName: "Rook"
           hajimari.io/icon: mdi:chess-rook
         hosts:

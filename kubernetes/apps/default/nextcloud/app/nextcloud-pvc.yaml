@@ -3,6 +3,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: nextcloud
+  namespace: default
 spec:
   capacity:
     storage: 500Gi
@@ -10,6 +11,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ceph-block
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

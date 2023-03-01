@@ -39,8 +39,8 @@ spec:
   values:
     image:
       repository: nextcloud
-      flavor: fpm
-      tag: 25.0.4-fpm
+      flavor: apache
+      tag: 25.0.4
       pullPolicy: IfNotPresent
     #
     runtimeClassName: nvidia
@@ -126,15 +126,15 @@ spec:
         TZ: "${TIMEZONE}"
       nginx:
         ## You need to set an fpm version of the image for nextcloud if you want to use nginx!
-        enabled: true
-        image:
-          repository: nginx
-          pullPolicy: IfNotPresent
-        config:
-          # This generates the default nginx config as per the nextcloud documentation
-          default: true
-          # custom: |-
-          #     worker_processes  1;..
+        enabled: false
+        # image:
+        #   repository: nginx
+        #   pullPolicy: IfNotPresent
+        # config:
+        #   # This generates the default nginx config as per the nextcloud documentation
+        #   default: true
+        #   # custom: |-
+        #   #     worker_processes  1;..
       mariadb:
         enabled: true
         auth:
@@ -162,9 +162,9 @@ spec:
               secretKeyRef:
                 name: nextcloud-secrets
                 key: redis-password
-      # service:
-      #   type: ClusterIP
-      #   port: 80
+      service:
+        type: ClusterIP
+        port: 80
       persistence:
         enabled: true
         size: 8Gi

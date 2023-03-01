@@ -9,7 +9,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app nextcloud
+  name: nextcloud
   namespace: default
 spec:
   interval: 15m

@@ -27,6 +27,8 @@ metadata:
   namespace: default
 spec:
   volumeName: nextcloud-pv
+  accessModes:
+    - ReadWriteOnce
   resources:
     requests:
       storage: 500Gi

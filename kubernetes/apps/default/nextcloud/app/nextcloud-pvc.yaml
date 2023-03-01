@@ -17,7 +17,7 @@ spec:
   csi:
     driver: rbd.csi.k8s.io
     readOnly: false
-    volumeHandle: nextcloud-ceph-block
+    volumeHandle: nextcloud
 
 ---
 apiVersion: v1

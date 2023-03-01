@@ -120,7 +120,7 @@ spec:
             10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
           external-dns.home.arpa/enabled: "false"
-          # cert-manager.io/cluster-issuer: letsencrypt-production
+          cert-manager.io/cluster-issuer: letsencrypt-staging
           hajimari.io/appName: "Rook"
           hajimari.io/icon: mdi:chess-rook
         hosts:

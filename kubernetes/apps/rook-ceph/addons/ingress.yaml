@@ -5,7 +5,7 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
     external-dns.home.arpa/enabled: "true"
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/cluster-issuer: letsencrypt-staging
   name: rook-ceph-rgw-ceph-objectstore
   namespace: rook-ceph
 spec:

@@ -186,20 +186,15 @@ spec:
               - *host
             secretName: prometheus-tls
       thanosService:
-        enabled: true
+        enabled: false
       thanosServiceMonitor:
-        enabled: true
+        enabled: false
       prometheusSpec:
         replicas: 3
         replicaExternalLabelName: __replica__ # must match with thanos value `.query.replicaLabel[0]`
         # Breaks any metric that has an existing "cluster" label on a metric
         # externalLabels:
         #   cluster: home # must match with thanos value `.ruler.clusterName`
-        thanos:
-          image: quay.io/thanos/thanos:v0.30.2
-          objectStorageConfigFile: objectbucketclaim.yaml
-            # name: thanos-objstore-secret
-            # key: objstore.yml
         podAntiAffinity: hard
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false

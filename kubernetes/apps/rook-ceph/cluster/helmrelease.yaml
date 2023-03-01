@@ -36,14 +36,14 @@ spec:
       bdev_enable_discard = auto
       bdev_async_discard = auto
     cephClusterSpec:
-      dataDirHostPath: /var/lib/rook-a-dook
+      dataDirHostPath: /var/lib/rook
       network:
         provider: host
         connections:
           compression:
             enabled: false
       crashCollector:
-        disable: true
+        disable: false
       cleanupPolicy:
         # confirmation: "yes-really-destroy-data"
         sanitizeDisks:
@@ -53,7 +53,7 @@ spec:
       dashboard:
         enabled: true
         urlPrefix: /
-        ssl: true
+        ssl: false
       placement:
         mgr:
           modules:
@@ -244,7 +244,7 @@ spec:
               enableRBDStats: true
               replicated:
                 size: 3
-              name: data1
+              name: data0
               deviceClass: ssd
           metadataServer:
             activeCount: 1
@@ -261,7 +261,7 @@ spec:
           enabled: true
           isDefault: false
           name: ceph-filesystem
-          pool: data1
+          pool: data0
           reclaimPolicy: Delete
           allowVolumeExpansion: true
           parameters:
@@ -278,22 +278,19 @@ spec:
         spec:
           metadataPool:
             enableRBDStats: true
-            failureDomain: osd
+            failureDomain: host
             replicated:
-              size: 2
+              size: 3
             deviceClass: ssd
           dataPool:
             enableRBDStats: true
-            failureDomain: osd
+            failureDomain: host
             replicated:
-              size: 2
+              size: 3
               hybridStorage:
                 primaryDeviceClass: ssd
                 secondaryDeviceClass: hdd
-            # erasureCoded:
-            #   dataChunks: 2
-            #   codingChunks: 1
-          preservePoolsOnDelete: false
+          preservePoolsOnDelete: true
           gateway:
             type: s3
             port: 80

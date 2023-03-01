@@ -36,6 +36,7 @@ spec:
       bdev_enable_discard = auto
       bdev_async_discard = auto
     cephClusterSpec:
+      dataDirHostPath: /var/lib/rook-a-dook
       network:
         provider: host
         connections:

@@ -15,212 +15,217 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: app-template
-      version: 1.3.2
+      chart: nextcloud
+      version: 3.5.1
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: nextcloud
         namespace: flux-system
-      interval: 15m
   install:
     createNamespace: true
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     remediation:
-      retries: 5
+      retries: 3
   dependsOn:
     # - name: kyverno
     #   namespace: kyverno
     - name: ingress-nginx
       namespace: networking
-    - name: nextcloud-postgres
-      namespace: default
-    - name: nextcloud-redis
-      namespace: default
     - name: gpu-operator
       namespace: nvidia
   values:
     image:
-      # https://hub.docker.com/_/nextcloud
-      repository: docker.io/library/nextcloud
-      tag: 25.0.4-fpm
+      repository: nextcloud
+      flavor: fpm
+      tag: 25.0.4
+      pullPolicy: IfNotPresent
+    #
     runtimeClassName: nvidia
-    env:
-      TZ: "${TIMEZONE}"
-      NEXTCLOUD_ADMIN_USER:
-        valueFrom:
-          secretKeyRef:
-            name: nextcloud
-            key: ADMIN_USERNAME
-      NEXTCLOUD_ADMIN_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: nextcloud
-            key: ADMIN_PASSWORD
-      NEXTCLOUD_TRUSTED_DOMAINS: "nextcloud.rengo.dev"
-      # SMTP_HOST: maddy.comms.svc.cluster.local
-      # SMTP_PORT: 2525
-      # SMTP_AUTHTYPE: PLAIN
-      # MAIL_FROM_ADDRESS: "${SMTP_USER}"
-      POSTGRES_HOST: nextcloud-postgres.default.svc.cluster.local
-      POSTGRES_USER: nextcloud
-      POSTGRES_DB: nextcloud
-      POSTGRES_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: nextcloud
-            key: POSTGRES_PASSWORD
-      REDIS_HOST: nextcloud-redis.default.svc.cluster.local
-      REDIS_HOST_PORT: 6379
-      REDIS_HOST_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: nextcloud
-            key: REDIS_PASSWORD
-      NEXTCLOUD_DATA_DIR: /data
-    # podSecurityContext:
-    #   runAsUser: "${SECURITY_CONTEXT_RUN_AS_USER}"
-    #   runAsGroup: "${SECURITY_CONTEXT_RUN_AS_GROUP}"
-    #   fsGroup: "${SECURITY_CONTEXT_FS_GROUP}"
-    persistence:
-      data:
-        enabled: true
-        type: pvc
-        existingClaim: nextcloud
-        subPath:
-          - path: html
-            mountPath: /var/www/html
-          - path: data
-            mountPath: /data
-          # https://github.com/nextcloud/docker/issues/763#issuecomment-1007447212
-          - path: redis-session.ini
-            mountPath: /usr/local/etc/php/conf.d/redis-session.ini
-      redis-config:
-        enabled: true
-        mountPath: /var/www/html
-        existingClaim: nextcloud
-    service:
-      main:
-        ports:
-          http:
-            port: 80
+    #
     ingress:
       main:
         enabled: true
         ingressClassName: nginx
         annotations:
-          external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
-          external-dns.home.arpa/enabled: "true"
-          cert-manager.io/cluster-issuer: letsencrypt-staging
-          hajimari.io/enable: "true"
-          hajimari.io/icon: cloud-outline
+        nginx.ingress.kubernetes.io/proxy-body-size: 4G
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
+        external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
+        external-dns.home.arpa/enabled: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-staging
+        hajimari.io/enable: "true"
+        hajimari.io/icon: cloud-outline
+        nginx.ingress.kubernetes.io/server-snippet: |-
+          server_tokens off;
+          proxy_hide_header X-Powered-By;
+
+          rewrite ^/.well-known/webfinger /public.php?service=webfinger last;
+          rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
+          rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json;
+          location = /.well-known/carddav {
+            return 301 $scheme://$host/remote.php/dav;
+          }
+          location = /.well-known/caldav {
+            return 301 $scheme://$host/remote.php/dav;
+          }
+          location = /robots.txt {
+            allow all;
+            log_not_found off;
+            access_log off;
+          }
+          location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+            deny all;
+          }
+          location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
+            deny all;
+          }
+
         hosts:
           - host: &host "nextcloud.rengo.dev"
             paths:
               - path: /
                 pathType: Prefix
         tls:
+          - secretName: nextcloud-tls
           - hosts:
               - *host
+    nextcloud:
+      host: *host
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-secrets
+        usernameKey: admin-username
+        passwordKey: admin-password
+      datadir: /data
+      mail:
+        enabled: false
+      # Extra config files created in /var/www/html/config/
+      # ref: https://docs.nextcloud.com/server/15/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
+      configs: {}
+      # For example, to use S3 as primary storage
+      # ref: https://docs.nextcloud.com/server/13/admin_manual/configuration_files/primary_storage.html#simple-storage-service-s3
+      #    s3.config.php: |-
+      #      <?php
+      #      $CONFIG = array (
+      #        'objectstore' => array(
+      #          'class' => '\\OC\\Files\\ObjectStore\\S3',
+      #          'arguments' => array(
+      #            'bucket'     => 'my-bucket',
+      #            'autocreate' => true,
+      #            'key'        => 'xxx',
+      #            'secret'     => 'xxx',
+      #            'region'     => 'us-east-1',
+      #            'use_ssl'    => true
+      #          )
+      #        )
+      #      );
+      extraEnv:
+        TZ: "${TIMEZONE}"
+      nginx:
+        ## You need to set an fpm version of the image for nextcloud if you want to use nginx!
+        enabled: true
+        # image:
+        #   repository: nginx
+        #   tag: alpine
+        #   pullPolicy: IfNotPresent
+        # config:
+        #   # This generates the default nginx config as per the nextcloud documentation
+        #   default: true
+        #   # custom: |-
+        #   #     worker_processes  1;..
+      mariadb:
+        enabled: true
+        auth:
+          database: nextcloud
+          password:
+            valueFrom:
+              secretKeyRef:
+                name: nextcloud-secrets
+                key: db-password
+          username:
+            valueFrom:
+              secretKeyRef:
+                name: nextcloud-secrets
+                key: db-user
+        # primary:
+        #   persistence:
+        #     enabled: true
+        #     existingClaim: nextcloud-pvc
+      redis:
+        enabled: true
+        auth:
+          enabled: true
+          password:
+            valueFrom:
+              secretKeyRef:
+                name: nextcloud-secrets
+                key: redis-password
+      service:
+        type: ClusterIP
+        port: 8080
+      persistence:
+        enabled: true
+        size: 8Gi
+        ## Use an additional pvc for the data directory rather than a subpath of the default PVC
+        ## Useful to store data on a different storageClass (e.g. on slower disks)
+        nextcloudData:
+          enabled: false
+          # existingClaim: nextcloud-data-pvc
+      resources: {}
+        # We usually recommend not to specify default resources and to leave this as a conscious
+        # choice for the user. This also increases chances charts run on environments with little
+        # resources, such as Minikube. If you do want to specify resources, uncomment the following
+        # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+        # limits:
+        #  cpu: 100m
+        #  memory: 128Mi
+        # requests:
+        #  cpu: 100m
+        #  memory: 128Mi
+      ## Enable pod autoscaling using HorizontalPodAutoscaler
+      ## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+      # hpa:
+      #   enabled: false
+      #   cputhreshold: 60
+      #   minPods: 1
+      #   maxPods: 10
+      metrics:
+        enabled: true
+        # The metrics exporter needs to know how you serve Nextcloud either http or https
+        https: false
+        # Use API token if set, otherwise fall back to password authentication
+        # https://github.com/xperimental/nextcloud-exporter#token-authentication
+        # Currently you still need to set the token manually in your nextcloud install
+        token: ""
+        timeout: 5s
+        # if set to true, exporter skips certificate verification of Nextcloud server.
+        tlsSkipVerify: true
+        image:
+          repository: xperimental/nextcloud-exporter
+          tag: 0.6.0
+          pullPolicy: IfNotPresent
+        service:
+          type: ClusterIP
+          ## Use serviceLoadBalancerIP to request a specific static IP,
+          ## otherwise leave blank
+          # loadBalancerIP:
+          annotations:
+            prometheus.io/scrape: "true"
+            prometheus.io/port: "9205"
+          labels: {}
+        serviceMonitor:
+          ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using PrometheusOperator
+          enabled: true
+          ## @param metrics.serviceMonitor.namespace Namespace in which Prometheus is running
+          namespace: "monitoring"
+      rbac:
+        enabled: true
+        serviceaccount:
+          create: true
+          name: nextcloud-serviceaccount
+          annotations: {}
     podAnnotations:
       secret.reloader.stakater.com/reload: *app
-
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: nextcloud-postgres
-  namespace: default
-spec:
-  interval: 15m
-  chart:
-    spec:
-      chart: app-template
-      version: 1.3.2
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  install:
-    createNamespace: true
-    remediation:
-      retries: 5
-  upgrade:
-    remediation:
-      retries: 3
-  values:
-    image:
-      repository: docker.io/library/postgres
-      tag: "15.2"
-    env:
-      POSTGRES_USER: nextcloud
-      POSTGRES_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: nextcloud
-            key: POSTGRES_PASSWORD
-      POSTGRES_DB: nextcloud
-      PGDATA: /var/lib/postgresql/data
-    podSecurityContext:
-      runAsUser: "${SECURITY_CONTEXT_RUN_AS_USER}"
-      runAsGroup: "${SECURITY_CONTEXT_RUN_AS_GROUP}"
-      fsGroup: "${SECURITY_CONTEXT_FS_GROUP}"
-    service:
-      main:
-        ports:
-          http:
-            port: 5432
-    persistence:
-      data:
-        enabled: true
-        mountPath: /var/lib/postgresql/data
-        existingClaim: nextcloud
-        subPath: db
-    podAnnotations:
-      secret.reloader.stakater.com/reload: nextcloud
-
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: nextcloud-redis
-  namespace: default
-spec:
-  interval: 15m
-  chart:
-    spec:
-      chart: app-template
-      version: 1.3.2
-      interval: 15m
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  values:
-    controller:
-      strategy: RollingUpdate
-    image:
-      repository: docker.io/library/redis
-      tag: "7.0.9"
-    command: ["redis-server", "--requirepass", "$(REDIS_PASSWORD)"]
-    env:
-      REDIS_REPLICATION_MODE: master
-      REDIS_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: nextcloud
-            key: REDIS_PASSWORD
-    persistence:
-      data:
-        enabled: true
-        path: /data
-        existingClaim: nextcloud
-        subPath: redis
-    service:
-      main:
-        ports:
-          http:
-            port: 6379
-    podAnnotations:
-      secret.reloader.stakater.com/reload: nextcloud

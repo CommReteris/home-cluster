@@ -161,9 +161,10 @@ spec:
               secretKeyRef:
                 name: nextcloud-secrets
                 key: redis-password
-      # service:
-      #   type: ClusterIP
-      #   port: 80
+      service:
+        type: ClusterIP
+        port: 80
+        externalTrafficPolicy: Local
       persistence:
         enabled: true
         size: 8Gi

@@ -11,6 +11,13 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ceph-block
+  claimRef:
+    name: nextcloud
+    namespace: default
+  csi:
+    driver: rbd.csi.k8s.io
+    readOnly: false
+    volumeHandle: nextcloud-ceph-block
 
 ---
 apiVersion: v1

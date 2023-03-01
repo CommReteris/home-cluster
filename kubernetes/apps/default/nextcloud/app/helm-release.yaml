@@ -175,7 +175,7 @@ spec:
       data:
         enabled: true
         mountPath: /var/lib/postgresql/data
-        existingClaim: appdata
+        existingClaim: nextcloud
         subPath: db
     podAnnotations:
       secret.reloader.stakater.com/reload: nextcloud

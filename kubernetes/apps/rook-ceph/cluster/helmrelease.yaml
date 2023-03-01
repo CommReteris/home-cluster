@@ -29,6 +29,30 @@ spec:
     monitoring:
       enabled: true
       createPrometheusRules: true
+    ingress:
+      dashboard:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+        # If the dashboard has ssl: true the following will make sure the NGINX Ingress controller can expose the dashboard correctly
+        # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        # nginx.ingress.kubernetes.io/server-snippet: |
+        #   proxy_ssl_verify off;
+          nginx.ingress.kubernetes.io/whitelist-source-range: |
+            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
+          external-dns.home.arpa/enabled: "false"
+          cert-manager.io/cluster-issuer: letsencrypt-staging
+          hajimari.io/appName: "Rook"
+          hajimari.io/icon: mdi:chess-rook
+        hosts:
+          - host: &host rook.rengo.dev
+            # path: /
+            path: "/ceph-dashboard(/|$)(.*)"
+        tls:
+          - hosts:
+              - *host
+            secretName: rook-ceph-dashboard-tls
     toolbox:
       enabled: true
     configOverride: |
@@ -107,30 +131,6 @@ spec:
               - name: /dev/disk/by-id/nvme-INTEL_SSDPEDME016T4S_CVMD510400NG1P6KGN
                 config:
                   osdsPerDevice: "1"
-    ingress:
-      dashboard:
-        enabled: true
-        ingressClassName: nginx
-        annotations:
-        # If the dashboard has ssl: true the following will make sure the NGINX Ingress controller can expose the dashboard correctly
-        # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-        # nginx.ingress.kubernetes.io/server-snippet: |
-        #   proxy_ssl_verify off;
-          nginx.ingress.kubernetes.io/whitelist-source-range: |
-            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-          external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
-          external-dns.home.arpa/enabled: "false"
-          cert-manager.io/cluster-issuer: letsencrypt-staging
-          hajimari.io/appName: "Rook"
-          hajimari.io/icon: mdi:chess-rook
-        hosts:
-          - host: &host rook.rengo.dev
-            path: /
-            # path: "/ceph-dashboard(/|$)(.*)"
-        tls:
-          - hosts:
-              - *host
-            secretName: rook-ceph-dashboard-tls
 
     cephBlockPoolsVolumeSnapshotClass:
       enabled: false

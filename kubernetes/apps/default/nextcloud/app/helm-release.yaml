@@ -53,8 +53,7 @@ spec:
         nginx.ingress.kubernetes.io/proxy-body-size: 4G
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
-        external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
-        external-dns.home.arpa/enabled: "true"
+        external-dns.home.arpa/enabled: "false"
         cert-manager.io/cluster-issuer: letsencrypt-staging
         hajimari.io/enable: "true"
         hajimari.io/icon: cloud-outline
@@ -162,9 +161,9 @@ spec:
               secretKeyRef:
                 name: nextcloud-secrets
                 key: redis-password
-      service:
-        type: ClusterIP
-        port: 80
+      # service:
+      #   type: ClusterIP
+      #   port: 80
       persistence:
         enabled: true
         size: 8Gi

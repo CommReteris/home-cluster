@@ -129,7 +129,6 @@ spec:
         enabled: true
         image:
           repository: nginx
-          tag: alpine
           pullPolicy: IfNotPresent
         config:
           # This generates the default nginx config as per the nextcloud documentation
@@ -163,9 +162,9 @@ spec:
               secretKeyRef:
                 name: nextcloud-secrets
                 key: redis-password
-      service:
-        type: ClusterIP
-        port: 80
+      # service:
+      #   type: ClusterIP
+      #   port: 80
       persistence:
         enabled: true
         size: 8Gi
@@ -174,6 +173,30 @@ spec:
         nextcloudData:
           enabled: false
           # existingClaim: nextcloud-data-pvc
+      ## Liveness and readiness probe values
+      ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+      ##
+      livenessProbe:
+        enabled: true
+        initialDelaySeconds: 15
+        periodSeconds: 15
+        timeoutSeconds: 10
+        failureThreshold: 3
+        successThreshold: 1
+      readinessProbe:
+        enabled: true
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 3
+        successThreshold: 1
+      startupProbe:
+        enabled: false
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 30
+        successThreshold: 1
       resources: {}
         # We usually recommend not to specify default resources and to leave this as a conscious
         # choice for the user. This also increases chances charts run on environments with little

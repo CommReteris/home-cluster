@@ -10,7 +10,7 @@ spec:
   capacity:
     storage: 500Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Delete # Retain
   storageClassName: ceph-block
   claimRef:
@@ -19,7 +19,7 @@ spec:
   csi:
     driver: rbd.csi.k8s.io
     readOnly: false
-    volumeHandle: nextcloud-data-pv
+    volumeHandle: nextcloud-data
 
 ---
 apiVersion: v1
@@ -28,9 +28,9 @@ metadata:
   name: nextcloud-data-pvc
   namespace: default
 spec:
-  volumeName: nextcloud-data-pv
+  volumeName: nextcloud-data
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   volumeMode: Filesystem
   resources:
     requests:

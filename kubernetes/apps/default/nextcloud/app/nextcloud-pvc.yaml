@@ -12,14 +12,14 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Delete # Retain
-  storageClassName: ceph-block
+  storageClassName: ceph-filesystem
   claimRef:
     name: nextcloud-pvc
     namespace: default
   csi:
     driver: rbd.csi.k8s.io
     readOnly: false
-    volumeHandle: nextcloud-pv
+    volumeHandle: nextcloud-main
 
 ---
 apiVersion: v1
@@ -28,7 +28,7 @@ metadata:
   name: nextcloud-pvc
   namespace: default
 spec:
-  volumeName: nextcloud-pv
+  volumeName: nextcloud-main
   accessModes:
     - ReadWriteMany
   volumeMode: Filesystem

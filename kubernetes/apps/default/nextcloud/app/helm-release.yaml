@@ -132,9 +132,9 @@ spec:
         database: nextcloud
         # password:
         # username:
-      primary:
-        persistence:
-          enabled: true
+      # primary:
+      #   persistence:
+      #     enabled: true
           # existingClaim: nextcloud-pvc
     redis:
       enabled: true

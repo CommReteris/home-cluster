@@ -9,7 +9,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app nextcloud
+  name: nextcloud
   namespace: default
 spec:
   interval: 15m
@@ -29,44 +29,46 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+
   dependsOn:
-    # - name: kyverno
-    #   namespace: kyverno
     - name: ingress-nginx
       namespace: networking
     - name: gpu-operator
       namespace: nvidia
+
   values:
     image:
       repository: nextcloud
-      flavor: fpm
       tag: 25.0.4-fpm
       pullPolicy: IfNotPresent
-    #
+
     runtimeClassName: nvidia
-    #
+
     ingress:
-      main:
-        enabled: true
-        ingressClassName: nginx
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
-          external-dns.home.arpa/enabled: "true"
-          cert-manager.io/cluster-issuer: letsencrypt-staging
-          hajimari.io/enable: "true"
-          hajimari.io/icon: cloud-outline
-          # nginx.ingress.kubernetes.io/proxy-body-size: 4G
-          # nginx.ingress.kubernetes.io/enable-cors: "true"
-          # nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
-        hosts:
-          - host: &host "nextcloud.rengo.dev"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - secretName: nextcloud-tls
-          - hosts:
-              - *host
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
+        external-dns.home.arpa/enabled: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-staging
+        hajimari.io/enable: "true"
+        hajimari.io/icon: cloud-outline
+        # nginx.ingress.kubernetes.io/proxy-body-size: 4G
+        # nginx.ingress.kubernetes.io/enable-cors: "true"
+        # nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
+      hosts:
+        - host: &host "nextcloud.rengo.dev"
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: nextcloud-tls
+        - hosts:
+            - *host
+
+    phpClientHttpsFix:
+      enabled: false
+
     nextcloud:
       host: *host
       existingSecret:
@@ -80,15 +82,15 @@ spec:
       # Extra config files created in /var/www/html/config/
       # ref: https://docs.nextcloud.com/server/15/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
       configs: {}
-        # proxy.config.php: |-
-        #   <?php
-        #   $CONFIG = array (
-        #     'trusted_proxies' => array(
-        #       0 => '127.0.0.1',
-        #       1 => '10.0.0.0/8',
-        #     ),
-        #     'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
-        #   );
+      # proxy.config.php: |-
+      #   <?php
+      #   $CONFIG = array (
+      #     'trusted_proxies' => array(
+      #       0 => '127.0.0.1',
+      #       1 => '10.0.0.0/8',
+      #     ),
+      #     'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+      #   );
       # For example, to use S3 as primary storage
       # ref: https://docs.nextcloud.com/server/13/admin_manual/configuration_files/primary_storage.html#simple-storage-service-s3
       #    s3.config.php: |-
@@ -108,70 +110,73 @@ spec:
       #      );
       extraEnv:
         TZ: "America/New_York"
-      nginx:
-        ## You need to set an fpm version of the image for nextcloud if you want to use nginx!
-        enabled: true
-        image:
-          repository: nginx
-          pullPolicy: IfNotPresent
-        config:
-          # This generates the default nginx config as per the nextcloud documentation
-          default: true
-          # custom: |-
-          #     worker_processes  1;..
-      internalDatabase:
-        enabled: false
-      mariadb:
-        enabled: true
-        auth:
-          database: nextcloud
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: nextcloud-secrets
-                key: db-password
-          username:
-            valueFrom:
-              secretKeyRef:
-                name: nextcloud-secrets
-                key: db-user
-        # primary:
-        #   persistence:
-        #     enabled: true
-        #     existingClaim: nextcloud-pvc
-      redis:
-        enabled: true
-        auth:
+    nginx:
+      ## You need to set an fpm version of the image for nextcloud if you want to use nginx!
+      enabled: true
+      image:
+        repository: nginx
+        pullPolicy: IfNotPresent
+      config:
+        # This generates the default nginx config as per the nextcloud documentation
+        default: true
+        # custom: |-
+        #     worker_processes  1;..
+    internalDatabase:
+      enabled: false
+    mariadb:
+      enabled: true
+      auth:
+        database: nextcloud
+        password:
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: db-password
+        username:
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: db-user
+      primary:
+        persistence:
           enabled: true
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: nextcloud-secrets
-                key: redis-password
-      service:
-        type: ClusterIP
-        port: 8080
-        targetPort: 80
-        # externalTrafficPolicy: Local
-      persistence:
+      #     existingClaim: nextcloud-pvc
+    redis:
+      enabled: true
+      auth:
         enabled: true
-        existingClaim: nextcloud-pvc
-        ## Use an additional pvc for the data directory rather than a subpath of the default PVC
-        ## Useful to store data on a different storageClass (e.g. on slower disks)
-        nextcloudData:
-          enabled: false
-          # existingClaim: nextcloud-data-pvc
-      phpClientHttpsFix:
+        password:
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: redis-password
+
+    service:
+      type: ClusterIP
+      port: 8080
+      targetPort: 80
+      # externalTrafficPolicy: Local
+
+    persistence:
+      enabled: true
+      existingClaim: nextcloud-pvc
+      ## Use an additional pvc for the data directory rather than a subpath of the default PVC
+      ## Useful to store data on a different storageClass (e.g. on slower disks)
+      nextcloudData:
         enabled: true
-      ## Liveness and readiness probe values
-      ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
-      ##
-      # livenessProbe:
-      #   enabled: false
-      # readinessProbe:
-      #   enabled: false
-      # startupProbe:
-      #   enabled: false
+        # subPath:
+        existingClaim: nextcloud-data-pvc
+
+    # Liveness and readiness probe values
+    # Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+    #
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+    startupProbe:
+      enabled: false
+
       resources: {}
         # We usually recommend not to specify default resources and to leave this as a conscious
         # choice for the user. This also increases chances charts run on environments with little

@@ -174,12 +174,6 @@ spec:
       targetPort: 80
       # externalTrafficPolicy: Local
 
-    securityContext:
-      runAsUser: 33
-      runAsGroup: 33
-      runAsNonRoot: false
-      readOnlyRootFilesystem: true
-
     persistence:
       enabled: true
       storageClass: ceph-filesystem

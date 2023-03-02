@@ -110,6 +110,7 @@ spec:
       #      );
       extraEnv:
         TZ: "America/New_York"
+
     nginx:
       ## You need to set an fpm version of the image for nextcloud if you want to use nginx!
       enabled: true
@@ -121,35 +122,25 @@ spec:
         default: true
         # custom: |-
         #     worker_processes  1;..
+
     internalDatabase:
       enabled: false
+
     mariadb:
       enabled: true
       auth:
         database: nextcloud
-        password:
-          valueFrom:
-            secretKeyRef:
-              name: nextcloud-secrets
-              key: db-password
-        username:
-          valueFrom:
-            secretKeyRef:
-              name: nextcloud-secrets
-              key: db-user
+        # password:
+        # username:
       primary:
         persistence:
           enabled: true
-      #     existingClaim: nextcloud-pvc
+          # existingClaim: nextcloud-pvc
     redis:
       enabled: true
       auth:
         enabled: true
-        password:
-          valueFrom:
-            secretKeyRef:
-              name: nextcloud-secrets
-              key: redis-password
+        # password:
 
     service:
       type: ClusterIP
@@ -183,11 +174,11 @@ spec:
         # resources, such as Minikube. If you do want to specify resources, uncomment the following
         # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
         # limits:
-        #  cpu: 100m
-        #  memory: 128Mi
+        #   cpu: 100m
+        #   memory: 128Mi
         # requests:
-        #  cpu: 100m
-        #  memory: 128Mi
+        #   cpu: 100m
+        #   memory: 128Mi
       ## Enable pod autoscaling using HorizontalPodAutoscaler
       ## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
       # hpa:
@@ -230,3 +221,16 @@ spec:
         #   create: true
         #   name: nextcloud-serviceaccount
         #   annotations: {}
+  valuesFrom:
+    - kind: Secret
+      name: nextcloud-secrets
+      valuesKey: db-user
+      targetPath: mariadb.auth.username
+    - kind: Secret
+      name: nextcloud-secrets
+      valuesKey: db-password
+      targetPath: mariadb.auth.password
+    - kind: Secret
+      name: nextcloud-secrets
+      valuesKey: redis-password
+      targetPath: redis.auth.password

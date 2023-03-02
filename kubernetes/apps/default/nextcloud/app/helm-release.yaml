@@ -257,7 +257,7 @@ spec:
           ## @param metrics.serviceMonitor.namespace Namespace in which Prometheus is running
           namespace: "monitoring"
       rbac:
-        enabled: false
+        enabled: true
         serviceaccount:
           create: true
           name: nextcloud-serviceaccount

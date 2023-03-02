@@ -29,6 +29,7 @@ metadata:
   namespace: default
 spec:
   volumeName: nextcloud-main
+  storageClassName: ceph-filesystem
   accessModes:
     - ReadWriteMany
   volumeMode: Filesystem

@@ -163,7 +163,7 @@ spec:
           # existingClaim: nextcloud-pvc
 
     postgresql:
-      enabled: false
+      enabled: true
       global:
         postgresql:
           auth:

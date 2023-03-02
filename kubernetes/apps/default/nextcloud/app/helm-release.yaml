@@ -136,6 +136,7 @@ spec:
         persistence:
           enabled: true
           storageClass: ceph-filesystem
+          readOnly: false
           # existingClaim: nextcloud-pvc
     redis:
       enabled: true
@@ -152,12 +153,15 @@ spec:
     persistence:
       enabled: true
       storageClass: ceph-filesystem
+      accessMode: ReadWriteOnce
+      size: 100Gi
       # existingClaim: nextcloud-pvc
       ## Use an additional pvc for the data directory rather than a subpath of the default PVC
       ## Useful to store data on a different storageClass (e.g. on slower disks)
-      nextcloudData:
-        enabled: true
-        storageClass: ceph-filesystem
+      # nextcloudData:
+      #   enabled: true
+      #   storageClass: ceph-filesystem
+      #   readOnly: false
         # subPath:
         # existingClaim: nextcloud-data-pvc
 

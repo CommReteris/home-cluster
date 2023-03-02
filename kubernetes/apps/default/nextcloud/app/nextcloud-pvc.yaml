@@ -4,8 +4,8 @@ kind: PersistentVolume
 metadata:
   name: nextcloud-pv
   namespace: default
-  annotations:
-    pv.beta.kubernetes.io/gid: "1"
+  # annotations:
+  #   pv.beta.kubernetes.io/gid: "1"
 spec:
   capacity:
     storage: 8Gi

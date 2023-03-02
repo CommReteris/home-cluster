@@ -63,7 +63,7 @@ spec:
               pathType: Prefix
       tls:
         - secretName: nextcloud-tls
-        - hosts:
+          hosts:
             - *host
 
     phpClientHttpsFix:

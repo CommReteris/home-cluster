@@ -150,13 +150,13 @@ spec:
 
     persistence:
       enabled: true
-      existingClaim: nextcloud-pvc
+      # existingClaim: nextcloud-pvc
       ## Use an additional pvc for the data directory rather than a subpath of the default PVC
       ## Useful to store data on a different storageClass (e.g. on slower disks)
       nextcloudData:
         enabled: true
         # subPath:
-        existingClaim: nextcloud-data-pvc
+        # existingClaim: nextcloud-data-pvc
 
     # Liveness and readiness probe values
     # Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes

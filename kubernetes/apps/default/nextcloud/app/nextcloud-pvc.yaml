@@ -32,7 +32,6 @@ spec:
   storageClassName: ceph-filesystem
   accessModes:
     - ReadWriteMany
-  volumeMode: Filesystem
   resources:
     requests:
       storage: 8Gi

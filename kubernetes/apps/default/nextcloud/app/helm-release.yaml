@@ -150,17 +150,32 @@ spec:
       enabled: false
 
     mariadb:
-      enabled: true
+      enabled: false
       auth:
         database: nextcloud
         # password:
         # username:
       primary:
         persistence:
-          enabled: true
-          storageClass: ceph-filesystem
-          readOnly: false
+          enabled: false
+          # storageClass: ceph-block
+          # readOnly: false
           # existingClaim: nextcloud-pvc
+
+    postgresql:
+      enabled: false
+      global:
+        postgresql:
+          auth:
+            # username:
+            # password:
+            database: nextcloud
+      primary:
+        persistence:
+          enabled: false
+          # Use an existing Persistent Volume Claim (must be created ahead of time)
+          # existingClaim: ""
+          # storageClass: ""
 
     redis:
       enabled: true
@@ -176,7 +191,7 @@ spec:
 
     persistence:
       enabled: true
-      storageClass: ceph-filesystem
+      storageClass: ceph-block
       accessMode: ReadWriteOnce
       size: 100Gi
       # existingClaim: nextcloud-pvc
@@ -250,11 +265,13 @@ spec:
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: db-user
-      targetPath: mariadb.auth.username
+      targetPath: postgresql.global.auth.username
+      # targetPath: mariadb.auth.username
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: db-password
-      targetPath: mariadb.auth.password
+      targetPath: postgresql.global.auth.password
+      # targetPath: mariadb.auth.password
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: redis-password

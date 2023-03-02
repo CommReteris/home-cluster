@@ -100,7 +100,7 @@ spec:
         secretName: nextcloud-secrets
         usernameKey: admin-username
         passwordKey: admin-password
-      datadir: /data
+      datadir: /var/www/html/data
       mail:
         enabled: false
       # Extra config files created in /var/www/html/config/
@@ -132,11 +132,6 @@ spec:
       #          )
       #        )
       #      );
-      extraEnv:
-        - name: TZ
-          value: "America/New_York"
-        - name: NEXTCLOUD_DATA_DIR
-          value: "/data"
 
     nginx:
       ## You need to set an fpm version of the image for nextcloud if you want to use nginx!
@@ -166,6 +161,7 @@ spec:
           storageClass: ceph-filesystem
           readOnly: false
           # existingClaim: nextcloud-pvc
+
     redis:
       enabled: true
       auth:

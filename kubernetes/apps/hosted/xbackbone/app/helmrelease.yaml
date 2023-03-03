@@ -28,32 +28,32 @@ spec:
     strategy:
       type: Recreate
 
-    configMaps:
-      config:
-        enabled: true
-        labels: {}
-        annotations: {}
-        data:
-          config.php: |-
-            <?php
+    # configMaps:
+    #   config:
+    #     enabled: true
+    #     labels: {}
+    #     annotations: {}
+    #     data:
+    #       config.php: |-
+    #         <?php
 
-            return [
-                'base_url' => 'https://files.rengo.dev', // no trailing slash
-                'db'       => [
-                    'connection' => 'sqlite',
-                    'dsn'        => realpath(__DIR__).'/resources/database/xbackbone.db',
-                    'username'   => null,
-                    'password'   => null,
-                ],
-                'storage' => [
-                    'driver' => 's3',
-                    'endpoint' => 'http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc:80',
-                    'key' => 'AYDGPH6G5HV2KGKWVU42',
-                    'secret' => 'nGv3BaMmczN7vGEjspjJJ4NqGm8B8s5oASwgX7nA',
-                    'region' => 'us-east-1',
-                    'bucket' => 'xbackbone',
-                ],
-            ];
+    #         return [
+    #             'base_url' => 'https://files.rengo.dev', // no trailing slash
+    #             'db'       => [
+    #                 'connection' => 'sqlite',
+    #                 'dsn'        => realpath(__DIR__).'/resources/database/xbackbone.db',
+    #                 'username'   => null,
+    #                 'password'   => null,
+    #             ],
+    #             'storage' => [
+    #                 'driver' => 's3',
+    #                 'endpoint' => 'http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc:80',
+    #                 'key' => 'AYDGPH6G5HV2KGKWVU42',
+    #                 'secret' => 'nGv3BaMmczN7vGEjspjJJ4NqGm8B8s5oASwgX7nA',
+    #                 'region' => 'us-east-1',
+    #                 'bucket' => 'xbackbone',
+    #             ],
+    #         ];
 
     env:
       PUID: 1000
@@ -85,10 +85,17 @@ spec:
             hosts:
               - *host
 
-    # -- Configure persistence settings for the chart under this key.
-    # persistence:
-    #   config:
-    #     enabled: true
-    #     type: configMap
-    #     name: config
-    #     mountPath: /config
+    persistence:
+      config:
+        enabled: true
+        type: pvc
+        accessMode: ReadWriteOnce
+        size: 1Gi
+      storage:
+        enabled: true
+        type: pvc
+        accessMode: ReadWriteMany
+        mountpath: /storage
+        storageClass: ceph-bucket
+        size: 10Gi
+        retain: true

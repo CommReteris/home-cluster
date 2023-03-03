@@ -123,9 +123,9 @@ spec:
           - name: droplet-6
             devices:
               - name: /dev/sdb # /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180711
-#          - name: droplet-7
-#            devices:
-#              - name: /dev/sdb # /dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PJD7E9F
+          - name: droplet-7
+            devices:
+              - name: /dev/sdb # /dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PJD7E9F
 
     cephBlockPoolsVolumeSnapshotClass:
       enabled: false

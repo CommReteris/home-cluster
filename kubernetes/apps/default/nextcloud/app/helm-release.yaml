@@ -53,35 +53,35 @@ spec:
         cert-manager.io/cluster-issuer: letsencrypt-staging
         hajimari.io/enable: "true"
         hajimari.io/icon: cloud-outline
-        # nginx.ingress.kubernetes.io/proxy-body-size: 4G
+        nginx.ingress.kubernetes.io/proxy-body-size: 4G
         # nginx.ingress.kubernetes.io/enable-cors: "true"
         # nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
-        # nginx.ingress.kubernetes.io/server-snippet: |-
-        #   server_tokens off;
-        #   proxy_hide_header X-Powered-By;
+        nginx.ingress.kubernetes.io/server-snippet: |-
+          server_tokens off;
+          proxy_hide_header X-Powered-By;
 
-        #   rewrite ^/.well-known/webfinger /public.php?service=webfinger last;
-        #   rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
-        #   rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json;
-        #   location = /.well-known/carddav {
-        #     return 301 $scheme://$host/remote.php/dav;
-        #   }
-        #   location = /.well-known/caldav {
-        #     return 301 $scheme://$host/remote.php/dav;
-        #   }
-        #   location = /robots.txt {
-        #     allow all;
-        #     log_not_found off;
-        #     access_log off;
-        #   }
-        #   location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
-        #     deny all;
-        #   }
-        #   location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
-        #     deny all;
-        #   }
+          rewrite ^/.well-known/webfinger /public.php?service=webfinger last;
+          rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
+          rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json;
+          location = /.well-known/carddav {
+            return 301 $scheme://$host/remote.php/dav;
+          }
+          location = /.well-known/caldav {
+            return 301 $scheme://$host/remote.php/dav;
+          }
+          location = /robots.txt {
+            allow all;
+            log_not_found off;
+            access_log off;
+          }
+          location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+            deny all;
+          }
+          location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
+            deny all;
+          }
       hosts:
-        - host: &host "nextcloud.rengo.dev"
+        - host: &host nextcloud.rengo.dev
           paths:
             - path: /
               pathType: Prefix
@@ -92,8 +92,10 @@ spec:
 
     phpClientHttpsFix:
       enabled: false
+      protocol: https
 
     nextcloud:
+      strategy: CreateReplace
       host: *host
       existingSecret:
         enabled: true
@@ -155,9 +157,9 @@ spec:
         database: nextcloud
         # password:
         # username:
-      primary:
-        persistence:
-          enabled: false
+      # primary:
+      #   persistence:
+      #     enabled: false
           # storageClass: ceph-block
           # readOnly: false
           # existingClaim: nextcloud-pvc

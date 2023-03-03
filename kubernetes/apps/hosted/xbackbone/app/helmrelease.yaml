@@ -86,9 +86,9 @@ spec:
               - *host
 
     # -- Configure persistence settings for the chart under this key.
-    persistence:
-      config:
-        enabled: true
-        type: configMap
-        name: config
-        mountPath: /config
+    # persistence:
+    #   config:
+    #     enabled: true
+    #     type: configMap
+    #     name: config
+    #     mountPath: /config

@@ -59,9 +59,9 @@ spec:
       PUID: 1000
       PGID: 1000
       TZ: America/New_York
-      PHP_POST_MAX_SIZE: 240G
-      PHP_UPLOAD_MAX_FILESIZE: 240G
-      PHP_MEMORY_LIMIT: 16G
+      PHP_POST_MAX_SIZE: 4G
+      PHP_UPLOAD_MAX_FILESIZE: 4G
+      PHP_MEMORY_LIMIT: 1024M
 
 
     # -- Configures service settings for the chart.

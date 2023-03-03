@@ -6,8 +6,6 @@ metadata:
   namespace: flux-system
 spec:
   path: ./kubernetes/apps/hosted/xbackbone/app
-  dependsOn:
-    - name: cluster-apps-rook-ceph-cluster
   prune: true
   sourceRef:
     kind: GitRepository

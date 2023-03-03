@@ -2,11 +2,11 @@
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: nfs
+  name: fileshare
   namespace: rook-ceph
 spec:
   server:
-    active: 1
+    active: 3
     resources:
       limits:
         cpu: "900m"

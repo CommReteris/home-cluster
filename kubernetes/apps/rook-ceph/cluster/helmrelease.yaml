@@ -236,4 +236,3 @@ spec:
           reclaimPolicy: Retain
           parameters:
             region: us-east-1
-            bucketName: ceph-bucket

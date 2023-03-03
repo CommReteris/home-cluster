@@ -13,9 +13,11 @@ resources:
   - jetstack.yaml
   - k8s-gateway.yaml
   - kubernetes-dashboard.yaml
+  - mayastor.yaml
   - metallb.yaml
   - metrics-server.yaml
   - nextcloud.yaml
+  - openebs.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
   - stakater.yaml

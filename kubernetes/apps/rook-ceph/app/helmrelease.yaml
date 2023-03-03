@@ -32,10 +32,16 @@ spec:
     monitoring:
       enabled: true
     csi:
+      enableRbdDriver: false
+      enableCSIHostNetwork: false
+      enableCephfsSnapshotter: true
+      enableNFSSnapshotter: true
+      enableRDBSnapshotter: true
       # enableOMAPGenerator: true
       # enablePluginSelinuxHostMount: true
+      enableCSIEncryption: false
       nfs:
-        enabled: false
+        enabled: true
     enableDiscoveryDaemon: true
     resources:
       requests:

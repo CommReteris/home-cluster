@@ -1,7 +1,10 @@
 ---
 - hosts:
-    - master
-    - worker
+    - droplet-2
+    - droplet-3
+    - droplet-4
+    - droplet-5
+    - droplet-6
   become: true
   gather_facts: true
   any_errors_fatal: true
@@ -21,6 +24,19 @@
     - name: Pausing for 5 seconds...
       ansible.builtin.pause:
         seconds: 5
+
+    - name: Wipe disklabel
+      command: sgdisk --zap-all {{ item }}
+      with_items: "{{ disks }}"
+
+    - name: discard device
+      command: blkdiscard {{ item }}
+      failed_when: False
+      with_items: "{{ disks }}"
+
+    - name: probe partitions
+      command: partprobe {{ item }}
+      with_items: "{{ disks }}"
 
     - name: Delete var/iib/rook
       ansible.builtin.file:

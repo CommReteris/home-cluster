@@ -31,7 +31,6 @@ spec:
       createPrometheusRules: true
     ingress:
       dashboard:
-        enabled: true
         ingressClassName: nginx
         annotations:
         # If the dashboard has ssl: true the following will make sure the NGINX Ingress controller can expose the dashboard correctly
@@ -41,15 +40,15 @@ spec:
           nginx.ingress.kubernetes.io/whitelist-source-range: |
             10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
-          external-dns.home.arpa/enabled: "false"
+          external-dns.home.arpa/enabled: "true"
           cert-manager.io/cluster-issuer: letsencrypt-staging
           hajimari.io/enable: "true"
           hajimari.io/appName: "Rook"
           hajimari.io/icon: mdi:chess-rook
         hosts:
           - host: &host rook.rengo.dev
-            # path: /
-            path: "/ceph-dashboard(/|$)(.*)"
+            path: /
+            # path: "/ceph-dashboard(/|$)(.*)"
         tls:
           - hosts:
               - *host
@@ -91,7 +90,7 @@ spec:
         #   tolerations:
         #     - effect: NoSchedule
         #       key: node-role.kubernetes.io/control-plane
-      removeOSDsIfOutAndSafeToRemove: true
+      # removeOSDsIfOutAndSafeToRemove: true
       priorityClassNames:
         mon: system-node-critical
         osd: system-node-critical

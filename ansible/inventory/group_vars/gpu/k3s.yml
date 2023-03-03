@@ -1,0 +1,6 @@
+---
+# https://rancher.com/docs/k3s/latest/en/installation/install-options/agent-config/
+# https://github.com/PyratLabs/ansible-role-k3s
+
+# (bool) Specify if a host (or host group) needs nvidia drivers + container toolkit deployed #TODO: actually write implemenetation of this
+k3s_nvidia: true

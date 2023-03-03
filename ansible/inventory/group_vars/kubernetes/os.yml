@@ -32,3 +32,18 @@ ubuntu:
     - socat
     - python3-kubernetes
     - python3-yaml
+
+gpu:
+  repos:
+    - name: nvidia-container-toolkit
+      key: https://nvidia.github.io/libnvidia-container/gpgkey
+      ext: asc
+      deb: https://nvidia.github.io/libnvidia-container/stable/ubuntu18.04/$(ARCH) /
+    - name: cuda
+      key: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-archive-keyring.gpg
+      ext: gpg
+      deb: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /
+  packages:
+    - nvidia-driver-515-server
+    - nvidia-container-toolkit
+    - nvidia-modprobe

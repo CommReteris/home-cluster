@@ -96,6 +96,6 @@ spec:
         type: pvc
         accessMode: ReadWriteMany
         mountpath: /storage
-        storageClass: ceph-bucket
-        size: 10Gi
-        retain: true
+        storageClass: ceph-nvme
+        size: 100Gi
+        retain: false

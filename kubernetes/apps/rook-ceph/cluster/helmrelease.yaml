@@ -233,6 +233,7 @@ spec:
         storageClass:
           enabled: true
           name: ceph-bucket
-          reclaimPolicy: Delete
+          reclaimPolicy: Retain
           parameters:
             region: us-east-1
+            bucketName: ceph-bucket

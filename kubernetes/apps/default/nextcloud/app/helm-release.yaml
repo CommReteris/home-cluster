@@ -95,7 +95,6 @@ spec:
       protocol: https
 
     nextcloud:
-      strategy: CreateReplace
       host: *host
       existingSecret:
         enabled: true

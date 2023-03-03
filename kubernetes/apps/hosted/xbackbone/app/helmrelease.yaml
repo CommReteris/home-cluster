@@ -38,7 +38,7 @@ spec:
             <?php
 
             return [
-                'base_url' => 'https://localhost', // no trailing slash
+                'base_url' => 'https://files.rengo.dev', // no trailing slash
                 'db'       => [
                     'connection' => 'sqlite',
                     'dsn'        => realpath(__DIR__).'/resources/database/xbackbone.db',

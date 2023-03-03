@@ -98,78 +98,35 @@ spec:
         mgr: system-cluster-critical
       # cluster level storage configuration
       storage:
-        useAllNodes: false
-        useAllDevices: false
+        useAllNodes: true
+        useAllDevices: true
         encryptedDevice: "false" # the default value for this option is "false"
-        nodes:
-          - name: droplet-2
-            devices:
-              - name: /dev/disk/by-id/ata-TEAM_T253X2002T_AA000000000000000204
-                config:
-                  osdsPerDevice: "1"
-          - name: droplet-4
-            devices:
-              - name: /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180808
-                config:
-                  osdsPerDevice: "1"
-          - name: droplet-5
-            devices:
-              - name: /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180869
-                config:
-                  osdsPerDevice: "1"
-          - name: droplet-6
-            devices:
-              - name: /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180711
-                config:
-                  osdsPerDevice: "1"
-          - name: droplet-7
-            devices:
-              - name: /dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PJD7E9F
-                config:
-                  osdsPerDevice: "1"
-          - name: droplet-oneiros
-            devices:
-              - name: /dev/disk/by-id/nvme-INTEL_SSDPEDME016T4S_CVMD510400NG1P6KGN
-                config:
-                  osdsPerDevice: "1"
-
     cephBlockPoolsVolumeSnapshotClass:
       enabled: false
     cephBlockPools:
-      # - name: ceph-fastpool
-      #   spec:
-      #     enableRBDStats: true
-      #     failureDomain: host
-      #     replicated:
-      #       size: 2
-      #     deviceClass: nvme
-      #   storageClass:
-      #     enabled: true
-      #     name: ceph-fastblock
-      #     isDefault: false
-      #     reclaimPolicy: Delete
-      #     allowVolumeExpansion: true
-      #     parameters:
-      #       imageFormat: "2"
-      #       imageFeatures: layering
-      #       csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-      #       csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-      #       csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-      #       csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-      #       csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-      #       csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-      #       csi.storage.k8s.io/fstype: ext4
-      # - name: builtin-mgr
-      #   spec:
-      #     name: .mgr
-      #     enableRBDStats: true
-      #     failureDomain: host
-      #     replicated:
-      #       size: 3
-      #     parameters:
-      #       compression_mode: none
-      #   storageClass:
-      #     enabled: false
+      - name: ceph-fastpool
+        spec:
+          enableRBDStats: false
+          failureDomain: host
+          replicated:
+            size: 3
+          deviceClass: nvme
+        storageClass:
+          enabled: true
+          name: ceph-fastblock
+          isDefault: false
+          reclaimPolicy: Delete
+          allowVolumeExpansion: true
+          parameters:
+            imageFormat: "2"
+            imageFeatures: layering
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4
       - name: ceph-blockpool
         spec:
           enableRBDStats: true
@@ -195,45 +152,43 @@ spec:
             csi.storage.k8s.io/fstype: ext4
 
     cephFileSystems:
-      # - name: ceph-fastsystem
-      #   spec:
-      #     metadataPool:
-      #       enableRBDStats: true
-      #       replicated:
-      #         size: 3
-      #     dataPools:
-      #       - failureDomain: host
-      #         enableRBDStats: true
-      #         replicated:
-      #           size: 2
-      #         name: fast-data0
-      #         deviceClass: nvme
-      #     metadataServer:
-      #       activeCount: 1
-      #       activeStandby: true
-      #       resources:
-      #         requests:
-      #           cpu: 1000m
-      #           memory: 4Gi
-      #         limits:
-      #           cpu: 2000m
-      #           memory: 4Gi
-      #       priorityClassName: system-cluster-critical
-      #   storageClass:
-      #     enabled: true
-      #     isDefault: false
-      #     name: ceph-fastsystem
-      #     pool: fast-data0
-      #     reclaimPolicy: Delete
-      #     allowVolumeExpansion: true
-      #     parameters:
-      #       csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-      #       csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-      #       csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-      #       csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-      #       csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-      #       csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-      #       csi.storage.k8s.io/fstype: ext4
+      - name: ceph-fastsystem
+        spec:
+          metadataPool:
+            replicated:
+              size: 3
+          dataPools:
+            - failureDomain: host
+              replicated:
+                size: 3
+              name: data1
+              deviceClass: nvme
+          metadataServer:
+            activeCount: 1
+            activeStandby: true
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 4Gi
+              limits:
+                cpu: 2000m
+                memory: 4Gi
+            priorityClassName: system-cluster-critical
+        storageClass:
+          enabled: true
+          isDefault: false
+          name: ceph-fastsystem
+          pool: data1
+          reclaimPolicy: Delete
+          allowVolumeExpansion: true
+          parameters:
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4
       - name: ceph-filesystem
         spec:
           metadataPool:

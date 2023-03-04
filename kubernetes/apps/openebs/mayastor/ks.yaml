@@ -24,9 +24,9 @@ kind: Kustomization
 metadata:
   name: cluster-apps-openebs-mayastor-resources
   namespace: flux-system
+spec:
   dependsOn:
     - name: cluster-apps-openebs-mayastor
-spec:
   path: ./kubernetes/apps/openebs/mayastor/resources
   prune: true
   sourceRef:

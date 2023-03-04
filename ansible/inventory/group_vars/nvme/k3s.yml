@@ -4,3 +4,4 @@
 
 # (bool) Specify if a host (or host group) need hugepages defined for NVMEof / mayastor
 k3s_hugepages: true
+k3s_mayastor_node: true

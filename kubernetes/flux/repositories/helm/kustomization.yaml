@@ -20,6 +20,7 @@ resources:
   - metrics-server.yaml
   - nextcloud.yaml
   - openebs.yaml
+  - openebs-nfs.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
   - stakater.yaml

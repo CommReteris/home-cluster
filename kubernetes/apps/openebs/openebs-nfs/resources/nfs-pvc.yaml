@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-test
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "mayastor-3"
+  volumeName: nfs-test
+  resources:
+    requests:
+      storage: 100Gi

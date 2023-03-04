@@ -1,0 +1,27 @@
+---
+apiVersion: "openebs.io/v1alpha1"
+kind: DiskPool
+metadata:
+  name: droplet-3-diskpool
+  namespace: openebs
+spec:
+  node: droplet-3
+  disks: [/dev/nvme0n1]
+---
+apiVersion: "openebs.io/v1alpha1"
+kind: DiskPool
+metadata:
+  name: droplet-4-diskpool
+  namespace: openebs
+spec:
+  node: droplet-4
+  disks: [/dev/nvme0n1]
+---
+apiVersion: "openebs.io/v1alpha1"
+kind: DiskPool
+metadata:
+  name: droplet-5-diskpool
+  namespace: openebs
+spec:
+  node: droplet-5
+  disks: [/dev/nvme0n1]

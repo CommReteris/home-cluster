@@ -4,8 +4,6 @@ kind: Kustomization
 metadata:
   name: cluster-apps-openebs-mayastor
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
 spec:
   path: ./kubernetes/apps/openebs/mayastor/app
   prune: true
@@ -17,6 +15,21 @@ spec:
       kind: HelmRelease
       name: mayastor
       namespace: openebs
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: cluster-apps-openebs-mayastor-resources
+  namespace: flux-system
+spec:
+  path: ./kubernetes/apps/openebs/mayastor/resources
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
   interval: 30m
   retryInterval: 1m
   timeout: 3m

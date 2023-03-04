@@ -57,7 +57,6 @@ spec:
       # If not mentioned, default value openebs/nfs-server-alpine:tag will be used where
       # the tag will be the same as a provisioner-nfs image tag
       nfsServerAlpineImage:
-        registry:
         repository: openebs/nfs-server-alpine
         tag:
       resources:
@@ -85,7 +84,7 @@ spec:
         periodSeconds: 60
       # namespace in which nfs server objects should be created
       # By default, nfs provisioner will create these resources in nfs provisioner's namespace
-      # nfsServerNamespace: openebs
+      nfsServerNamespace: openebs
       #
       # nfsServerNodeAffinity defines the node affinity rules to place NFS Server
       # instance. It accepts affinity rules in multiple ways:
@@ -139,7 +138,7 @@ spec:
       # nfsServerResources defines the NFS server resource requests and limits
       # Usually, below request and limits are good enough for NFS Server to work
       # seamlessly(IOs will be taken care by kerner space process i.e nfsd).
-      nfsServerResources: {}
+      # nfsServerResources: {}
       #  requests:
       #    memory: 50Mi
       #    cpu: 50m
@@ -148,7 +147,7 @@ spec:
       #    cpu: 100m
 
     nfsServer:
-      useClusterIP: "false"
+      useClusterIP: "true"
       imagePullSecret: ""
 
     analytics:

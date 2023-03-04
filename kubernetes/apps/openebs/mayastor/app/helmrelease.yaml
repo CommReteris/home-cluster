@@ -170,7 +170,7 @@ spec:
       reactorFreezeDetection:
         enabled: false
       # -- The number of cpu that each io-engine instance will bind to.
-      cpuCount: "2"
+      cpuCount: "4"
       # -- Node selectors to designate storage nodes for diskpool creation
       # Note that if multi-arch images support 'kubernetes.io/arch: amd64'
       # should be removed.

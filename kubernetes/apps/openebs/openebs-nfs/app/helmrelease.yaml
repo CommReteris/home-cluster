@@ -17,7 +17,7 @@ spec:
   values:
     serviceAccount:
       # Specifies whether a service account should be created
-      create: false
+      create: true
       # Annotations to add to the service account
       annotations: {}
       # The name of the service account to use.
@@ -58,8 +58,8 @@ spec:
       # the tag will be the same as a provisioner-nfs image tag
       nfsServerAlpineImage:
         repository: openebs/nfs-server-alpine
-        tag:
-      resources:
+        # tag:
+      # resources:
       # We usually recommend not to specify default resources and to leave this as a conscious
       # choice for the user. This also increases chances charts run on environments with little
       # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -76,9 +76,9 @@ spec:
       #     memory: 200Mi
       # If set to false, containers created by the nfs provisioner will run without extra privileges.
       privileged: true
-      nodeSelector: {}
-      tolerations: []
-      affinity: {}
+      # nodeSelector: {}
+      # tolerations: []
+      # affinity: {}
       healthCheck:
         initialDelaySeconds: 30
         periodSeconds: 60

@@ -7,8 +7,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: "openebs-kernel-nfs"
-  volumeName: nfs-test
+  #volumeName: nfs-test
   resources:
     requests:
       storage: 100Gi
+  storageClassName: openebs-kernel-nfs

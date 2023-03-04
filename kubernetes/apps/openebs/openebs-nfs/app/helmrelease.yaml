@@ -13,98 +13,76 @@ spec:
         kind: HelmRepository
         name: openebs-nfs
         namespace: flux-system
+  install:
+    createNamespace: true
   interval: 1m0s
   values:
+    analytics:
+      enabled: "false"
     serviceAccount:
-      # Specifies whether a service account should be created
       create: true
-      # Annotations to add to the service account
       annotations: {}
+      name: &serviceAccountName openebs-nfs-provisioner
       # The name of the service account to use.
       # If not set and create is true, a name is generated using the fullname template
-      name:
-
+    serviceAccountName: *serviceAccountName
     rbac:
-      # rbac.create: `true` if rbac resources should be created
       create: true
-      # rbac.pspEnabled: `true` if PodSecurityPolicy resources should be created
       pspEnabled: false
-
-    podSecurityContext: {}
-    # fsGroup: 2000
-
-    imagePullSecrets:
-    # - name: image-pull-secret
-
-    fullnameOverride: ""
+    # podSecurityContext: {}
+      # fsGroup: 2000
+    fullnameOverride: &fullname openebs-nfs-provisioner
     nameOverride: ""
 
     nfsProvisioner:
-      name: nfs-provisioner
       enabled: true
+      name: provisioner
+      nfsServerNamespace: openebs
       annotations: {}
       podLabels:
-        name: openebs-nfs-provisioner
+        name: *fullname
       image:
         # Make sure that registry name end with a '/'.
         # For example : quay.io/ is a correct value here and quay.io is incorrect
-        registry:
+        registry: quay.io/
         repository: openebs/provisioner-nfs
-        tag:
+        tag: &tag 0.10.0
         pullPolicy: IfNotPresent
       enableLeaderElection: "true"
-      # Specify image name of nfs-server-alpine used for creating nfs server deployment
-      # If not mentioned, default value openebs/nfs-server-alpine:tag will be used where
-      # the tag will be the same as a provisioner-nfs image tag
-      nfsServerAlpineImage:
-        repository: openebs/nfs-server-alpine
-        # tag:
-      # resources:
-      # We usually recommend not to specify default resources and to leave this as a conscious
-      # choice for the user. This also increases chances charts run on environments with little
-      # resources, such as Minikube. If you do want to specify resources, uncomment the following
-      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-      #   ## Normal cases CPU and memory usage are around ~10 millicores and
-      #   ## memory usage is around ~16Mb(after provisioing 70 volumes)
-      #   requests:
-      #     cpu: 50m
-      #     memory: 50M
-      #   ## During provisioning(large no.of pvcs at a time) time CPU and memory usage
-      #   ## are around ~67 millicores(6.7% of cpu) and memory usage is around ~34Mb
-      #   limits:
-      #     cpu: 200m
-      #     memory: 200Mi
       # If set to false, containers created by the nfs provisioner will run without extra privileges.
       privileged: true
-      # nodeSelector: {}
-      # tolerations: []
-      # affinity: {}
       healthCheck:
         initialDelaySeconds: 30
         periodSeconds: 60
-      # namespace in which nfs server objects should be created
-      # By default, nfs provisioner will create these resources in nfs provisioner's namespace
-      nfsServerNamespace: openebs
-      #
+      # nodeSelector:
+      # kubernetes.io/arch: amd64
+
+      nfsServerAlpineImage:
+        registry: quay.io/
+        repository: openebs/nfs-server-alpine
+        tag: *tag
       # nfsServerNodeAffinity defines the node affinity rules to place NFS Server
       # instance. It accepts affinity rules in multiple ways:
       # - If NFS Server needs to be placed on storage nodes as well as only in
       #   zone-1 & zone-2 then value can be: "kubernetes.io/zone:[zone-1,zone-2],kubernetes.io/storage-node".
       # - If NFS Server needs to be placed only on storage nodes & nfs nodes then
       #   value can be: "kubernetes.io/storage-node,kubernetes.io/nfs-node"
-      #nfsServerNodeAffinity: "openebs.io/engine=mayastor"
-      #
+      nfsServerNodeAffinity: openebs.io/engine
       # nfsHookConfigMap represent the ConfigMap name to be used for hook configuration.
       # By default, nfsHookConfigMap is set to empty.
       # If nfsHookConfigMap is set then chart will mount the configmap using volume, named `hook-config`
       nfsHookConfigMap: ""
+
+    nfsServer:
+      useClusterIP: "true"
+      imagePullSecret: ""
 
     nfsStorageClass:
       name: openebs-kernel-nfs
       reclaimPolicy: Delete
       nfsServerType: kernel
       isDefaultClass: false
-      backendStorageClass: "mayastor-3"
+      backendStorageClass: mayastor-3
       # The customServerConfig key passes a custom /etc/exports configuration to
       # the NFS servers created using this StorageClass.
       # The configuration settings are not validated, and can lead to security
@@ -145,10 +123,3 @@ spec:
       #  limits:
       #    memory: 100Mi
       #    cpu: 100m
-
-    nfsServer:
-      useClusterIP: "true"
-      imagePullSecret: ""
-
-    analytics:
-      enabled: "false"

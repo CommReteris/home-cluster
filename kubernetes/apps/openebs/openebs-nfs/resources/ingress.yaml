@@ -17,7 +17,7 @@ spec:
           - backend:
               service:
                 name: nfs-pvc-282cb116-0af9-4117-8c96-10adc39d6cb4
-                ports:
+                port:
                   - name: nfs
                     protocol: TCP
                     number: 2049

@@ -99,7 +99,7 @@ spec:
       storage:
         enabled: true
         type: pvc
-        accessMode: ReadWriteMany
+        accessMode: ReadWriteOnce
         mountpath: /storage
         size: 100Gi
         retain: false

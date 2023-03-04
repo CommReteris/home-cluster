@@ -4,9 +4,9 @@ kind: Kustomization
 metadata:
   name: cluster-apps-openebs-nfs-provisioner
   namespace: flux-system
+spec:
   dependsOn:
     - name: cluster-apps-openebs-mayastor
-spec:
   path: ./kubernetes/apps/openebs/openebs-nfs/app
   prune: true
   sourceRef:
@@ -26,9 +26,10 @@ kind: Kustomization
 metadata:
   name: cluster-apps-openebs-nfs-resources
   namespace: flux-system
-  dependsOn:
-    - name: cluster-apps-openebs-nfs-provisioner
 spec:
+  dependsOn:
+    - name: cluster-apps-openebs-mayastor
+    - name: cluster-apps-openebs-nfs-provisioner
   path: ./kubernetes/apps/openebs/openebs-nfs/resources
   prune: true
   sourceRef:

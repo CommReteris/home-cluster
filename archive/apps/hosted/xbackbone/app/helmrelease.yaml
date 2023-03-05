@@ -9,6 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
+      reconcileStrategy: Revision
       # -- Version of the app-template helm chart
       # this example is not automatically updated, so be sure to use the latest chart version
       version: 0.1.1

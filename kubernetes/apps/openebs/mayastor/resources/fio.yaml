@@ -2,7 +2,7 @@
 kind: Pod
 apiVersion: v1
 metadata:
-  name: fio
+  name: fio-1
   namespace: openebs
 spec:
   # Run on a storage node so that the nexus is local to the app
@@ -11,7 +11,33 @@ spec:
   volumes:
     - name: ms-volume
       persistentVolumeClaim:
-        claimName: ms-volume-claim
+        claimName: ms-volume-claim-1
+  containers:
+    - name: fio
+      image: mayadata/fio
+      args:
+        - sleep
+        - "1000000"
+      volumeMounts:
+        - mountPath: "/volume"
+          name: ms-volume
+      # volumeDevices:
+        # - devicePath: /dev/xvda
+        # name: ms-volume
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: fio-2
+  namespace: openebs
+spec:
+  # Run on a storage node so that the nexus is local to the app
+  nodeSelector:
+    openebs.io/engine: mayastor
+  volumes:
+    - name: ms-volume
+      persistentVolumeClaim:
+        claimName: ms-volume-claim-2
   containers:
     - name: fio
       image: mayadata/fio

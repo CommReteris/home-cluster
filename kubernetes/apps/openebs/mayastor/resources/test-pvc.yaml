@@ -19,7 +19,7 @@ metadata:
   namespace: openebs
 spec:
   accessModes:
-    - ReadWritePmce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi

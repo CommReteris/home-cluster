@@ -54,7 +54,7 @@ spec:
       # Can be either Deployment or DaemonSet
       kind: Deployment
       # https://github.com/traefik/traefik-helm-chart/blob/master/EXAMPLES.md
-      replicas: null # RECOMMENDED WHEN AUTOSCALING
+      replicas: 1
 
 
     # Pod disruption budget
@@ -691,29 +691,29 @@ spec:
     ## Create HorizontalPodAutoscaler object.
     ##
     autoscaling:
-      enabled: true
-      minReplicas: 1
-      maxReplicas: 3
-      metrics:
-        - type: Resource
-          resource:
-            name: cpu
-            target:
-              type: Utilization
-              averageUtilization: 60
-        - type: Resource
-          resource:
-            name: memory
-            target:
-              type: Utilization
-              averageUtilization: 60
-      behavior:
-        scaleDown:
-          stabilizationWindowSeconds: 300
-          policies:
-            - type: Pods
-              value: 1
-              periodSeconds: 60
+      enabled: false
+      # minReplicas: 1
+      # maxReplicas: 3
+      # metrics:
+      #   - type: Resource
+      #     resource:
+      #       name: cpu
+      #       target:
+      #         type: Utilization
+      #         averageUtilization: 60
+      #   - type: Resource
+      #     resource:
+      #       name: memory
+      #       target:
+      #         type: Utilization
+      #         averageUtilization: 60
+      # behavior:
+      #   scaleDown:
+      #     stabilizationWindowSeconds: 300
+      #     policies:
+      #       - type: Pods
+      #         value: 1
+      #         periodSeconds: 60
 
     # Enable persistence using Persistent Volume Claims
     # ref: http://kubernetes.io/docs/user-guide/persistent-volumes/

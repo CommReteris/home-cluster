@@ -10,7 +10,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: mayastor-3
+  storageClassName: mayastor-single-replica
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -24,3 +24,16 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: mayastor-2
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ms-volume-claim-3
+  namespace: openebs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: mayastor-3

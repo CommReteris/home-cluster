@@ -18,12 +18,12 @@ spec:
       args:
         - sleep
         - "1000000"
-      volumeMounts:
-        - mountPath: "/volume"
+      # volumeMounts:
+      #   - mountPath: "/volume"
+      #     name: ms-volume
+      volumeDevices:
+        - devicePath: /dev/xvda
           name: ms-volume
-      # volumeDevices:
-        # - devicePath: /dev/xvda
-        # name: ms-volume
 ---
 kind: Pod
 apiVersion: v1
@@ -44,9 +44,35 @@ spec:
       args:
         - sleep
         - "1000000"
-      volumeMounts:
-        - mountPath: "/volume"
+      # volumeMounts:
+      #   - mountPath: "/volume"
+          # name: ms-volume
+      volumeDevices:
+        - devicePath: /dev/xvda
           name: ms-volume
-      # volumeDevices:
-        # - devicePath: /dev/xvda
-        # name: ms-volume
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: fio-3
+  namespace: openebs
+spec:
+  # Run on a storage node so that the nexus is local to the app
+  nodeSelector:
+    openebs.io/engine: mayastor
+  volumes:
+    - name: ms-volume
+      persistentVolumeClaim:
+        claimName: ms-volume-claim-3
+  containers:
+    - name: fio
+      image: mayadata/fio
+      args:
+        - sleep
+        - "1000000"
+      # volumeMounts:
+      #   - mountPath: "/volume"
+      #     name: ms-volume
+      volumeDevices:
+        - devicePath: /dev/xvda
+          name: ms-volume

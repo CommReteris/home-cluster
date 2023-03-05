@@ -19,8 +19,8 @@ metadata:
   namespace: openebs
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWritePmce
   resources:
     requests:
       storage: 1Gi
-  storageClassName: mayastor-3
+  storageClassName: mayastor-2

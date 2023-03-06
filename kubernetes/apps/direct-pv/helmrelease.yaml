@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./src/direct-pv/Chart.yaml
+      chart: src/direct-pv/Chart.yaml
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: GitRepository

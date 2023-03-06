@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./src/direct-pv
+      chart: ./kubernetes/src/direct-pv
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: GitRepository

@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: direct-pv
+  namespace: direct-pv
+spec:
+  chart:
+    spec:
+      chart: ./src/direct-pv/Chart.yaml
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: GitRepository
+        name: home-kubernetes
+  install:
+    crds: Create
+  interval: 1m0s
+  upgrade:
+    crds: CreateReplace

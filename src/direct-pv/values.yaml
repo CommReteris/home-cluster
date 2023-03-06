@@ -1,0 +1,34 @@
+---
+csiMinIo:
+  csiProvisioner:
+    image:
+      repository: quay.io/minio/csi-provisioner@sha256
+      tag: c185db49ba02c384633165894147f8d7041b34b173e82a49d7145e50e809b8d6
+  directCsi:
+    image:
+      repository: quay.io/minio/directpv
+      tag: v3.2.2
+  directpvDriveDiscovery:
+    image:
+      repository: quay.io/minio/directpv
+      tag: v3.2.2
+  livenessProbe:
+    image:
+      repository: quay.io/minio/livenessprobe@sha256
+      tag: a3a5f8e046ece910505a7f9529c615547b1152c661f34a64b13ac7d9e13df4a7
+  nodeDriverRegistrar:
+    image:
+      repository: quay.io/minio/csi-node-driver-registrar@sha256
+      tag: d46524376ffccf2c29f2fb373a67faa0d14a875ae01380fa148b4c5a8d47a6c6
+  ports:
+  - name: unused
+    port: 12345
+    targetPort: 0
+  replicas: 3
+  type: ClusterIP
+csiValidationController:
+  ports:
+  - port: 20443
+    targetPort: validatinghook
+  type: ClusterIP
+kubernetesClusterDomain: cluster.local

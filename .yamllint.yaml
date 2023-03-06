@@ -1,6 +1,8 @@
 ---
 ignore: |
   *.sops.*
+  src/direct-pv/
+  src/direct-pv/templates/
 extends: default
 rules:
   truthy:

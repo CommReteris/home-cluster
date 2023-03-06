@@ -1,0 +1,217 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "direct-pv.fullname" . }}-csi-min-io
+  labels:
+    application-name: direct.csi.min.io
+    application-type: CSIDriver
+    direct.csi.min.io/created-by: kubectl-direct-csi
+    direct.csi.min.io/version: v1beta5
+  {{- include "direct-pv.labels" . | nindent 4 }}
+  annotations:
+    pod-security.kubernetes.io/enforce: privileged
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+spec:
+  selector:
+    matchLabels:
+      selector.direct.csi.min.io: direct-csi-min-io-2ojxr
+    {{- include "direct-pv.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        selector.direct.csi.min.io: direct-csi-min-io-2ojxr
+        selector.direct.csi.min.io.service: enabled
+      {{- include "direct-pv.selectorLabels" . | nindent 8 }}
+      annotations:
+        created-by: kubectl-direct-csi
+    spec:
+      containers:
+      - args:
+        - --v=3
+        - --csi-address=unix:///csi/csi.sock
+        - --kubelet-registration-path=/var/lib/kubelet/plugins/direct-csi-min-io/csi.sock
+        env:
+        - name: KUBE_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ .Values.kubernetesClusterDomain }}
+        image: {{ .Values.csiMinIo.nodeDriverRegistrar.image.repository }}:{{ .Values.csiMinIo.nodeDriverRegistrar.image.tag
+          | default .Chart.AppVersion }}
+        name: node-driver-registrar
+        resources: {}
+        terminationMessagePath: /var/log/driver-registrar-termination-log
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /csi
+          mountPropagation: None
+          name: socket-dir
+        - mountPath: /registration
+          mountPropagation: None
+          name: registration-dir
+      - args:
+        - --identity=direct-csi-min-io
+        - -v=3
+        - --endpoint=$(CSI_ENDPOINT)
+        - --node-id=$(KUBE_NODE_NAME)
+        - --metrics-port=10443
+        - --readiness-port=30443
+        - --driver
+        - --dynamic-drive-discovery
+        env:
+        - name: KUBE_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: CSI_ENDPOINT
+          value: unix:///csi/csi.sock
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ .Values.kubernetesClusterDomain }}
+        image: {{ .Values.csiMinIo.directCsi.image.repository }}:{{ .Values.csiMinIo.directCsi.image.tag
+          | default .Chart.AppVersion }}
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /healthz
+            port: healthz
+          initialDelaySeconds: 300
+          periodSeconds: 5
+          timeoutSeconds: 5
+        name: direct-csi
+        ports:
+        - containerPort: 9898
+          name: healthz
+          protocol: TCP
+        - containerPort: 30443
+          name: readinessport
+          protocol: TCP
+        - containerPort: 10443
+          name: metrics
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: readinessport
+            scheme: HTTP
+        resources: {}
+        securityContext:
+          privileged: true
+        terminationMessagePath: /var/log/driver-termination-log
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /csi
+          mountPropagation: None
+          name: socket-dir
+        - mountPath: /var/lib/kubelet/pods
+          mountPropagation: Bidirectional
+          name: mountpoint-dir
+        - mountPath: /var/lib/kubelet/plugins
+          mountPropagation: Bidirectional
+          name: plugins-dir
+        - mountPath: /var/lib/direct-csi/
+          mountPropagation: Bidirectional
+          name: direct-csi-common-root
+        - mountPath: /sys
+          mountPropagation: Bidirectional
+          name: sysfs
+          readOnly: true
+        - mountPath: /dev
+          mountPropagation: HostToContainer
+          name: devfs
+          readOnly: true
+        - mountPath: /run/udev/data
+          mountPropagation: Bidirectional
+          name: run-udev-data-dir
+          readOnly: true
+      - args:
+        - --csi-address=/csi/csi.sock
+        - --health-port=9898
+        env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ .Values.kubernetesClusterDomain }}
+        image: {{ .Values.csiMinIo.livenessProbe.image.repository }}:{{ .Values.csiMinIo.livenessProbe.image.tag
+          | default .Chart.AppVersion }}
+        name: liveness-probe
+        resources: {}
+        terminationMessagePath: /var/log/driver-liveness-termination-log
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /csi
+          mountPropagation: None
+          name: socket-dir
+      - args:
+        - --identity=direct-csi-min-io
+        - -v=3
+        - --endpoint=$(CSI_ENDPOINT)
+        - --node-id=$(KUBE_NODE_NAME)
+        - --dynamic-drive-handler
+        env:
+        - name: KUBE_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ .Values.kubernetesClusterDomain }}
+        image: {{ .Values.csiMinIo.directpvDriveDiscovery.image.repository }}:{{ .Values.csiMinIo.directpvDriveDiscovery.image.tag
+          | default .Chart.AppVersion }}
+        name: directpv-drive-discovery
+        resources: {}
+        securityContext:
+          privileged: true
+        terminationMessagePath: /var/log/driver-termination-log
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /sys
+          mountPropagation: Bidirectional
+          name: sysfs
+          readOnly: true
+        - mountPath: /dev
+          mountPropagation: HostToContainer
+          name: devfs
+          readOnly: true
+        - mountPath: /run/udev/data
+          mountPropagation: Bidirectional
+          name: run-udev-data-dir
+          readOnly: true
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
+      hostPID: true
+      serviceAccountName: {{ include "direct-pv.fullname" . }}-csi-min-io
+      volumes:
+      - hostPath:
+          path: /var/lib/kubelet/plugins/direct-csi-min-io
+          type: DirectoryOrCreate
+        name: socket-dir
+      - hostPath:
+          path: /var/lib/kubelet/pods
+          type: DirectoryOrCreate
+        name: mountpoint-dir
+      - hostPath:
+          path: /var/lib/kubelet/plugins_registry
+          type: DirectoryOrCreate
+        name: registration-dir
+      - hostPath:
+          path: /var/lib/kubelet/plugins
+          type: DirectoryOrCreate
+        name: plugins-dir
+      - hostPath:
+          path: /var/lib/direct-csi/
+          type: DirectoryOrCreate
+        name: direct-csi-common-root
+      - hostPath:
+          path: /sys
+          type: DirectoryOrCreate
+        name: sysfs
+      - hostPath:
+          path: /dev
+          type: DirectoryOrCreate
+        name: devfs
+      - hostPath:
+          path: /run/udev/data
+          type: DirectoryOrCreate
+        name: run-udev-data-dir

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "direct-pv.fullname" . }}-csi-validation-controller
+  labels:
+    application-name: direct.csi.min.io
+    application-type: CSIDriver
+    direct.csi.min.io/created-by: kubectl-direct-csi
+    direct.csi.min.io/version: v1beta5
+  {{- include "direct-pv.labels" . | nindent 4 }}
+  annotations:
+    pod-security.kubernetes.io/enforce: privileged
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+spec:
+  type: {{ .Values.csiValidationController.type }}
+  selector:
+    selector.direct.csi.min.io: direct-csi-min-io-1r3j5
+  {{- include "direct-pv.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.csiValidationController.ports | toYaml | nindent 2 -}}

@@ -18,7 +18,7 @@ resources:
   - mayastor.yaml
   - metallb.yaml
   - metrics-server.yaml
-  - minio-charts.yaml
+  - minio.yaml
   - nextcloud.yaml
   - openebs.yaml
   - openebs-nfs.yaml

@@ -12,6 +12,7 @@ spec:
       sourceRef:
         kind: GitRepository
         name: home-kubernetes
+        namespace: home-kubernetes
   install:
     crds: Create
   interval: 1m0s

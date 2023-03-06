@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-minio
+    - name: cluster-apps-minio-operator
   interval: 1m0s
   path: ./kubernetes/apps/minio-tenant/tenant
   prune: false

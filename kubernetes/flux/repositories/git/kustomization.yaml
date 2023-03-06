@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./external-secrets.yaml
   - ./local-path-provisioner.yaml
+  - ./piraeus-operator.yaml

@@ -5,5 +5,5 @@ metadata:
   name: geek-cookbook
   namespace: flux-system
 spec:
-  interval: 1m0s
+  interval: 1h0s
   url: https://geek-cookbook.github.io/charts/

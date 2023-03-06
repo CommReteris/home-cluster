@@ -17,15 +17,14 @@ spec:
   interval: 1m0s
   upgrade:
     crds: CreateReplace
-
-## Secret with default environment variable configurations to be used by MinIO Tenant.
-## Not recommended for production deployments! Create the secret manually instead.
-secrets:
-  name: minio1-env-configuration
-  # MinIO root user and password
-  accessKey: minio
-  secretKey: minio123
 values:
+  ## Secret with default environment variable configurations to be used by MinIO Tenant.
+  ## Not recommended for production deployments! Create the secret manually instead.
+  secrets:
+    name: minio1-env-configuration
+    # MinIO root user and password
+    accessKey: minio
+    secretKey: minio123
   ## MinIO Tenant Definition
   tenant:
     # Tenant name

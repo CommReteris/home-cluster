@@ -25,4 +25,5 @@ resources:
   - prometheus-community.yaml
   - rook-ceph.yaml
   - stakater.yaml
+  - topolvm.yaml
   - weave-gitops.yaml

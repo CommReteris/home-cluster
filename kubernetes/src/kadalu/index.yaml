@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+entries:
+  kadalu:
+    - apiVersion: v2
+      created: "2023-03-07T13:19:13.358401223-05:00"
+      dependencies:
+        - name: common
+          repository: file://charts/common
+        - condition: operator.enabled
+          name: operator
+          repository: file://charts/operator
+        - condition: csi-nodeplugin.enabled
+          name: csi-nodeplugin
+          repository: file://charts/csi-nodeplugin
+      description: Contains subchart for deploying Kadalu Operator and Kadalu CSI Nodeplugin
+      digest: 9ca9b8a5bc4d245af724058bef1c25052d349abd5655a5dcd0d703d09589c0b6
+      icon: https://kadalu.io/static/css/logo.png
+      name: kadalu
+      type: application
+      urls:
+        - kadalu-helm-chart.tgz
+      version: 1.0.0
+generated: "2023-03-07T13:19:13.356913091-05:00"

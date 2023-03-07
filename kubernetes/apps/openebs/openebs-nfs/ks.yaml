@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-openebs-mayastor
+    - name: cluster-apps-openebs
   path: ./kubernetes/apps/openebs/openebs-nfs/app
   prune: true
   sourceRef:
@@ -28,7 +28,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-openebs-mayastor
+    - name: cluster-apps-openebs
     - name: cluster-apps-openebs-nfs-provisioner
   path: ./kubernetes/apps/openebs/openebs-nfs/resources
   prune: true

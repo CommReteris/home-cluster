@@ -99,7 +99,7 @@ spec:
     # If you are using custom configuration then update those configuration
     # under `localpv-provisioner` key.
     localprovisioner:
-      enabled: true
+      enabled: false
       image: "openebs/provisioner-localpv"
       imageTag: "3.4.0"
       replicas: 1
@@ -639,7 +639,7 @@ spec:
     #   # | | - openebs-ndm(disable)
     #   # | - openebs-ndm(enable)
     localpv-provisioner:
-      enabled: false
+      enabled: true
       openebsNDM:
         enabled: false
       # Sample configuration if you want to configure openebs locapv with custom values.

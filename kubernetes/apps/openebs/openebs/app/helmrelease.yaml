@@ -19,13 +19,13 @@ spec:
     # remediation:
     #   retries: 3
     # crds: CreateReplace
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-    # crds: CreateReplace
-  uninstall:
-    keepHistory: false
+  # upgrade:
+  #   cleanupOnFail: true
+  #   remediation:
+  #     retries: 3
+  #   # crds: CreateReplace
+  # uninstall:
+  #   keepHistory: false
   values:
     rbac:
       # Specifies whether RBAC resources should be created

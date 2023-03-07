@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: openebs
-      version: "3.4.0"
+      version: "3.4.1"
       sourceRef:
         kind: HelmRepository
         name: openebs
@@ -99,7 +99,7 @@ spec:
     # If you are using custom configuration then update those configuration
     # under `localpv-provisioner` key.
     localprovisioner:
-      enabled: false
+      enabled: true
       image: "openebs/provisioner-localpv"
       imageTag: "3.4.0"
       replicas: 1
@@ -382,7 +382,7 @@ spec:
         featureGateFlag: "PartitionTableUUID"
 
     crd:
-      enableInstall: false
+      enableInstall: true
 
     # If you are migrating from 2.x to 3.x and if you are using custom values
     # then put these configuration under `cstor` key.
@@ -567,70 +567,63 @@ spec:
 
     # # ndm configuration goes here
     # # https://openebs.github.io/node-disk-manager
-    # openebs-ndm:
-    #   enabled: false
+    openebs-ndm:
+      enabled: true
+      ndm:
+        image:
+          registry: quay.io/
+          repository: openebs/node-disk-manager
+          pullPolicy: IfNotPresent
+          tag: 2.1.0
+        sparse:
+          path: "/var/openebs/sparse"
+          size: "10737418240"
+          count: "0"
+        filters:
+          enableOsDiskExcludeFilter: true
+          osDiskExcludePaths: "/,/etc/hosts,/boot"
+          enableVendorFilter: true
+          excludeVendors: "CLOUDBYT,OpenEBS"
+          enablePathFilter: true
+          includePaths: ""
+          excludePaths: "loop,fd0,sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd"
+        probes:
+          enableSeachest: false
+          enableUdevProbe: true
+          enableSmartProbe: true
 
-    #   # Sample configuration if you want to configure openebs ndm with custom values.
-    #   # This is a small part of the full configuration. Full configuration available
-    #   # here - https://openebs.github.io/node-disk-manager
+      ndmOperator:
+        image:
+          registry: quay.io/
+          repository: openebs/node-disk-operator
+          pullPolicy: IfNotPresent
+          tag: 2.1.0
 
-    # #  imagePullSecrets: []
-    # #
-    # #  ndm:
-    # #    image:
-    # #      registry: quay.io/
-    # #      repository: openebs/node-disk-manager
-    # #      pullPolicy: IfNotPresent
-    # #      tag: 2.1.0
-    # #    sparse:
-    # #      path: "/var/openebs/sparse"
-    # #      size: "10737418240"
-    # #      count: "0"
-    # #    filters:
-    # #      enableOsDiskExcludeFilter: true
-    # #      osDiskExcludePaths: "/,/etc/hosts,/boot"
-    # #      enableVendorFilter: true
-    # #      excludeVendors: "CLOUDBYT,OpenEBS"
-    # #      enablePathFilter: true
-    # #      includePaths: ""
-    # #      excludePaths: "loop,fd0,sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd"
-    # #    probes:
-    # #      enableSeachest: false
-    # #      enableUdevProbe: true
-    # #      enableSmartProbe: true
-    # #
-    # #  ndmOperator:
-    # #    image:
-    # #      registry: quay.io/
-    # #      repository: openebs/node-disk-operator
-    # #      pullPolicy: IfNotPresent
-    # #      tag: 2.1.0
-    # #
-    # #  helperPod:
-    # #    image:
-    # #      registry: quay.io/
-    # #      repository: openebs/linux-utils
-    # #      pullPolicy: IfNotPresent
-    # #      tag: 3.4.0
-    # #
-    # #  featureGates:
-    # #    enabled: true
-    # #    GPTBasedUUID:
-    # #      enabled: true
-    # #      featureGateFlag: "GPTBasedUUID"
-    # #    APIService:
-    # #      enabled: false
-    # #      featureGateFlag: "APIService"
-    # #      address: "0.0.0.0:9115"
-    # #    UseOSDisk:
-    # #      enabled: false
-    # #      featureGateFlag: "UseOSDisk"
-    # #    ChangeDetection:
-    # #      enabled: false
-    # #      featureGateFlag: "ChangeDetection"
-    # #
-    # #  varDirectoryPath:
-    # #    baseDir: "/var/openebs"
+      helperPod:
+        image:
+          registry: quay.io/
+          repository: openebs/linux-utils
+          pullPolicy: IfNotPresent
+          tag: 3.4.0
+
+      featureGates:
+        enabled: true
+        GPTBasedUUID:
+          enabled: true
+          featureGateFlag: "GPTBasedUUID"
+        APIService:
+          enabled: false
+          featureGateFlag: "APIService"
+          address: "0.0.0.0:9115"
+        UseOSDisk:
+          enabled: false
+          featureGateFlag: "UseOSDisk"
+        ChangeDetection:
+          enabled: false
+          featureGateFlag: "ChangeDetection"
+
+      varDirectoryPath:
+        baseDir: "/var/openebs"
 
     #   # local pv provisioner configuration goes here
     #   # do not enable or configure any sub dependency here
@@ -646,7 +639,7 @@ spec:
     #   # | | - openebs-ndm(disable)
     #   # | - openebs-ndm(enable)
     localpv-provisioner:
-      enabled: true
+      enabled: false
       openebsNDM:
         enabled: false
       # Sample configuration if you want to configure openebs locapv with custom values.

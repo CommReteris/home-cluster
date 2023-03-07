@@ -9,7 +9,6 @@ spec:
   chart:
     spec:
       chart: openebs
-      version: v3.4.1
       sourceRef:
         kind: HelmRepository
         name: openebs
@@ -17,8 +16,8 @@ spec:
   maxHistory: 3
   install:
     createNamespace: true
-    remediation:
-      retries: 3
+    # remediation:
+    #   retries: 3
     # crds: CreateReplace
   upgrade:
     cleanupOnFail: true

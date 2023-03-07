@@ -13,17 +13,18 @@ spec:
         kind: HelmRepository
         name: openebs
         namespace: flux-system
+      version: 3.4.0
   maxHistory: 3
   install:
     createNamespace: true
     # remediation:
     #   retries: 3
-    # crds: CreateReplace
-  # upgrade:
+    crds: CreateReplace
+  upgrade:
   #   cleanupOnFail: true
   #   remediation:
   #     retries: 3
-  #   # crds: CreateReplace
+    crds: CreateReplace
   # uninstall:
   #   keepHistory: false
   values:

@@ -283,13 +283,11 @@ spec:
     # `ndmOperator.enabled: false` and enable it as dependency chart. If you are using
     # custom configuration then update those configuration under `openebs-ndm` key.
     ndmOperator:
-      enabled: true
+      enabled: false
       image: "openebs/node-disk-operator"
       imageTag: "2.1.0"
       replicas: 1
       upgradeStrategy: Recreate
-      nodeSelector: {}
-      tolerations: []
       healthCheck:
         initialDelaySeconds: 15
         periodSeconds: 20
@@ -650,7 +648,7 @@ spec:
     localpv-provisioner:
       enabled: true
       openebsNDM:
-        enabled: true
+        enabled: false
       # Sample configuration if you want to configure openebs locapv with custom values.
       # This is a small part of the full configuration. Full configuration available
       # here - https://openebs.github.io/dynamic-localpv-provisioner

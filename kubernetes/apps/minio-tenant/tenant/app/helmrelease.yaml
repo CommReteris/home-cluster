@@ -353,19 +353,5 @@ spec:
     ingress:
       api:
         enabled: false
-        ingressClassName: ""
-        labels: { }
-        annotations: { }
-        # tls: [ ]
-        host: minio.local
-        path: /
-        pathType: Prefix
       console:
-        enabled: true
-        ingressClassName: "nginx"
-        labels: { }
-        annotations: { }
-        # tls: [ ]
-        host: minio-console.local
-        path: /
-        pathType: Prefix
+        enabled: false

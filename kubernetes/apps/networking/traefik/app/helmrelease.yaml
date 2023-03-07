@@ -96,7 +96,9 @@ spec:
       dashboard:
         enabled: true
         # Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
-        annotations: {}
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          cert-manager.io/cluster-issuer: "letsencrypt-staging"
         # Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
         labels: {}
         # The router match rule used for the dashboard ingressRoute
@@ -104,11 +106,14 @@ spec:
         # Specify the allowed entrypoints to use for the dashboard ingress route, (e.g. traefik, web, websecure).
         # By default, it's using traefik entrypoint, which is not exposed.
         # /!\ Do not expose your dashboard without any protection over the internet /!\
-        entryPoints: ["traefik"]
+        entryPoints: ["websecure"]
         # Additional ingressRoute middlewares (e.g. for authentication)
         middlewares: []
         # TLS options (e.g. secret containing certificate)
-        tls: {}
+        tls:
+          hosts:
+            - traefik.rengo.dev
+          secretName: traefik-tls
 
     # Customize updateStrategy of traefik pods
     updateStrategy:
@@ -560,8 +565,8 @@ spec:
         ## TCP & UDP (Http3). There is a workaround in this chart using dual Service.
         ## https://github.com/kubernetes/kubernetes/issues/47249#issuecomment-587960741
         http3:
-          enabled: false
-        # advertisedPort: 4443
+          enabled: true
+          advertisedPort: 4443
         #
         ## Trust forwarded  headers information (X-Forwarded-*).
         #forwardedHeaders:

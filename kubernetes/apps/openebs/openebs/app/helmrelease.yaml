@@ -8,7 +8,6 @@ spec:
   chart:
     spec:
       chart: openebs/openebs
-      reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
         name: openebs

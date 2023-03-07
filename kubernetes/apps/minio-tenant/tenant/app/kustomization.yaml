@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: minio-tenant
 resources:
   - ./helmrelease.yaml
+  #- ./certificates.yaml

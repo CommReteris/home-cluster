@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./kube-vip/ks.yaml
   - ./local-path-provisioner/ks.yaml
+  - ./direct-pv/ks.yaml
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml
   - ./external-secrets/ks.yaml

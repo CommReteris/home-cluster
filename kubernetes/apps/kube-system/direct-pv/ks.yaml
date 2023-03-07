@@ -2,12 +2,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: minio-tenant
+  name: cluster-apps-direct-pv
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster-apps-minio-operator
-  path: ./kubernetes/apps/minio-tenant/tenant
+  path: ./kubernetes/apps/kube-system/direct-pv/app
   prune: false
   sourceRef:
     kind: GitRepository
@@ -15,8 +13,8 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      name: minio-tenant
-      namespace: minio-tenant
+      name: kube-system
+      namespace: kube-system
   interval: 30m
   retryInterval: 1m
   timeout: 3m

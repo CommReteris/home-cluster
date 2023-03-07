@@ -3,18 +3,24 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: direct-pv
-  namespace: direct-pv
+  namespace: kube-system
 spec:
+  interval: 15m
   chart:
     spec:
       chart: ./kubernetes/src/direct-pv
-      reconcileStrategy: ChartVersion
       sourceRef:
         kind: GitRepository
         name: home-kubernetes
         namespace: flux-system
+  maxHistory: 3
   install:
-    crds: Create
-  interval: 1m0s
+    createNamespace: true
+    remediation:
+      retries: 3
   upgrade:
-    crds: CreateReplace
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false

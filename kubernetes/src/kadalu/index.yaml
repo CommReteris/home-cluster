@@ -6,13 +6,13 @@ entries:
       created: "2023-03-07T13:19:13.358401223-05:00"
       dependencies:
         - name: common
-          repository: ./charts/common
+          repository: https://github.com/CommReteris/home-cluster/raw/main/kubernetes/src/kadalu/charts/common
         - condition: operator.enabled
           name: operator
-          repository: ./charts/operator
+          repository: https://github.com/CommReteris/home-cluster/raw/main/kubernetes/src/kadalu/charts/operator
         - condition: csi-nodeplugin.enabled
           name: csi-nodeplugin
-          repository: ./charts/csi-nodeplugin
+          repository: https://github.com/CommReteris/home-cluster/raw/main/kubernetes/src/kadalu/charts/csi-nodeplugin
       description: Contains subchart for deploying Kadalu Operator and Kadalu CSI Nodeplugin
       digest: 9ca9b8a5bc4d245af724058bef1c25052d349abd5655a5dcd0d703d09589c0b6
       icon: https://kadalu.io/static/css/logo.png

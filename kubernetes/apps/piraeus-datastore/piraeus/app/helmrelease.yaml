@@ -11,7 +11,7 @@ spec:
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: GitRepository
-        name: piraeus
+        name: piraeus-operator
         namespace: flux-system
   interval: 15m0s
   values:

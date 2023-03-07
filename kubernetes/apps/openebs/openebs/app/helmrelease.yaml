@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: openebs
+  name: name
   namespace: openebs
 spec:
   interval: 15m0s
@@ -319,7 +319,7 @@ spec:
         #   memory: 1Gi
 
     ndmExporter:
-      enabled: true
+      enabled: faslse
       image:
         registry:
         repository: openebs/node-disk-exporter
@@ -328,16 +328,16 @@ spec:
         tag: 2.1.0
       nodeExporter:
         name: ndm-node-exporter
-        podLabels:
-          name: openebs-ndm-node-exporter
+        # podLabels:
+        #   name: openebs-ndm-node-exporter
         # The TCP port number used for exposing ndm-node-exporter metrics.
         # If not set, service will not be created to expose metrics endpoint to serviceMonitor
         # and listen-port flag will not be set and container port will be empty.
         metricsPort: 9101
       clusterExporter:
         name: ndm-cluster-exporter
-        podLabels:
-          name: openebs-ndm-cluster-exporter
+        # podLabels:
+        #   name: openebs-ndm-cluster-exporter
         # The TCP port number used for exposing ndm-cluster-exporter metrics.
         # If not set, service will not be created to expose metrics endpoint to serviceMonitor
         # and listen-port flag will not be set and container port will be empty.

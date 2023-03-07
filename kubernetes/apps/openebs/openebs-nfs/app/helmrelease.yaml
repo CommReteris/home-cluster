@@ -32,7 +32,6 @@ spec:
     # podSecurityContext: {}
       # fsGroup: 2000
     fullnameOverride: &fullname openebs-nfs-provisioner
-    nameOverride: ""
 
     nfsProvisioner:
       enabled: true

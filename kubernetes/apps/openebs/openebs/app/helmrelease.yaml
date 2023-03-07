@@ -5,18 +5,28 @@ metadata:
   name: openebs
   namespace: openebs
 spec:
+  interval: 15m0s
   chart:
     spec:
       chart: openebs
+      version: 3.4.1
       sourceRef:
         kind: HelmRepository
         name: openebs
         namespace: flux-system
+  maxHistory: 3
   install:
+    createNamespace: true
+    remediation:
+      retries: 3
     crds: CreateReplace
-  interval: 15m0s
   upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
     crds: CreateReplace
+  uninstall:
+    keepHistory: false
   values:
     rbac:
       # Specifies whether RBAC resources should be created
@@ -27,14 +37,6 @@ spec:
 
     serviceAccount:
       create: true
-      name:
-
-    imagePullSecrets: []
-      #  - name: image-pull-secret
-
-    release:
-      # "openebs.io/version" label for control plane components
-      version: "3.4.0"
 
     # Legacy components will be installed if it is enabled.
     # Legacy components are - admission-server, maya api-server, snapshot-operator
@@ -88,9 +90,9 @@ spec:
       replicas: 1
       enableLeaderElection: true
       patchJivaNodeAffinity: enabled
-      nodeSelector: {}
-      tolerations: []
-      affinity: {}
+      # nodeSelector: {}
+      # tolerations: []
+      # affinity: {}
       healthCheck:
         initialDelaySeconds: 30
         periodSeconds: 60
@@ -127,9 +129,9 @@ spec:
       # Name from a BlockDeviceClaim, before the BlockDeviceClaim
       # is deleted. E.g. 12 * 5 seconds = 60 seconds timeout
       waitForBDBindTimeoutRetryCount: "12"
-      nodeSelector: {}
-      tolerations: []
-      affinity: {}
+      # nodeSelector: {}
+      # tolerations: []
+      # affinity: {}
       healthCheck:
         initialDelaySeconds: 30
         periodSeconds: 60
@@ -144,13 +146,10 @@ spec:
         #   memory: 1Gi
 
       deviceClass:
-        # Name of default device StorageClass.
         name: openebs-device
-        # If true, enables creation of the openebs-device StorageClass
         enabled: true
         # Available reclaim policies: Delete/Retain, defaults: Delete.
         reclaimPolicy: Delete
-        # If true, sets the openebs-device StorageClass as the default StorageClass
         isDefaultClass: false
         # Custom node affinity label(s) for example "openebs.io/node-affinity-value"
         # that will be used instead of hostnames
@@ -160,7 +159,7 @@ spec:
         #          nodeAffinityLabels:
         #            - "openebs.io/node-affinity-key-1"
         #            - "openebs.io/node-affinity-key-2"
-        nodeAffinityLabels: []
+        # nodeAffinityLabels: []
         # Sets the filesystem to be written to the blockdevice before
         # mounting (filesystem volumes)
         # This is only usable if the selected BlockDevice does not already
@@ -174,10 +173,9 @@ spec:
         # To read more: https://github.com/openebs/dynamic-localpv-provisioner/blob/develop/docs/tutorials/device/blockdevicetag.md
         #
         # Example:
-        #          blockDeviceSelectors:
-        #            ndm.io/driveType: "SSD"
-        #            ndm.io/fsType: "none"
-        blockDeviceSelectors: {}
+        blockDeviceSelectors:
+          ndm.io/driveType: "SSD"
+          ndm.io/fsType: "none"
 
       hostpathClass:
         # Name of the default hostpath StorageClass
@@ -474,7 +472,7 @@ spec:
           create: false
         rbac:
           # Create a clusterRole for Jaeger
-          clusterRole: true
+          clusterRole: false
 
       agents:
         core:
@@ -554,12 +552,12 @@ spec:
 
       loki-stack:
         # -- Enable loki log collection for Mayastor components
-        enabled: true
+        enabled: false
 
       obs:
         callhome:
           # -- Enable callhome
-          enabled: true
+          enabled: galse
           # -- Log level for callhome
           logLevel: "info"
 

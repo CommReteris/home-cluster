@@ -9,11 +9,11 @@ spec:
   chart:
     spec:
       chart: openebs
+      version: "3.4.0"
       sourceRef:
         kind: HelmRepository
         name: openebs
         namespace: flux-system
-      version: 3.4.0
   maxHistory: 3
   install:
     createNamespace: true
@@ -28,13 +28,12 @@ spec:
   # uninstall:
   #   keepHistory: false
   values:
-    rbac:
-      # Specifies whether RBAC resources should be created
-      create: true
-      pspEnabled: false
-      # rbac.kyvernoEnabled: `true` if Kyverno Policy resources should be created
-      kyvernoEnabled: false
-
+    # rbac:
+    #   # Specifies whether RBAC resources should be created
+    #   create: true
+    #   pspEnabled: false
+    #   # rbac.kyvernoEnabled: `true` if Kyverno Policy resources should be created
+    #   kyvernoEnabled: false
     serviceAccount:
       create: true
     apiserver:
@@ -65,12 +64,12 @@ spec:
 
 
     defaultStorageConfig:
-      enabled: "false"
+      enabled: "true"
 
     # Directory used by the OpenEBS to store debug information and so forth
     # that are generated in the course of running OpenEBS containers.
     varDirectoryPath:
-      baseDir: "/var/openebs"
+      baseDir: "/var/openebs2"
 
     provisioner:
       enabled: true
@@ -100,7 +99,7 @@ spec:
     # If you are using custom configuration then update those configuration
     # under `localpv-provisioner` key.
     localprovisioner:
-      enabled: true
+      enabled: false
       image: "openebs/provisioner-localpv"
       imageTag: "3.4.0"
       replicas: 1
@@ -209,7 +208,7 @@ spec:
       #     hardLimitGrace: "0%"
 
     snapshotOperator:
-      enabled: true
+      enabled: false
       controller:
         image: "openebs/snapshot-controller"
         imageTag: "2.12.2"
@@ -248,7 +247,7 @@ spec:
     # `ndmOperator.enabled: false` and enable it as dependency chart. If you are using
     # custom configuration then update those configuration under `openebs-ndm` key.
     ndm:
-      enabled: true
+      enabled: false
       image: "openebs/node-disk-manager"
       imageTag: "2.1.0"
       sparse:
@@ -648,40 +647,43 @@ spec:
     #   # | - localpv-provisioner(enable)
     #   # | | - openebs-ndm(disable)
     #   # | - openebs-ndm(enable)
-    # localpv-provisioner:
-    #   enabled: false
-    #   openebsNDM:
-    #     enabled: false
+    localpv-provisioner:
+      enabled: true
+      openebsNDM:
+        enabled: true
+      # Sample configuration if you want to configure openebs locapv with custom values.
+      # This is a small part of the full configuration. Full configuration available
+      # here - https://openebs.github.io/dynamic-localpv-provisioner
 
-    #   # Sample configuration if you want to configure openebs locapv with custom values.
-    #   # This is a small part of the full configuration. Full configuration available
-    #   # here - https://openebs.github.io/dynamic-localpv-provisioner
-
-    # #  imagePullSecrets: []
-    # #
-    # #  rbac:
-    # #    create: true
-    # #    pspEnabled: false
-    # #
-    # #  localpv:
-    # #    image:
-    # #      registry: quay.io/
-    # #      repository: openebs/provisioner-localpv
-    # #      tag: 3.4.0
-    # #      pullPolicy: IfNotPresent
-    # #    healthCheck:
-    # #      initialDelaySeconds: 30
-    # #      periodSeconds: 60
-    # #    replicas: 1
-    # #    enableLeaderElection: true
-    # #    basePath: "/var/openebs/local"
-    # #
-    # #  helperPod:
-    # #    image:
-    # #      registry: quay.io/
-    # #      repository: openebs/linux-utils
-    # #      pullPolicy: IfNotPresent
-    # #      tag: 3.4.0
+    #  imagePullSecrets: []
+    #
+    #  rbac:
+    #    create: true
+    #    pspEnabled: false
+    #
+      localpv:
+        image:
+          registry: quay.io/
+          repository: openebs/provisioner-localpv
+          tag: 3.4.0
+          pullPolicy: IfNotPresent
+        healthCheck:
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        replicas: 1
+        enableLeaderElection: true
+        enableDeviceClass: true
+        enableHostpathClass: true
+        # This sets default directory used by the provisioner to provision
+        # hostpath volumes.
+        basePath: "/var/openebs/local"
+    #
+    #  helperPod:
+    #    image:
+    #      registry: quay.io/
+    #      repository: openebs/linux-utils
+    #      pullPolicy: IfNotPresent
+    #      tag: 3.4.0
 
     # # zfs local pv configuration goes here
     # # ref - https://openebs.github.io/zfs-localpv

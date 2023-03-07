@@ -1,0 +1,16 @@
+---
+apiVersion: piraeus.io/v1
+kind: LinstorSatelliteConfiguration
+metadata:
+  name: sata-ssd
+spec:
+  nodeName:
+    - droplet-3
+    - droplet-4
+    - droplet-5
+  storagePools:
+    - name: thinpool
+      lvmThinPool:
+      source:
+        hostDevices:
+          - /dev/nvme0n1

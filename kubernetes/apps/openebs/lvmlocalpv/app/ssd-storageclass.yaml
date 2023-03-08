@@ -13,7 +13,7 @@ parameters:
   thinProvision: "yes"
 allowedTopologies:
   - matchLabelExpressions:
-      - key: kubernetes.io/hostname
+      - key: openebs.io/nodename
         values:
           - droplet-2
           - droplet-4

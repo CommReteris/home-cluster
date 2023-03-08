@@ -186,7 +186,7 @@ spec:
       idx:
         type: "persistentVolumeClaim"
         size: 10Gi
-        storageClass: "nvme-nvme"
+        storageClass: "nvme-lvm"
 
       logs:
         type: "persistentVolumeClaim"

@@ -127,7 +127,7 @@
             mode: 0644
             content: "{{ item }}"
             dest: "/etc/modules-load.d/{{ item }}.conf"
-          loop: [br_netfilter, overlay, rbd, nvme_tcp]
+          loop: [br_netfilter, overlay, rbd, nvme_tcp, dm_snapshot, dm_thin_pool]
         - name: System Configuration (2) | Set sysctls
           ansible.posix.sysctl:
             name: "{{ item.key }}"

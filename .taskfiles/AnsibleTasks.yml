@@ -50,12 +50,26 @@ tasks:
       - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-nuke.yml
       - task: force-reboot
 
-  nuke-ceph:
-    desc: Delete rook-ceph directory
+  nuke-disks:
+    desc: Wipe disks & storage directories
     dir: "{{.ANSIBLE_DIR}}"
     interactive: true
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-nuke-ceph.yml
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-nuke-disks.yml
+
+  lvm:
+    desc: Create volume groups
+    dir: "{{.ANSIBLE_DIR}}"
+    interactive: true
+    cmds:
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-lvm.yml
+
+  zfs:
+    desc: Create zpools
+    dir: "{{.ANSIBLE_DIR}}"
+    interactive: true
+    cmds:
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-zfs.yml
 
   ping:
     desc: Ping all the hosts
@@ -69,7 +83,13 @@ tasks:
     cmds:
       - ansible all -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml --one-line -a 'uptime'
 
-  rollout-reboot:
+  reboot:
+    desc: Rollout a reboot to only the k8s nodes w/reboot pending
+    dir: "{{.ANSIBLE_DIR}}"
+    cmds:
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-reboot.yml
+
+  rolling-reboot:
     desc: Rollout a reboot across all the k8s nodes
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
@@ -79,7 +99,7 @@ tasks:
     desc: Reboot all the k8s nodes
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-reboot.yml
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-force-reboot.yml
 
   force-poweroff:
     desc: Shutdown all the k8s nodes

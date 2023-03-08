@@ -11,4 +11,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  namespace: flux-system
+    namespace: flux-system

@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: cluster-apps-minio-tenant
-  namespace: flux-system
+  namespace: flux-systemXZ
 spec:
   dependsOn:
     - name: cluster-apps-minio-operator

@@ -129,9 +129,9 @@ spec:
       features:
         # bucketDNS: false
         domains:
-          console: https://mc.one.dev
+          console: https://mc.rengo.dev
           minio:
-            - https://s3.one.dev
+            - https://s3.rengo.dev
       ## List of bucket names to create during tenant provisioning
       # buckets:
       #   - "test"

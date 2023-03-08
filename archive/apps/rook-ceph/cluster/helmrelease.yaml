@@ -94,36 +94,34 @@ spec:
         useAllDevices: false
         encryptedDevice: "false" # the default value for this option is "false"
         nodes:
-          - name: droplet-2
+          - name: droplet-0
             devices:
-              - name: /dev/sdb # /dev/disk/by-id/ata-TEAM_T253X2002T_AA000000000000000204
+              - name: /dev/sdb # 1.8TB HDD
           - name: droplet-3
             devices:
-              - name: /dev/nvme0n1
+              - name: /dev/sdb  # 1.9TB SSD
+              - name: /dev/nvme0n1 # 1.6TB NVME
                 config:
-                  osdsPerDevice: "2"
+                  osdsPerDevice: "1"
           - name: droplet-4
             devices:
-              - name: /dev/sdb # /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180808
-              - name: /dev/nvme0n1
+              - name: /dev/sdb # 1.9TB SSD
+              - name: /dev/nvme0n1 # 1.6TB NVME
                 config:
-                  osdsPerDevice: "2"
+                  osdsPerDevice: "1"
           - name: droplet-5
             devices:
-              - name: /dev/sdb # /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180869
-              - name: /dev/nvme0n1
+              - name: /dev/sdb # 1.9TB SSD
+              - name: /dev/nvme0n1 #1.6TB NVME
                 config:
-                  osdsPerDevice: "2"
-          - name: droplet-6
-            devices:
-              - name: /dev/sdb # /dev/disk/by-id/ata-Patriot_P210_2048GB_PBEADBB2211180711
+                  osdsPerDevice: "1"
           - name: droplet-7
             devices:
-              - name: /dev/sdb # /dev/disk/by-id/ata-WDC_WD120EDAZ-11F3RA0_5PJD7E9F
+              - name: /dev/sdb # 10.9 TB HDD
 
     cephBlockPoolsVolumeSnapshotClass:
       enabled: false
-    cephBlockPools:
+    # cephBlockPools:
     cephFileSystems:
       - name: ceph-ssd
         spec:

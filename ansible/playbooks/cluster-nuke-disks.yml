@@ -1,10 +1,9 @@
 ---
 - hosts:
-    - droplet-2
+    - droplet-0
     - droplet-3
     - droplet-4
     - droplet-5
-    - droplet-6
     - droplet-7
   become: true
   gather_facts: true

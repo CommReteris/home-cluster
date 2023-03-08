@@ -9,7 +9,7 @@ allowVolumeExpansion: true
 provisioner: local.csi.openebs.io
 parameters:
   storage: "lvm" # unsure if this is required
-  vgpattern: "*.ssd"
+  vgpattern: "lvmvg.ssd"
   thinProvision: "yes"
 allowedTopologies:
   - matchLabelExpressions:

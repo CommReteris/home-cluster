@@ -472,11 +472,11 @@ spec:
       # ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
       priorityClassName: ""
 
-      logs:
-        type: "persistentVolumeClaim"
-        size: ""
-        storageClass: "local-path-provisioner"
-        hostPathPrefix: /var/seaweed
+      # logs:
+      #   type: "hostPath"
+      #   size: ""
+      #   storageClass: ""
+      #   hostPathPrefix: /var/seaweed
 
     certificates:
       commonName: "SeaweedFS CA"

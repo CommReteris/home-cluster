@@ -181,7 +181,7 @@ spec:
       data:
         type: "persistentVolumeClaim"
         size: 10Gi
-        storageClass: "ssd-nvme"
+        storageClass: "nvme-lvm"
 
       idx:
         type: "persistentVolumeClaim"
@@ -191,7 +191,7 @@ spec:
       logs:
         type: "persistentVolumeClaim"
         size: 10Gi
-        storageClass: "ssd-nvme"
+        storageClass: "nvme-lvm"
 
       # limit background compaction or copying speed in mega bytes per second
       compactionMBps: "5000"

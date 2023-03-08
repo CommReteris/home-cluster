@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
   - namespace.yaml
   # - localpv/ks.yaml
-  # - lvmlocalpv/ks.yaml
-  - ndm/ks.yaml
+  - lvmlocalpv/ks.yaml
+  # - ndm/ks.yaml
   # - nfs/ks.yaml
   # - zfslocalpv/ks.yaml
 namespace: openebs

@@ -9,9 +9,10 @@ parameters:
   storage: "lvm" # unsure if this is required
   vgpattern: "lvmvg.nvme"
   thinProvision: "yes"
+volumeBindingMode: WaitForFirstConsumer
 allowedTopologies:
   - matchLabelExpressions:
-      - key: kubernetes.io/hostname
+      - key: openebs.io/nodename
         values:
           - droplet-3
           - droplet-4

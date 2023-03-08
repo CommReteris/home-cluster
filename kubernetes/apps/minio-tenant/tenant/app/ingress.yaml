@@ -35,6 +35,6 @@ spec:
             path: "/"
             backend:
               service:
-                name: storage-letsencrypt-mc
+                name: one-console
                 port:
                   number: 9090

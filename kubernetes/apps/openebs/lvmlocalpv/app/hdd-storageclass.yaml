@@ -9,3 +9,8 @@ parameters:
   storage: "lvm" # unsure if this is required
   vgpattern: "*.hdd"
   thinProvision: "yes"
+allowedTopologies:
+  - matchLabelExpressions:
+      - key: kubernetes.io/hostname
+        values:
+          - droplet-7

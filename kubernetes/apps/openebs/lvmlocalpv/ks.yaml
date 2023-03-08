@@ -5,10 +5,16 @@ metadata:
   name: cluster-apps-openebs-lvmlocalpv
   namespace: flux-system
 spec:
-  interval: 15m0s
   path: ./kubernetes/apps/openebs/lvmlocalpv/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-    namespace: flux-system
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: openebs-lvmlocalpv
+      namespace: openebs
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m

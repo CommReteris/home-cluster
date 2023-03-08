@@ -8,12 +8,12 @@ spec:
   chart:
     spec:
       chart: seaweedfs
-      reconcileStrategy: ChartVersion
+      version: 3.43
       sourceRef:
         kind: HelmRepository
         name: seaweedfs
         namespace: flux-system
-  interval: 1h0s
+  interval: 15m
   values:
     global:
       imageName: chrislusf/seaweedfs

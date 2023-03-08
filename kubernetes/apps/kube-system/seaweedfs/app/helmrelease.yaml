@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: seaweedfs/seaweedfs
+      chart: seaweedfs
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository

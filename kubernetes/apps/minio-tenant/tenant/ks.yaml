@@ -5,9 +5,9 @@ metadata:
   name: cluster-apps-minio-tenant
   namespace: flux-system
 spec:
-  # dependsOn:
-    # - name: cluster-apps-minio-operator
-    # - name: cluster-apps-openebs-lvmlocalpv
+  dependsOn:
+    - name: cluster-apps-minio-operator
+    - name: cluster-apps-openebs-lvmlocalpv
   path: ./kubernetes/apps/minio-tenant/tenant
   prune: false
   sourceRef:

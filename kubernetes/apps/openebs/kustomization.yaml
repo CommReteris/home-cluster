@@ -8,4 +8,3 @@ resources:
   # - ndm/ks.yaml
   # - nfs/ks.yaml
   # - zfslocalpv/ks.yaml
-namespace: openebs

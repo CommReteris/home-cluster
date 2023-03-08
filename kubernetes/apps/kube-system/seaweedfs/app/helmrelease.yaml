@@ -67,17 +67,17 @@ spec:
       #  data:
       #    type: "persistentVolumeClaim"
       #    size: "24Ti"
-      #    storageClass: "local-path-provisioner"
+      #    storageClass: local-path
       data:
         type: "persistentVolumeClaim"
         size: 10Gi
-        storageClass: "local-path-provisioner"
+        storageClass: local-path
         hostPathPrefix: /var/seaweed
 
       logs:
         type: "persistentVolumeClaim"
         size: 10Gi
-        storageClass: "local-path-provisioner"
+        storageClass: local-path
         hostPathPrefix: /var/seaweed
 
       initContainers: ""
@@ -177,7 +177,7 @@ spec:
     #  data:
     #    type: "persistentVolumeClaim"
     #    size: "24Ti"
-    #    storageClass: "local-path-provisioner"
+    #    storageClass: local-path
       data:
         type: "persistentVolumeClaim"
         size: 10Gi
@@ -305,17 +305,17 @@ spec:
       #  data:
       #    type: "persistentVolumeClaim"
       #    size: "24Ti"
-      #    storageClass: "local-path-provisioner"
+      #    storageClass: local-path
       data:
         type: "persistentVolumeClaim"
         size: 10Gi
-        storageClass: "local-path-provisioner"
+        storageClass: local-path
         hostPathPrefix: /var/seaweed
 
       logs:
         type: "persistentVolumeClaim"
         size: 10Gi
-        storageClass: "local-path-provisioner"
+        storageClass: local-path
         hostPathPrefix: /var/seaweed
 
       initContainers: ""

@@ -79,7 +79,7 @@ spec:
                       - key: storage
                         operator: In
                         values:
-                          - true
+                          - "true"
             podAntiAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
                 - labelSelector:

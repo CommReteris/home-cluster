@@ -28,6 +28,7 @@ resources:
   - openebs-zfslocalpv.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
+  - seaweedfs.yaml
   - stakater.yaml
   - topolvm.yaml
   - weave-gitops.yaml

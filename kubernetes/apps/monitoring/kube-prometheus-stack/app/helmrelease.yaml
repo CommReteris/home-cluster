@@ -117,12 +117,12 @@ spec:
               - *host
             secretName: alert-manager-tls
       alertmanagerSpec:
-        replicas: 3
+        replicas: 1
         podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
             spec:
-              # storageClassName: direct-pv-csi-min-io
+              storageClassName: nvme-lvm
               resources:
                 requests:
                   storage: 1Gi
@@ -191,7 +191,7 @@ spec:
       thanosServiceMonitor:
         enabled: false
       prometheusSpec:
-        replicas: 3
+        replicas: 1
         replicaExternalLabelName: __replica__ # must match with thanos value `.query.replicaLabel[0]`
         # Breaks any metric that has an existing "cluster" label on a metric
         # externalLabels:
@@ -208,10 +208,10 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              # storageClassName: direct-pv-csi-min-io
+              storageClassName: hdd-lvm
               resources:
                 requests:
-                  storage: 20Gi
+                  storage: 10Gi
         resources:
           requests:
             cpu: 150m

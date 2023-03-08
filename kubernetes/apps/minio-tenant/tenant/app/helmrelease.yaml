@@ -23,8 +23,8 @@ spec:
     secrets:
       name: one-env-configuration
       # MinIO root user and password
-      accessKey: "minio"
-      secretKey: "one23"
+      # accessKey: "minio"
+      # secretKey: "one23"
     ## MinIO Tenant Definition
     tenant:
       name: one

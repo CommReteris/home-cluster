@@ -70,13 +70,13 @@ spec:
       #    storageClass: "local-path-provisioner"
       data:
         type: "persistentVolumeClaim"
-        size: ""
+        size: 10Gi
         storageClass: "local-path-provisioner"
         hostPathPrefix: /var/seaweed
 
       logs:
         type: "persistentVolumeClaim"
-        size: ""
+        size: 10Gi
         storageClass: "local-path-provisioner"
         hostPathPrefix: /var/seaweed
 
@@ -180,17 +180,17 @@ spec:
     #    storageClass: "local-path-provisioner"
       data:
         type: "persistentVolumeClaim"
-        size: ""
+        size: 10Gi
         storageClass: "ssd-nvme"
 
       idx:
         type: "persistentVolumeClaim"
-        size: ""
+        size: 10Gi
         storageClass: "nvme-nvme"
 
       logs:
         type: "persistentVolumeClaim"
-        size: ""
+        size: 10Gi
         storageClass: "ssd-nvme"
 
       # limit background compaction or copying speed in mega bytes per second
@@ -308,13 +308,13 @@ spec:
       #    storageClass: "local-path-provisioner"
       data:
         type: "persistentVolumeClaim"
-        size: ""
+        size: 10Gi
         storageClass: "local-path-provisioner"
         hostPathPrefix: /var/seaweed
 
       logs:
         type: "persistentVolumeClaim"
-        size: ""
+        size: 10Gi
         storageClass: "local-path-provisioner"
         hostPathPrefix: /var/seaweed
 
@@ -474,7 +474,7 @@ spec:
 
       # logs:
       #   type: "hostPath"
-      #   size: ""
+      #   size: 10Gi
       #   storageClass: ""
       #   hostPathPrefix: /var/seaweed
 

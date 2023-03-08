@@ -16,6 +16,6 @@ allowedTopologies:
   - matchLabelExpressions:
       - key: openebs.io/nodename
         values:
-          - droplet-2
+          - droplet-3
           - droplet-4
           - droplet-5

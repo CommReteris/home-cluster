@@ -39,12 +39,12 @@
       command: partprobe {{ item }}
       with_items: "{{ disks }}"
 
-    - name: Delete var/iib/rook
+    - name: Delete var/lib/rook
       ansible.builtin.file:
         path: /var/lib/rook
         state: absent
 
-    - name: Delete var/iib/rook
+    - name: Delete var/openebs
       ansible.builtin.file:
         path: /var/openebs
         state: absent

@@ -298,7 +298,7 @@ spec:
           runAsNonRoot: true
           fsGroup: 1000
       ## LogSearch API setup for MinIO Tenant.
-      # log:
+      log:
       #   # When set to true disables the creation of logsearch api deployment
       #   disabled: false
       #   image: "" # defaults to minio/operator:v4.4.17
@@ -315,14 +315,14 @@ spec:
       #   audit:
       #     diskCapacityGB: 1
         ## Postgres setup for LogSearch API
-        # db:
+        db:
         #   image: "" # defaults to library/postgres
         #   # env: [ ]
         #   initimage: "" # defaults to busybox:1.33.1
-        #   volumeClaimTemplate:
+          volumeClaimTemplate:
         #     metadata: { }
-        #     spec:
-        #       storageClassName: standard
+            spec:
+              storageClassName: ssd-lvm
         #       accessModes:
         #         - ReadWriteOnce
         #       resources:

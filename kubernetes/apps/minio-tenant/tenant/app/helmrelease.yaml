@@ -315,7 +315,7 @@ spec:
           volumeClaimTemplate:
         #     metadata: { }
             spec:
-              storageClassName: ssd-lvm
+              storageClassName: ssd-nvme
         #       accessModes:
         #         - ReadWriteOnce
         #       resources:

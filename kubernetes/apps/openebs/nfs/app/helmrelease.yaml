@@ -80,7 +80,7 @@ spec:
       reclaimPolicy: Delete
       nfsServerType: kernel
       isDefaultClass: false
-      backendStorageClass: mayastor-3
+      backendStorageClass: nvme-lvm
       # The customServerConfig key passes a custom /etc/exports configuration to
       # the NFS servers created using this StorageClass.
       # The configuration settings are not validated, and can lead to security

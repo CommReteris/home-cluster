@@ -5,21 +5,22 @@
     - droplet-4
     - droplet-5
     - droplet-6
+    - droplet-7
   become: true
   gather_facts: true
   any_errors_fatal: true
   vars_prompt:
     - name: nuke
       prompt: |-
-        Are you sure you hate ceph?
-        Type YES
+        Are you sure you hate your data?
+        Type y
       default: "n"
       private: false
   pre_tasks:
     - name: Check for confirmation
       ansible.builtin.fail:
         msg: Aborted
-      when: nuke != 'YES'
+      when: nuke != 'y'
 
     - name: Pausing for 5 seconds...
       ansible.builtin.pause:
@@ -41,4 +42,9 @@
     - name: Delete var/iib/rook
       ansible.builtin.file:
         path: /var/lib/rook
+        state: absent
+
+    - name: Delete var/iib/rook
+      ansible.builtin.file:
+        path: /var/openebs
         state: absent

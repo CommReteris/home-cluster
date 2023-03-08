@@ -33,6 +33,7 @@ ubuntu:
     - python3-kubernetes
     - python3-yaml
     - parted
+    - zfsutils-linux
 
 gpu:
   repos:

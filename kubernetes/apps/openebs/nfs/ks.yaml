@@ -6,8 +6,8 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-openebs
-  path: ./kubernetes/apps/openebs/openebs-nfs/app
+    - name: cluster-apps-openebs-localpv
+  path: ./kubernetes/apps/openebs/nfs/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -30,7 +30,7 @@ spec:
   dependsOn:
     - name: cluster-apps-openebs
     - name: cluster-apps-openebs-nfs-provisioner
-  path: ./kubernetes/apps/openebs/openebs-nfs/resources
+  path: ./kubernetes/apps/openebs/nfs/resources
   prune: true
   sourceRef:
     kind: GitRepository

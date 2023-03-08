@@ -1,0 +1,13 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: cluster-apps-openebs-zfslocalpv
+  namespace: flux-system
+spec:
+  interval: 15m0s
+  path: ./kubernetes/apps/openebs/zfslocalpv/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes

@@ -28,14 +28,11 @@ spec:
   # uninstall:
   #   keepHistory: false
   values:
-    # rbac:
-    #   # Specifies whether RBAC resources should be created
-    #   create: true
-    #   pspEnabled: false
-    #   # rbac.kyvernoEnabled: `true` if Kyverno Policy resources should be created
-    #   kyvernoEnabled: false
-    serviceAccount:
-      create: true
+    analytics:
+      enabled: false
+    crd:
+      enableInstall: true
+
     apiserver:
       enabled: true
       image: "openebs/m-apiserver"
@@ -64,12 +61,12 @@ spec:
 
 
     defaultStorageConfig:
-      enabled: "true"
+      enabled: "false"
 
     # Directory used by the OpenEBS to store debug information and so forth
     # that are generated in the course of running OpenEBS containers.
     varDirectoryPath:
-      baseDir: "/var/openebs2"
+      baseDir: "/var/openebs"
 
     provisioner:
       enabled: true
@@ -133,82 +130,82 @@ spec:
         #   cpu: 500m
         #   memory: 1Gi
 
-      # deviceClass:
-      #   name: openebs-device
-      #   enabled: true
-      #   # Available reclaim policies: Delete/Retain, defaults: Delete.
-      #   reclaimPolicy: Delete
-      #   isDefaultClass: false
-      #   # Custom node affinity label(s) for example "openebs.io/node-affinity-value"
-      #   # that will be used instead of hostnames
-      #   # This helps in cases where the hostname changes when the node is removed and
-      #   # added back with the disks still intact.
-      #   # Example:
-      #   #          nodeAffinityLabels:
-      #   #            - "openebs.io/node-affinity-key-1"
-      #   #            - "openebs.io/node-affinity-key-2"
-      #   # nodeAffinityLabels: []
-      #   # Sets the filesystem to be written to the blockdevice before
-      #   # mounting (filesystem volumes)
-      #   # This is only usable if the selected BlockDevice does not already
-      #   # have a filesystem
-      #   # Valid values: "ext4", "xfs"
-      #   fsType: "ext4"
-      #   # Label block devices in the cluster that you would like the openEBS localPV
-      #   # Provisioner to pick up those specific block devices available on the node.
-      #   # Set the label key and value as shown in the example below.
-      #   #
-      #   # To read more: https://github.com/openebs/dynamic-localpv-provisioner/blob/develop/docs/tutorials/device/blockdevicetag.md
-      #   #
-      #   # Example:
-      #   blockDeviceSelectors:
-      #     ndm.io/driveType: "SSD"
-      #     ndm.io/fsType: "none"
+      deviceClass:
+        name: openebs-device
+        enabled: true
+        # Available reclaim policies: Delete/Retain, defaults: Delete.
+        reclaimPolicy: Delete
+        isDefaultClass: false
+        # Custom node affinity label(s) for example "openebs.io/node-affinity-value"
+        # that will be used instead of hostnames
+        # This helps in cases where the hostname changes when the node is removed and
+        # added back with the disks still intact.
+        # Example:
+        #          nodeAffinityLabels:
+        #            - "openebs.io/node-affinity-key-1"
+        #            - "openebs.io/node-affinity-key-2"
+        # nodeAffinityLabels: []
+        # Sets the filesystem to be written to the blockdevice before
+        # mounting (filesystem volumes)
+        # This is only usable if the selected BlockDevice does not already
+        # have a filesystem
+        # Valid values: "ext4", "xfs"
+        fsType: "ext4"
+        # Label block devices in the cluster that you would like the openEBS localPV
+        # Provisioner to pick up those specific block devices available on the node.
+        # Set the label key and value as shown in the example below.
+        #
+        # To read more: https://github.com/openebs/dynamic-localpv-provisioner/blob/develop/docs/tutorials/device/blockdevicetag.md
+        #
+        # Example:
+        blockDeviceSelectors:
+          ndm.io/driveType: "SSD"
+          ndm.io/fsType: "none"
 
-      # hostpathClass:
-      #   # Name of the default hostpath StorageClass
-      #   name: openebs-hostpath
-      #   # If true, enables creation of the openebs-hostpath StorageClass
-      #   enabled: true
-      #   # Available reclaim policies: Delete/Retain, defaults: Delete.
-      #   reclaimPolicy: Delete
-      #   # If true, sets the openebs-hostpath StorageClass as the default StorageClass
-      #   isDefaultClass: false
-      #   # Path on the host where local volumes of this storage class are mounted under.
-      #   # NOTE: If not specified, this defaults to the value of localprovisioner.basePath.
-      #   basePath: ""
-      #   # Custom node affinity label(s) for example "openebs.io/node-affinity-value"
-      #   # that will be used instead of hostnames
-      #   # This helps in cases where the hostname changes when the node is removed and
-      #   # added back with the disks still intact.
-      #   # Example:
-      #   #          nodeAffinityLabels:
-      #   #            - "openebs.io/node-affinity-key-1"
-      #   #            - "openebs.io/node-affinity-key-2"
-      #   nodeAffinityLabels: []
-      #   # Prerequisite: XFS Quota requires an XFS filesystem mounted with
-      #   # the 'pquota' or 'prjquota' mount option.
-      #   xfsQuota:
-      #     # If true, enables XFS project quota
-      #     enabled: false
-      #     # Detailed configuration options for XFS project quota.
-      #     # If XFS Quota is enabled with the default values, the usage limit
-      #     # is set at the storage capacity specified in the PVC.
-      #     softLimitGrace: "0%"
-      #     hardLimitGrace: "0%"
-      #   # Prerequisite: EXT4 Quota requires an EXT4 filesystem mounted with
-      #   # the 'prjquota' mount option.
-      #   ext4Quota:
-      #     # If true, enables XFS project quota
-      #     enabled: false
-      #     # Detailed configuration options for EXT4 project quota.
-      #     # If EXT4 Quota is enabled with the default values, the usage limit
-      #     # is set at the storage capacity specified in the PVC.
-      #     softLimitGrace: "0%"
-      #     hardLimitGrace: "0%"
+      hostpathClass:
+        # Name of the default hostpath StorageClass
+        name: openebs-hostpath
+        # If true, enables creation of the openebs-hostpath StorageClass
+        enabled: true
+        # Available reclaim policies: Delete/Retain, defaults: Delete.
+        reclaimPolicy: Delete
+        # If true, sets the openebs-hostpath StorageClass as the default StorageClass
+        isDefaultClass: false
+        # Path on the host where local volumes of this storage class are mounted under.
+        # NOTE: If not specified, this defaults to the value of localprovisioner.basePath.
+        basePath: ""
+        # Custom node affinity label(s) for example "openebs.io/node-affinity-value"
+        # that will be used instead of hostnames
+        # This helps in cases where the hostname changes when the node is removed and
+        # added back with the disks still intact.
+        # Example:
+        #          nodeAffinityLabels:
+        #            - "openebs.io/node-affinity-key-1"
+        #            - "openebs.io/node-affinity-key-2"
+        nodeAffinityLabels: []
+        # Prerequisite: XFS Quota requires an XFS filesystem mounted with
+        # the 'pquota' or 'prjquota' mount option.
+        xfsQuota:
+          # If true, enables XFS project quota
+          enabled: false
+          # Detailed configuration options for XFS project quota.
+          # If XFS Quota is enabled with the default values, the usage limit
+          # is set at the storage capacity specified in the PVC.
+          softLimitGrace: "0%"
+          hardLimitGrace: "0%"
+        # Prerequisite: EXT4 Quota requires an EXT4 filesystem mounted with
+        # the 'prjquota' mount option.
+        ext4Quota:
+          # If true, enables XFS project quota
+          enabled: false
+          # Detailed configuration options for EXT4 project quota.
+          # If EXT4 Quota is enabled with the default values, the usage limit
+          # is set at the storage capacity specified in the PVC.
+          softLimitGrace: "0%"
+          hardLimitGrace: "0%"
 
     snapshotOperator:
-      enabled: false
+      enabled: true
       controller:
         image: "openebs/snapshot-controller"
         imageTag: "2.12.2"
@@ -243,92 +240,6 @@ spec:
         initialDelaySeconds: 30
         periodSeconds: 60
 
-    # If you want to enable openebs as a dependency chart then set `ndm.enabled: false`,
-    # `ndmOperator.enabled: false` and enable it as dependency chart. If you are using
-    # custom configuration then update those configuration under `openebs-ndm` key.
-    ndm:
-      enabled: false
-      image: "openebs/node-disk-manager"
-      imageTag: "2.1.0"
-      sparse:
-        path: "/var/openebs/sparse"
-        size: "10737418240"
-        count: "0"
-      filters:
-        enableOsDiskExcludeFilter: true
-        osDiskExcludePaths: "/,/etc/hosts,/boot"
-        enableVendorFilter: true
-        excludeVendors: "CLOUDBYT,OpenEBS"
-        enablePathFilter: true
-        includePaths: ""
-        excludePaths: "/dev/loop,/dev/fd0,/dev/sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd"
-      probes:
-        enableSeachest: false
-      nodeSelector: {}
-      tolerations: []
-      healthCheck:
-        initialDelaySeconds: 30
-        periodSeconds: 60
-      ## ndm resource requests and limits
-      ## Reference: http://kubernetes.io/docs/user-guide/compute-resources/
-      resources: {}
-        # limits:
-        #   cpu: 1000m
-        #   memory: 2Gi
-        # requests:
-        #   cpu: 500m
-        #   memory: 1Gi
-
-    # If you want to enable openebs as a dependency chart then set `ndm.enabled: false`,
-    # `ndmOperator.enabled: false` and enable it as dependency chart. If you are using
-    # custom configuration then update those configuration under `openebs-ndm` key.
-    ndmOperator:
-      enabled: false
-      image: "openebs/node-disk-operator"
-      imageTag: "2.1.0"
-      replicas: 1
-      upgradeStrategy: Recreate
-      healthCheck:
-        initialDelaySeconds: 15
-        periodSeconds: 20
-      readinessCheck:
-        initialDelaySeconds: 5
-        periodSeconds: 10
-      ## ndmOperator resource requests and limits
-      ## Reference: http://kubernetes.io/docs/user-guide/compute-resources/
-      resources: {}
-        # limits:
-        #   cpu: 1000m
-        #   memory: 2Gi
-        # requests:
-        #   cpu: 500m
-        #   memory: 1Gi
-
-    ndmExporter:
-      enabled: faslse
-      image:
-        registry:
-        repository: openebs/node-disk-exporter
-        pullPolicy: IfNotPresent
-        # Overrides the image tag whose default is the chart appVersion.
-        tag: 2.1.0
-      nodeExporter:
-        name: ndm-node-exporter
-        # podLabels:
-        #   name: openebs-ndm-node-exporter
-        # The TCP port number used for exposing ndm-node-exporter metrics.
-        # If not set, service will not be created to expose metrics endpoint to serviceMonitor
-        # and listen-port flag will not be set and container port will be empty.
-        metricsPort: 9101
-      clusterExporter:
-        name: ndm-cluster-exporter
-        # podLabels:
-        #   name: openebs-ndm-cluster-exporter
-        # The TCP port number used for exposing ndm-cluster-exporter metrics.
-        # If not set, service will not be created to expose metrics endpoint to serviceMonitor
-        # and listen-port flag will not be set and container port will be empty.
-        metricsPort: 9100
-
     webhook:
       enabled: true
       image: "openebs/admission-server"
@@ -353,114 +264,12 @@ spec:
         #   memory: 500Mi
 
     # If you are migrating from 2.x to 3.x and if you are using custom values
-    # then put this configuration under `localpv-provisioner` and `openebs-ndm` key.
-    helper:
-      image: "openebs/linux-utils"
-      imageTag: "3.4.0"
-
-    # These are ndm related configuration. If you want to enable openebs as a dependency
-    # chart then set `ndm.enabled: false`, `ndmOperator.enabled: false` and enable it as
-    # dependency chart. If you are using custom configuration then update those configuration
-    # under `openebs-ndm` key.
-    featureGates:
-      enabled: true
-      GPTBasedUUID:
-        enabled: true
-        featureGateFlag: "GPTBasedUUID"
-      APIService:
-        enabled: false
-        featureGateFlag: "APIService"
-        address: "0.0.0.0:9115"
-      UseOSDisk:
-        enabled: false
-        featureGateFlag: "UseOSDisk"
-      ChangeDetection:
-        enabled: false
-        featureGateFlag: "ChangeDetection"
-      PartitionTableUUID:
-        enabled: false
-        featureGateFlag: "PartitionTableUUID"
-
-    crd:
-      enableInstall: true
-
-    # If you are migrating from 2.x to 3.x and if you are using custom values
     # then put these configuration under `cstor` key.
     policies:
       monitoring:
-        enabled: true
-        image: "openebs/m-exporter"
-        imageTag: "2.12.2"
+        enabled: false
 
-    analytics:
-      enabled: false
       # Specify in hours the duration after which a ping event needs to be sent.
-
-    # jiva:
-    #   # non csi configuration
-    #   image: "openebs/jiva"
-    #   imageTag: "2.12.2"
-    #   replicas: 3
-    #   defaultStoragePath: "/var/openebs"
-
-    #   # jiva csi driver configuration
-    #   # do not enable or configure any sub dependency here
-    #   # only jiva csi related settings can be added here
-    #   # ref - https://openebs.github.io/jiva-operator
-
-    #   # jiva chart dependency tree is here -
-    #   # jiva
-    #   # | - localpv-provisioner
-    #   # | | - openebs-ndm
-
-    #   # Enable localpv-provisioner and openebs-ndm as root dependency not as
-    #   # sub dependency.
-    #   # openebs
-    #   # | - jiva(enable)
-    #   # | | - localpv-provisioner(disable)
-    #   # | | | - openebs-ndm(disable)
-    #   # | - localpv-provisioner(enable)
-    #   # | - openebs-ndm(enable)
-
-    #   enabled: false
-    #   openebsLocalpv:
-    #     enabled: false
-    #   localpv-provisioner:
-    #     openebsNDM:
-    #       enabled: false
-
-    #   # Sample configuration if you want to configure jiva csi driver with custom values.
-    #   # This is a small part of the full configuration. Full configuration available
-    #   # here - https://openebs.github.io/jiva-operator
-
-    # #  rbac:
-    # #    create: true
-    # #    pspEnabled: false
-    # #
-    # #  jivaOperator:
-    # #    controller:
-    # #      image:
-    # #        registry: quay.io/
-    # #        repository: openebs/jiva
-    # #        tag: 3.4.0
-    # #    replica:
-    # #      image:
-    # #        registry: quay.io/
-    # #        repository: openebs/jiva
-    # #        tag: 3.4.0
-    # #    image:
-    # #      registry: quay.io/
-    # #      repository: openebs/jiva-operator
-    # #      pullPolicy: IfNotPresent
-    # #      tag: 3.4.0
-    # #
-    # #  jivaCSIPlugin:
-    # #    remount: "true"
-    # #    image:
-    # #      registry: quay.io/
-    # #      repository: openebs/jiva-csi
-    # #      pullPolicy: IfNotPresent
-    # #      tag: 3.4.0
 
     # cstor:
 
@@ -565,6 +374,14 @@ spec:
     # #      pullPolicy: IfNotPresent
     # #      tag: 3.4.0
 
+    ndm:
+      enabled: false
+
+    ndmOperator:
+      enabled: false
+
+    ndmExporter:
+      enabled: false
     # # ndm configuration goes here
     # # https://openebs.github.io/node-disk-manager
     openebs-ndm:
@@ -676,6 +493,25 @@ spec:
     #      pullPolicy: IfNotPresent
     #      tag: 3.4.0
 
+    lvm-localpv:
+      enabled: false
+
+      # Sample configuration if you want to configure lvm localpv with custom values.
+      # This is a small part of the full configuration. Full configuration available
+      # here - https://openebs.github.io/lvm-localpv
+
+    #  imagePullSecrets: []
+    #
+    #  rbac:
+    #    pspEnabled: false
+    #
+    #  lvmPlugin:
+    #    image:
+    #      registry: quay.io/
+    #      repository: openebs/lvm-driver
+    #      pullPolicy: IfNotPresent
+    #      tag: 1.0.0
+
     # # zfs local pv configuration goes here
     # # ref - https://openebs.github.io/zfs-localpv
     # zfs-localpv:
@@ -699,24 +535,7 @@ spec:
 
     # # lvm local pv configuration goes here
     # # ref - https://openebs.github.io/lvm-localpv
-    # lvm-localpv:
-    #   enabled: false
 
-    #   # Sample configuration if you want to configure lvm localpv with custom values.
-    #   # This is a small part of the full configuration. Full configuration available
-    #   # here - https://openebs.github.io/lvm-localpv
-
-    # #  imagePullSecrets: []
-    # #
-    # #  rbac:
-    # #    pspEnabled: false
-    # #
-    # #  lvmPlugin:
-    # #    image:
-    # #      registry: quay.io/
-    # #      repository: openebs/lvm-driver
-    # #      pullPolicy: IfNotPresent
-    # #      tag: 1.0.0
 
     # # openebs nfs provisioner configuration goes here
     # # ref - https://openebs.github.io/dynamic-nfs-provisioner

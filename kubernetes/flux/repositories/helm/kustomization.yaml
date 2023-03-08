@@ -21,7 +21,11 @@ resources:
   - minio.yaml
   - nextcloud.yaml
   - openebs.yaml
+  - openebs-localpv.yaml
+  - openebs-lvmlocalpv.yaml
+  - openebs-ndm.yaml
   - openebs-nfs.yaml
+  - openebs-zfslocalpv.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
   - stakater.yaml

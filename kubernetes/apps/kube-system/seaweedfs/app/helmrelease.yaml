@@ -14,6 +14,17 @@ spec:
         name: seaweedfs
         namespace: flux-system
   interval: 15m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     global:
       imageName: chrislusf/seaweedfs
@@ -145,10 +156,10 @@ spec:
             sub_filter '/seaweedfsstatic' './seaweedfsstatic';
             sub_filter_once off;
         hosts:
-          - host: &master-host seaweed.rengo.dev
+          - host: &host seaweed.rengo.dev
         tls:
           - hosts:
-              - *master-host
+              - *host
             secretName: seaweed-tls
       extraEnvironmentVars:
         WEED_MASTER_VOLUME_GROWTH_COPY_1: 7
@@ -389,10 +400,10 @@ spec:
             sub_filter '/seaweedfsstatic' './seaweedfsstatic';
             sub_filter_once off;
         hosts:
-          - host: &filer-host filer.rengo.dev
+          - host: filer.rengo.dev
         tls:
           - hosts:
-              - *filer-host
+              - filer.rengo.dev
             secretName: filer-tls
 
       # extraEnvVars is a list of extra enviroment variables to set with the stateful set.
@@ -421,7 +432,7 @@ spec:
         #allow empty folders
         allowEmptyFolder: false
         # Suffix of the host name, {bucket}.{domainName}
-        domainName: *filer-host
+        domainName: s3aweed.rengo.dev
         # enable user & permission to s3 (need to inject to all services)
         enableAuth: false
         skipAuthSecretCreation: false

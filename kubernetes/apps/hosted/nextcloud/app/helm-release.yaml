@@ -208,11 +208,11 @@ spec:
     # Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
     #
     livenessProbe:
-      enabled: false
+      enabled: true
     readinessProbe:
-      enabled: false
+      enabled: true
     startupProbe:
-      enabled: false
+      enabled: true
 
       resources: {}
         # We usually recommend not to specify default resources and to leave this as a conscious
@@ -271,7 +271,7 @@ spec:
       name: nextcloud-secrets
       valuesKey: db-password
       # targetPath: postgresql.global.auth.password
-      targetPath: mariadb.auth.password
+      targetPath: mariadb.auth.rootpassword
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: redis-password

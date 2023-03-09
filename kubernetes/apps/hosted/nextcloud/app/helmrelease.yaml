@@ -34,7 +34,7 @@ spec:
   values:
     image:
       repository: nextcloud
-      tag: 24.0.3-fpm
+      tag: 25.0.4
       pullPolicy: IfNotPresent
 
     # runtimeClassName: nvidia
@@ -133,14 +133,14 @@ spec:
 
     nginx:
       ## You need to set an fpm version of the image for nextcloud if you want to use nginx!
-      enabled: true
-      image:
-        repository: nginx
-        tag: alpine
-        pullPolicy: IfNotPresent
-      config:
-        # This generates the default nginx config as per the nextcloud documentation
-        default: true
+      enabled: false
+      # image:
+      #   repository: nginx
+      #   tag: alpine
+      #   pullPolicy: IfNotPresent
+      # config:
+      #   # This generates the default nginx config as per the nextcloud documentation
+      #   default: true
         # custom: |-
         #     worker_processes  1;..
 
@@ -170,21 +170,18 @@ spec:
         enabled: true
         # password:
 
-    service:
-      type: ClusterIP
+    # service:
+      # type: ClusterIP
       # port: 8080
       # targetPort: 80
       # externalTrafficPolicy: Cluster
 
     persistence:
       enabled: true
-      storageClass: nvme-lvm-5
-      accessMode: ReadWriteMany
-      size: 100Gi
-      # existingClaim: nextcloud-pvc
-      ## Use an additional pvc for the data directory rather than a subpath of the default PVC
-      ## Useful to store data on a different storageClass (e.g. on slower disks)
-        # existingClaim: nextcloud-data-pvc
+      # storageClass: nvme-lvm-5
+      # accessMode: ReadWriteMany
+      # size: 100Gi
+      existingClaim: nextcloud-main-pvc
 
     # Liveness and readiness probe values
     # Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes

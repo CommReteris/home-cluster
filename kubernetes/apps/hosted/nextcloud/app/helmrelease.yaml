@@ -191,17 +191,12 @@ spec:
 
     persistence:
       enabled: true
-      storageClass: nvme-lvm
+      storageClass: nvme-lvm-5
       accessMode: ReadWriteOnce
-      size: 10Gi
+      size: 100Gi
       # existingClaim: nextcloud-pvc
       ## Use an additional pvc for the data directory rather than a subpath of the default PVC
       ## Useful to store data on a different storageClass (e.g. on slower disks)
-      nextcloudData:
-        enabled: true
-        storageClass: ssd-lvm
-        readOnly: false
-        size: 100Gi
         # existingClaim: nextcloud-data-pvc
 
     # Liveness and readiness probe values

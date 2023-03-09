@@ -131,6 +131,7 @@ spec:
 
     # cephBlockPoolsVolumeSnapshotClass:
       # enabled: false
+    cephFilesystems: []
     cephBlockPools:
       - name: ceph-blockpool
         spec:

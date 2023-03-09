@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nextcloud-main
+  namespace: hosted
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete # Retain
+  storageClassName: nvme-lvm-5
+  claimRef:
+    kind: PersistentVolumeClaim
+    namespace: hosted
+    name: nextcloud-main-pvc
+  csi:
+    driver: local.csi.openebs.io
+    fsType: ext4
+    volumeHandle: nextcloud-main

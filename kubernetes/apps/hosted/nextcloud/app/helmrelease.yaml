@@ -192,7 +192,7 @@ spec:
     persistence:
       enabled: true
       storageClass: nvme-lvm-5
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
       size: 100Gi
       # existingClaim: nextcloud-pvc
       ## Use an additional pvc for the data directory rather than a subpath of the default PVC

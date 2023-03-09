@@ -1,10 +1,5 @@
 # https://hub.docker.com/_/nextcloud
 # shamelessly stolen from https://github.com/brettinternet/homelab.git
-#
-# Alternative file hosting:
-# - https://github.com/SergiX44/XBackBone
-# - https://syncthing.net/
-# - https://github.com/cshum/imagor
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -153,7 +148,7 @@ spec:
       enabled: false
 
     mariadb:
-      enabled: false
+      enabled: true
       auth:
         database: nextcloud
         # password:
@@ -166,7 +161,7 @@ spec:
           # existingClaim: nextcloud-pvc
 
     postgresql:
-      enabled: true
+      enabled: false
       global:
         postgresql:
           auth:
@@ -175,8 +170,9 @@ spec:
             database: nextcloud
       primary:
         persistence:
-          enabled: true
+          enabled: false
           storageClass: nvme-lvm
+          accessMode: ReadWriteOnce
           # Use an existing Persistent Volume Claim (must be created ahead of time)
           # existingClaim: ""
           # storageClass: ""
@@ -203,7 +199,7 @@ spec:
       ## Useful to store data on a different storageClass (e.g. on slower disks)
       nextcloudData:
         enabled: true
-      #   storageClass: ceph-filesystem
+      #   storageClass: hdd-lvm
       #   readOnly: false
         # subPath:
         existingClaim: nextcloud-data-pvc
@@ -269,13 +265,13 @@ spec:
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: db-user
-      targetPath: postgresql.global.auth.username
-      # targetPath: mariadb.auth.username
+      # targetPath: postgresql.global.auth.username
+      targetPath: mariadb.auth.username
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: db-password
-      targetPath: postgresql.global.auth.password
-      # targetPath: mariadb.auth.password
+      # targetPath: postgresql.global.auth.password
+      targetPath: mariadb.auth.password
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: redis-password

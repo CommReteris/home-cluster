@@ -34,7 +34,7 @@ spec:
     csi:
       enableRbdDriver: true
       enableCephfsDriver: false
-      enableGrpcMetrics: true
+      enableGrpcMetrics: false
       enableCSIHostNetwork: false
       enableCephfsSnapshotter: false
       enableNFSSnapshotter: false
@@ -43,7 +43,7 @@ spec:
       enableMetadata: true
       enableCSIEncryption: false
       nfs:
-        enabled: true
+        enabled: false
       topology:
         enabled: false
         domainLabels:

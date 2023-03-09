@@ -148,9 +148,9 @@ spec:
       enabled: false
 
     mariadb:
-      enabled: true
-      auth:
-        database: nextcloud
+      enabled: false
+      # auth:
+        # database: nextcloud
         # password:
         # username:
       # primary:
@@ -161,18 +161,18 @@ spec:
           # existingClaim: nextcloud-pvc
 
     postgresql:
-      enabled: false
+      enabled: true
       global:
         postgresql:
-          auth:
+          # auth:
             # username:
             # password:
-            database: nextcloud
-      primary:
-        persistence:
-          enabled: false
-          storageClass: nvme-lvm
-          accessMode: ReadWriteOnce
+          database: nextcloud
+      # primary:
+        # persistence:
+          # enabled: false
+          # storageClass: nvme-lvm
+          # accessMode: ReadWriteOnce
           # Use an existing Persistent Volume Claim (must be created ahead of time)
           # existingClaim: ""
           # storageClass: ""
@@ -265,13 +265,13 @@ spec:
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: db-user
-      # targetPath: postgresql.global.auth.username
-      targetPath: mariadb.auth.username
+      targetPath: postgresql.global.auth.username
+      # targetPath: mariadb.auth.username
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: db-password
-      # targetPath: postgresql.global.auth.password
-      targetPath: mariadb.auth.rootpassword
+      targetPath: postgresql.global.auth.password
+      # targetPath: mariadb.auth.rootpassword
     - kind: Secret
       name: nextcloud-secrets
       valuesKey: redis-password

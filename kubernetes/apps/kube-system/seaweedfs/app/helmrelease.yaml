@@ -46,8 +46,8 @@ spec:
       replicationPlacment: "001"
       extraEnvironmentVars:
         WEED_CLUSTER_DEFAULT: "sw"
-        WEED_CLUSTER_SW_MASTER: "seaweedfs-master:9333"       # "seaweedfs-master.seaweedfs:9333"
-        WEED_CLUSTER_SW_FILER: "seaweedfs-filer-client:8888"  # "seaweedfs-filer-client.seaweedfs:8888"
+        WEED_CLUSTER_SW_MASTER: "seaweedfs-master.kube-system:9333"       # "seaweedfs-master.seaweedfs:9333"
+        WEED_CLUSTER_SW_FILER: "seaweedfs-filer-client.kube-system:8888"  # "seaweedfs-filer-client.seaweedfs:8888"
 
     master:
       enabled: true
@@ -137,7 +137,7 @@ spec:
       priorityClassName: ""
 
       ingress:
-        enabled: true
+        enabled: false
         className: "nginx"
         annotations:
           nginx.ingress.kubernetes.io/auth-type: "basic"
@@ -375,7 +375,7 @@ spec:
       priorityClassName: ""
 
       ingress:
-        enabled: true
+        enabled: false
         # className: "nginx"
         annotations:
           kubernetes.io/ingress.class: nginx
@@ -432,7 +432,7 @@ spec:
         #allow empty folders
         allowEmptyFolder: false
         # Suffix of the host name, {bucket}.{domainName}
-        domainName: s3aweed.rengo.dev
+        #domainName: s3aweed.rengo.dev
         # enable user & permission to s3 (need to inject to all services)
         enableAuth: false
         skipAuthSecretCreation: false
@@ -453,7 +453,7 @@ spec:
       auditLogConfig: {}
 
       # Suffix of the host name, {bucket}.{domainName}
-      domainName: s3aweed.rengo.dev
+      #domainName: s3aweed.rengo.dev
 
       initContainers: ""
 

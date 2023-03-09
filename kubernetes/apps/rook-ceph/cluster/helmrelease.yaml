@@ -54,8 +54,8 @@ spec:
     cephClusterSpec:
       dataDirHostPath: /var/lib/rook
       continueUpgradeAfterChecksEvenIfNotHealthy: true
-      network:
-        provider: host
+      # network:
+        # provider: host
       crashCollector:
         disable: true
       logCollector:
@@ -111,20 +111,20 @@ spec:
             devices:
               - name: /dev/sdb  # 1.9TB SSD
               - name: /dev/nvme0n1 # 1.6TB NVME
-                config:
-                  osdsPerDevice: "1"
+                # config:
+                #   osdsPerDevice: "1"
           - name: droplet-4
             devices:
               - name: /dev/sdb # 1.9TB SSD
               - name: /dev/nvme0n1 # 1.6TB NVME
-                config:
-                  osdsPerDevice: "1"
+                # config:
+                #   osdsPerDevice: "1"
           - name: droplet-5
             devices:
               - name: /dev/sdb # 1.9TB SSD
               - name: /dev/nvme0n1 #1.6TB NVME
-                config:
-                  osdsPerDevice: "1"
+                # config:
+                #   osdsPerDevice: "1"
           # - name: droplet-7
           #   devices:
           #     - name: /dev/sdb # 10.9 TB HDD

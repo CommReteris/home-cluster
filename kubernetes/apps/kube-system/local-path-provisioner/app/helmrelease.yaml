@@ -30,6 +30,19 @@ spec:
       tag: latest
     storageClass:
       defaultClass: false
+      # allowedTopologies:
+      #   - matchLabelExpressions:
+      #         - key: kubernetes.io/hostname
+      #           values:
+      #             - droplet-0
+      #             - droplet-1
+      #             - droplet-2
+      #             - droplet-3
+      #             - droplet-4
+      #             - droplet-5
+      #             - droplet-6
+      #             - droplet-7
+      #             - droplet-oneiros
     nodePathMap:
       - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
         paths: ["/var/lib/rancher/k3s/storage"]

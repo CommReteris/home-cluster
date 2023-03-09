@@ -3,7 +3,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - secret.sops.yaml
-  # - nextcloud-pvc.yaml
+  - nextcloud-pvc.yaml
+  - nextcloud-pv.yaml
   # - nextcloud-data-pvc.yaml
   - helmrelease.yaml
 namespace: hosted

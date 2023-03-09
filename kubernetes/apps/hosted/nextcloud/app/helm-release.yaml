@@ -168,9 +168,9 @@ spec:
             # username:
             # password:
           database: nextcloud
-      # primary:
-        # persistence:
-          # enabled: false
+      primary:
+        persistence:
+          enabled: false
           # storageClass: nvme-lvm
           # accessMode: ReadWriteOnce
           # Use an existing Persistent Volume Claim (must be created ahead of time)

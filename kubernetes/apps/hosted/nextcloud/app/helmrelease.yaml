@@ -34,13 +34,13 @@ spec:
   values:
     image:
       repository: nextcloud
-      tag: 24.0.3-apache
+      tag: 24.0.3-fpm
       pullPolicy: IfNotPresent
 
     # runtimeClassName: nvidia
 
     ingress:
-      enabled: false
+      enabled: true
       ingressClassName: nginx
       annotations:
         external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
@@ -133,7 +133,7 @@ spec:
 
     nginx:
       ## You need to set an fpm version of the image for nextcloud if you want to use nginx!
-      enabled: false
+      enabled: true
       image:
         repository: nginx
         tag: alpine
@@ -203,11 +203,11 @@ spec:
     # Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
     #
     livenessProbe:
-      enabled: true
+      enabled: false
     readinessProbe:
-      enabled: true
+      enabled: false
     startupProbe:
-      enabled: true
+      enabled: false
 
       resources: {}
         # We usually recommend not to specify default resources and to leave this as a conscious

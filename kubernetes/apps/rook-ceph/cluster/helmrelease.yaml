@@ -53,7 +53,7 @@ spec:
       dataDirHostPath: /var/lib/rook
       continueUpgradeAfterChecksEvenIfNotHealthy: true
       network:
-        # provider: host
+        provider: host
       crashCollector:
         disable: true
       logCollector:
@@ -69,12 +69,12 @@ spec:
           enabled: true
         - name: pg_autoscaler
           enabled: true
-        - name: nfs
-          enabled: true
+        # - name: nfs
+        #   enabled: true
         - name: rgw
           enabled: true
-        - name: mds_autoscaler
-          enabled: true
+        # - name: mds_autoscaler
+        #   enabled: true
         - name: prometheus
           enabled: true
       dashboard:

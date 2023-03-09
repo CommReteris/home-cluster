@@ -32,15 +32,25 @@ spec:
     monitoring:
       enabled: true
     csi:
-      enableRbdDriver: false
+      enableRbdDriver: true
+      enableCephfsDriver: true
+      enableGrpcMetrics: true
       enableCSIHostNetwork: false
       enableCephfsSnapshotter: true
       enableNFSSnapshotter: true
       enableRDBSnapshotter: true
-      # enableOMAPGenerator: true
-      # enablePluginSelinuxHostMount: true
+      enableOMAPGenerator: true
+      enableMetadata: true
       enableCSIEncryption: false
       nfs:
+        enabled: true
+      topology:
+        enabled: false
+        domainLabels:
+          - kubernetes.io/hostname
+          # - topology.kubernetes.io/zone
+          # - topology.rook.io/rack
+      readAffinity:
         enabled: true
     enableDiscoveryDaemon: true
     resources:

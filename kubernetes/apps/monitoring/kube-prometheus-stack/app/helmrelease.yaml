@@ -122,7 +122,7 @@ spec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: nvme-lvm
+              storageClassName: local-path
               resources:
                 requests:
                   storage: 1Gi
@@ -208,7 +208,7 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: hdd-lvm
+              storageClassName: local-path
               resources:
                 requests:
                   storage: 10Gi

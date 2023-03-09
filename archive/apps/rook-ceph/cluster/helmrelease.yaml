@@ -26,9 +26,6 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    monitoring:
-      enabled: true
-      createPrometheusRules: true
     ingress:
       dashboard:
         annotations:
@@ -49,12 +46,16 @@ spec:
             secretName: rook-ceph-dashboard-tls
     toolbox:
       enabled: true
+    monitoring:
+      enabled: true
+      createPrometheusRules: true
     configOverride: |
       [global]
       bdev_enable_discard = auto
       bdev_async_discard = auto
     cephClusterSpec:
       dataDirHostPath: /var/lib/rook
+      continueUpgradeAfterChecksEvenIfNotHealthy: true
       network:
         # provider: host
       crashCollector:
@@ -67,15 +68,25 @@ spec:
           method: quick
           dataSource: zero
         allowUninstallWithVolumes: true
+      modules:
+        - name: rook
+          enabled: true
+        - name: pg_autoscaler
+          enabled: true
+        - name: nfs
+          enabled: true
+        - name: rgw
+          enabled: true
+        - name: mds_autoscaler
+          enabled: true
+        - name: prometheus
+          enabled: true
       dashboard:
         enabled: true
         urlPrefix: /
         ssl: false
       placement:
         mgr:
-          modules:
-            - name: rook
-              enabled: true
         #   tolerations:
         #     - effect: NoSchedule
         #       key: node-role.kubernetes.io/control-plane

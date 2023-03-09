@@ -30,20 +30,16 @@ spec:
       dashboard:
         annotations:
           kubernetes.io/ingress.class: nginx
-          external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
-          external-dns.home.arpa/enabled: "true"
-          cert-manager.io/cluster-issuer: letsencrypt-staging
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           hajimari.io/enable: "true"
           hajimari.io/appName: "Rook"
           hajimari.io/icon: mdi:chess-rook
         host:
           name: &host rook.rengo.dev
           path: /
-          # path: "/ceph-dashboard(/|$)(.*)"
         tls:
           - hosts:
               - *host
-            secretName: rook-ceph-dashboard-tls
     toolbox:
       enabled: true
     monitoring:
@@ -51,8 +47,8 @@ spec:
       createPrometheusRules: true
     configOverride: |
       [global]
-      bdev_enable_discard = auto
-      bdev_async_discard = auto
+      bdev_enable_discard = true
+      bdev_async_discard = true
     cephClusterSpec:
       dataDirHostPath: /var/lib/rook
       continueUpgradeAfterChecksEvenIfNotHealthy: true
@@ -85,8 +81,9 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: false
-      placement:
-        mgr:
+        port: 8080
+      # placement:
+        # mgr:
         #   tolerations:
         #     - effect: NoSchedule
         #       key: node-role.kubernetes.io/control-plane
@@ -105,9 +102,9 @@ spec:
         useAllDevices: false
         encryptedDevice: "false" # the default value for this option is "false"
         nodes:
-          - name: droplet-0
-            devices:
-              - name: /dev/sdb # 1.8TB HDD
+          # - name: droplet-0
+          #   devices:
+          #     - name: /dev/sdb # 1.8TB HDD
           - name: droplet-3
             devices:
               - name: /dev/sdb  # 1.9TB SSD
@@ -126,104 +123,47 @@ spec:
               - name: /dev/nvme0n1 #1.6TB NVME
                 config:
                   osdsPerDevice: "1"
-          - name: droplet-7
-            devices:
-              - name: /dev/sdb # 10.9 TB HDD
+          # - name: droplet-7
+          #   devices:
+          #     - name: /dev/sdb # 10.9 TB HDD
 
-    cephBlockPoolsVolumeSnapshotClass:
-      enabled: false
-    # cephBlockPools:
-    cephFileSystems:
-      - name: ceph-ssd
+    # cephBlockPoolsVolumeSnapshotClass:
+      # enabled: false
+    cephBlockPools:
+      - name: ceph-blockpool
         spec:
-          metadataPool:
-            replicated:
-              size: 3
-          dataPools:
-            - failureDomain: host
-              replicated:
-                size: 3
-              name: data0
-              deviceClass: ssd
-          metadataServer:
-            activeCount: 1
-            activeStandby: true
-            resources:
-              requests:
-                cpu: 1000m
-                memory: 4Gi
-              limits:
-                cpu: 2000m
-                memory: 4Gi
-            priorityClassName: system-cluster-critical
+          failureDomain: host
+          replicated:
+            size: 3
+            # enableRDBStats: true
+            # hybridStorage:
+            #   primaryDeviceClass: nvme
+            #   secondaryDeviceClass: ssd
         storageClass:
           enabled: true
+          name: ceph-block
           isDefault: true
-          name: ceph-ssd
-          pool: data0
           reclaimPolicy: Delete
           allowVolumeExpansion: true
           parameters:
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+            imageFormat: "2"
+            imageFeatures: layering
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
             csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
             csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
-      - name: ceph-nvme
-        spec:
-          metadataPool:
-            replicated:
-              size: 3
-          dataPools:
-            - failureDomain: host
-              replicated:
-                size: 3
-              name: data1
-              deviceClass: nvme
-          metadataServer:
-            activeCount: 1
-            activeStandby: true
-            resources:
-              requests:
-                cpu: 1000m
-                memory: 4Gi
-              limits:
-                cpu: 2000m
-                memory: 4Gi
-            priorityClassName: system-cluster-critical
-        storageClass:
-          enabled: true
-          isDefault: false
-          name: ceph-nvme
-          pool: data1
-          reclaimPolicy: Delete
-          allowVolumeExpansion: true
-          parameters:
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
     cephObjectStores:
       - name: ceph-objectstore
         spec:
-          metadataPool:
-            enableRBDStats: true
-            failureDomain: host
-            replicated:
-              size: 3
-            deviceClass: ssd
           dataPool:
             failureDomain: host
-            replicated:
-              size: 3
-              hybridStorage:
-                primaryDeviceClass: ssd
-                secondaryDeviceClass: hdd
+            erasureCoded:
+              dataChunks: 2
+              codingChunks: 1
+            deviceClass: ssd
           preservePoolsOnDelete: true
           gateway:
             type: s3

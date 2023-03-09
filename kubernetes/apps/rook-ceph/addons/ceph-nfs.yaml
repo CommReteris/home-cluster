@@ -1,0 +1,9 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephNFS
+metadata:
+  name: fileshare
+  namespace: rook-ceph
+spec:
+  server:
+    active: 3

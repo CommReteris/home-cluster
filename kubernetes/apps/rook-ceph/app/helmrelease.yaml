@@ -33,12 +33,12 @@ spec:
       enabled: true
     csi:
       enableRbdDriver: true
-      enableCephfsDriver: true
+      enableCephfsDriver: false
       enableGrpcMetrics: true
       enableCSIHostNetwork: false
-      enableCephfsSnapshotter: true
-      enableNFSSnapshotter: true
-      enableRDBSnapshotter: true
+      enableCephfsSnapshotter: false
+      enableNFSSnapshotter: false
+      enableRDBSnapshotter: false
       enableOMAPGenerator: true
       enableMetadata: true
       enableCSIEncryption: false

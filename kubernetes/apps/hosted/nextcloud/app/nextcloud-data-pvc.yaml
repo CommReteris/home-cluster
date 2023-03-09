@@ -1,0 +1,36 @@
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: nextcloud-data-pv
+#   namespace: hosted
+#   # annotations:
+#   #   pv.beta.kubernetes.io/gid: "1"
+# spec:
+#   capacity:
+#     storage: 10Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Delete # Retain
+#   storageClassName: ssd-lvm
+#   claimRef:
+#     name: nextcloud-data-pvc
+#     namespace: hosted
+#   csi:
+#     driver: local.csi.openebs.io
+#     readOnly: false
+#     volumeHandle: nextcloud-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-pvc
+  namespace: hosted
+spec:
+  volumeName: nextcloud-data
+  storageClassName: ssd-lvm
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi

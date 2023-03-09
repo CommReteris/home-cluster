@@ -10,13 +10,13 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: nextcloud
-  namespace: default
+  namespace: hosted
 spec:
   interval: 15m
   chart:
     spec:
       chart: nextcloud
-      version: 3.5.2
+      version: 3.5.3
       sourceRef:
         kind: HelmRepository
         name: nextcloud
@@ -33,16 +33,16 @@ spec:
   dependsOn:
     - name: ingress-nginx
       namespace: networking
-    - name: gpu-operator
-      namespace: nvidia
+    # - name: gpu-operator
+    #   namespace: nvidia
 
   values:
     image:
       repository: nextcloud
-      tag: 25.0.4-fpm
+      tag: 24.0.3-apache
       pullPolicy: IfNotPresent
 
-    runtimeClassName: nvidia
+    # runtimeClassName: nvidia
 
     ingress:
       enabled: true
@@ -101,6 +101,8 @@ spec:
         secretName: nextcloud-secrets
         usernameKey: admin-username
         passwordKey: admin-password
+      # If web server is not binding default port, you can define it
+      # containerPort: 8080
       datadir: /var/www/html/data
       mail:
         enabled: false
@@ -136,7 +138,7 @@ spec:
 
     nginx:
       ## You need to set an fpm version of the image for nextcloud if you want to use nginx!
-      enabled: true
+      enabled: false
       image:
         repository: nginx
         tag: alpine
@@ -173,7 +175,8 @@ spec:
             database: nextcloud
       primary:
         persistence:
-          enabled: false
+          enabled: true
+          storageClass: nvme-lvm
           # Use an existing Persistent Volume Claim (must be created ahead of time)
           # existingClaim: ""
           # storageClass: ""
@@ -186,24 +189,24 @@ spec:
 
     service:
       type: ClusterIP
-      port: 8080
-      targetPort: 80
-      # externalTrafficPolicy: Local
+      # port: 8080
+      # targetPort: 80
+      # externalTrafficPolicy: Cluster
 
     persistence:
       enabled: true
-      storageClass: ceph-block
-      accessMode: ReadWriteOnce
-      size: 100Gi
-      # existingClaim: nextcloud-pvc
+      # storageClass: ssd-lvm
+      # accessMode: ReadWriteOnce
+      # size: 100Gi
+      existingClaim: nextcloud-pvc
       ## Use an additional pvc for the data directory rather than a subpath of the default PVC
       ## Useful to store data on a different storageClass (e.g. on slower disks)
-      # nextcloudData:
-      #   enabled: true
+      nextcloudData:
+        enabled: true
       #   storageClass: ceph-filesystem
       #   readOnly: false
         # subPath:
-        # existingClaim: nextcloud-data-pvc
+        existingClaim: nextcloud-data-pvc
 
     # Liveness and readiness probe values
     # Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
@@ -234,13 +237,13 @@ spec:
       #   minPods: 1
       #   maxPods: 10
       metrics:
-        enabled: true
+        enabled: false
         # The metrics exporter needs to know how you serve Nextcloud either http or https
         https: false
         # Use API token if set, otherwise fall back to password authentication
         # https://github.com/xperimental/nextcloud-exporter#token-authentication
         # Currently you still need to set the token manually in your nextcloud install
-        token: ""
+        # token: ""
         timeout: 5s
         # if set to true, exporter skips certificate verification of Nextcloud server.
         tlsSkipVerify: true
@@ -259,7 +262,7 @@ spec:
           labels: {}
         serviceMonitor:
           ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using PrometheusOperator
-          enabled: true
+          enabled: false
           ## @param metrics.serviceMonitor.namespace Namespace in which Prometheus is running
           namespace: "monitoring"
   valuesFrom:

@@ -61,24 +61,25 @@ spec:
       logCollector:
         enabled: false
       cleanupPolicy:
-        # confirmation: "yes-really-destroy-data"
+        confirmation: "yes-really-destroy-data"
         sanitizeDisks:
           method: quick
           dataSource: zero
         allowUninstallWithVolumes: true
-      modules:
-        - name: rook
-          enabled: true
-        - name: pg_autoscaler
-          enabled: true
-        # - name: nfs
-        #   enabled: true
-        - name: rgw
-          enabled: true
-        # - name: mds_autoscaler
-        #   enabled: true
-        # - name: prometheus
-          # enabled: true
+      mon:
+        modules:
+          - name: rook
+            enabled: true
+          - name: pg_autoscaler
+            enabled: true
+          # - name: nfs
+          #   enabled: true
+          - name: rgw
+            enabled: true
+          # - name: mds_autoscaler
+          #   enabled: true
+          # - name: prometheus
+            # enabled: true
       dashboard:
         enabled: true
         urlPrefix: /

@@ -35,9 +35,9 @@ spec:
       # Enables
       enableRbdDriver: true
       enableOMAPGenerator: true
-      enableMetadata: true
+      enableCephfsDriver: true
       # Disables
-      enableCephfsDriver: false
+      enableMetadata: false
       enableGrpcMetrics: false
       enableCSIHostNetwork: false
       enableCephfsSnapshotter: false
@@ -45,7 +45,7 @@ spec:
       enableRDBSnapshotter: false
       enableCSIEncryption: false
       nfs:
-        enabled: false
+        enabled: true
       topology:
         enabled: false
       readAffinity:

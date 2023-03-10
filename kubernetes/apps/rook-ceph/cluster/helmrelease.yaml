@@ -81,6 +81,24 @@ spec:
         urlPrefix: /
         ssl: false
         port: 8080
+      resources:
+        mgr:
+          requests:
+            cpu: "1000m"
+            memory: "2Gi"
+        mon:
+          requests:
+            cpu: "2000m"
+            memory: "2Gi"
+        osd-nvme:
+          requests:
+            cpu: "4000m"
+            memory: "8Gi"
+        osd-ssd:
+          requests:
+            cpu: "2000m"
+            memory: "4Gi"
+      removeOSDsIfOutAndSafeToRemove: true
       priorityClassNames:
         mon: system-node-critical
         osd: system-node-critical
@@ -116,15 +134,22 @@ spec:
           #     - name: /dev/sdb # 10.9 TB HDD
 
     cephBlockPools:
+      - name: .mgr
+        spec:
+        failureDomain: host
+        replicated:
+          size: 3
+        deviceClass: nvme
       - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
             size: 3
             # enableRDBStats: true
-            # hybridStorage:
-            #   primaryDeviceClass: nvme
-            #   secondaryDeviceClass: ssd
+            hybridStorage:
+              primaryDeviceClass: nvme
+              secondaryDeviceClass: ssd
+        # deviceClass: nvme
         storageClass:
           enabled: true
           name: ceph-block
@@ -135,7 +160,8 @@ spec:
           mountOptions: []
           parameters:
             imageFormat: "2"
-            imageFeatures: layering
+            # imageFeatures: layering
+            imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
             csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
@@ -143,6 +169,7 @@ spec:
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
+            # mounter: rbd-nbd
 
     cephFilesystems:
       - name: ceph-filesystem
@@ -150,16 +177,18 @@ spec:
           metadataPool:
             replicated:
             size: 3
+            deviceClass: nvme
           dataPools:
             failureDomain: host
             replicated:
               size: 3
             name: data0
+            deviceClass: nvme
         storageClass:
           enabled: true
           name: cephFS
           pool: data0
-          isDefault: true
+          isDefault: false
           reclaimPolicy: Delete
           allowVolumeExpansion: true
           volumeBindingMode: "Immediate"
@@ -168,12 +197,13 @@ spec:
           parameters:
             # The secrets contain Ceph admin credentials.
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
+            mounter: kernel
 
     cephFileSystemVolumeSnapshotClass:
       enabled: false
@@ -194,6 +224,7 @@ spec:
             failureDomain: host
             replicated:
               size: 3
+            deviceClass: nvme
           dataPool:
             failureDomain: host
             erasureCoded:

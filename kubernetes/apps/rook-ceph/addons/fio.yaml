@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fio-pvc
+  namespace: rook-ceph
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Block
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ceph-block
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: fio
+  namespace: rook-ceph
+spec:
+  # Run on a storage node so that the nexus is local to the app
+  # nodeSelector:
+  #   kubernetes.io/hostname: droplet-3
+  #   storage: true
+  volumes:
+    - name: fiovol
+      persistentVolumeClaim:
+        claimName: fio-pvc
+  containers:
+    - name: fio
+      image: mayadata/fio
+      resources:
+        limits:
+          cpu: 2000m
+          memory: 2Gi
+
+
+      args:
+        - sleep
+        - "1000000"
+      # volumeMounts:
+      #   - mountPath: "/volume"
+      #     name: fiovol
+      volumeDevices:
+        - devicePath: /dev/xvda
+          name: fiovol

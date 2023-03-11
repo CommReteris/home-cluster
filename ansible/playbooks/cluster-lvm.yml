@@ -23,10 +23,10 @@
         vg: lvmvg.nvme
         pvs: /dev/nvme0n1
 
-    # - name: Create a volume group on top of SSD disks
-    #   community.general.lvg:
-    #     vg: lvmvg.ssd
-    #     pvs: /dev/sdb
+    - name: Create a volume group on top of SSD disks
+      community.general.lvg:
+        vg: lvmvg.ssd
+        pvs: /dev/sdb
 
     # - name: Create a volume group on top of HSS disks
     #   community.general.lvg:

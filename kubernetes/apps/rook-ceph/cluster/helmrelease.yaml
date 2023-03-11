@@ -91,10 +91,16 @@ spec:
         port: 8080
       resources:
         mgr:
+          limits:
+            cpu: "2000m"
+            memory: "2Gi"
           requests:
             cpu: "1000m"
             memory: "2Gi"
         mon:
+          limits:
+            cpu: "2000m"
+            memory: "2Gi"
           requests:
             cpu: "2000m"
             memory: "2Gi"

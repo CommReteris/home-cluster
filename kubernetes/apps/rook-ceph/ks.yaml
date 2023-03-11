@@ -39,7 +39,7 @@ spec:
       namespace: rook-ceph
   interval: 10m
   retryInterval: 1m
-  timeout: 5m
+  timeout: 20m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization

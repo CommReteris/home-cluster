@@ -6,6 +6,4 @@ resources:
   - hdd-storageclass.yaml
   - nvme-storageclass.yaml
   - ssd-storageclass.yaml
-  - nvme-storageclass-droplet-5.yaml
-  - ssd-storageclass-droplet-5.yaml
 namespace: openebs

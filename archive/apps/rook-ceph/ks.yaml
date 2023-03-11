@@ -5,6 +5,8 @@ metadata:
   name: cluster-apps-rook-ceph
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-apps-openebs-lvmlocalpv
   path: ./kubernetes/apps/rook-ceph/app
   prune: true
   sourceRef:
@@ -26,6 +28,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
+    - name: cluster-apps-openebs-lvmlocalpv
     - name: cluster-apps-rook-ceph
   path: ./kubernetes/apps/rook-ceph/cluster
   prune: true

@@ -5,5 +5,5 @@ metadata:
   name: s3-pvc
   namespace: rook-ceph
 spec:
-  generateBucketName: s3
+  BucketName: s3
   storageClassName: ceph-bucket

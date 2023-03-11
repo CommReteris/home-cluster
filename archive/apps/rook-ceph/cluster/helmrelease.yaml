@@ -54,8 +54,8 @@ spec:
     cephClusterSpec:
       dataDirHostPath: /var/lib/rook
       continueUpgradeAfterChecksEvenIfNotHealthy: true
-      network:
-        provider: host
+      # network:
+        # provider: host
       crashCollector:
         disable: true
       logCollector:
@@ -72,10 +72,10 @@ spec:
             enabled: true
           - name: rgw
             enabled: true
-          # - name: mds_autoscaler
-          #   enabled: true
-          # - name: prometheus
-            # enabled: true
+          - name: mds_autoscaler
+            enabled: true
+          - name: prometheus
+            enabled: true
       dashboard:
         enabled: true
         urlPrefix: /
@@ -224,6 +224,8 @@ spec:
             failureDomain: host
             replicated:
               size: 3
+            parameters:
+              compression_mode: none
             deviceClass: nvme
           dataPool:
             failureDomain: host

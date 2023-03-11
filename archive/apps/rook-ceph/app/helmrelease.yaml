@@ -32,17 +32,21 @@ spec:
     monitoring:
       enabled: true
     csi:
+      rbdFSGroupPolicy: "ReadWriteOnceWithFSType"
+      cephFSFSGroupPolicy: "ReadWriteOnceWithFSType"
+      nfsFSGroupPolicy: "ReadWriteOnceWithFSType"
+      provisionerReplicas: 1 # default 2
       # Enables
       enableRbdDriver: true
       enableOMAPGenerator: true
       enableCephfsDriver: true
+      enableGrpcMetrics: true
       # Disables
       enableMetadata: false
-      enableGrpcMetrics: false
       enableCSIHostNetwork: false
-      enableCephfsSnapshotter: false
-      enableNFSSnapshotter: false
-      enableRDBSnapshotter: false
+      enableCephfsSnapshotter: true
+      enableNFSSnapshotter: true
+      enableRDBSnapshotter: true
       enableCSIEncryption: false
       nfs:
         enabled: true

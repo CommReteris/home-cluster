@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: &mon droplet-4-mon
 spec:
-  storageClassName: &class nvme-lvm
+  storageClassName: nvme-lvm
   capacity:
     storage: 10Gi
   accessModes:
@@ -13,7 +13,7 @@ spec:
   # PV for mon must be a filesystem volume.
   volumeMode: Filesystem
   csi:
-    driver: &driver local.csi.openebs.io
+    driver: local.csi.openebs.io
     fsType: ext4
     volumeHandle: *mon
   nodeAffinity:
@@ -30,7 +30,7 @@ apiVersion: v1
 metadata:
   name: &osd droplet-4-osd-nvme
 spec:
-  storageClassName: *class
+  storageClassName: nvme-lvm
   capacity:
     storage: 100Gi
   accessModes:
@@ -39,7 +39,7 @@ spec:
   # PV for OSD must be a block volume
   volumeMode: Block
   csi:
-    driver: *driver
+    driver: local.csi.openebs.io
     volumeHandle: *osd
   nodeAffinity:
     required:
@@ -48,4 +48,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - *host
+                - droplet-4

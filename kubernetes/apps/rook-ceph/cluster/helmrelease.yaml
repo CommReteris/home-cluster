@@ -127,7 +127,7 @@ spec:
               topologySpreadConstraints:
                 - maxSkew: 1
                   topologyKey: kubernetes.io/hostname
-                  whenUnsatisfiable: ScheduleAnyway
+                  whenUnsatisfiable: DoNotSchedule
                   labelSelector:
                     matchExpressions:
                       - key: app
@@ -164,7 +164,7 @@ spec:
                 spec:
                   resources:
                     requests:
-                      storage: 10Gi
+                      storage: 100Gi
                   # IMPORTANT: Change the storage class depending on your environment
                   storageClassName: nvme-lvm
                   volumeMode: Block

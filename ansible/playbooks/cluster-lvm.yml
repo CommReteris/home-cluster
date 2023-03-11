@@ -1,10 +1,10 @@
 ---
 - hosts:
-    - droplet-0
-    # - droplet-3
-    # - droplet-4
-    # - droplet-5
-    - droplet-7
+    # - droplet-0
+    - droplet-3
+    - droplet-4
+    - droplet-5
+    # - droplet-7
   become: true
   gather_facts: true
   any_errors_fatal: true
@@ -18,17 +18,17 @@
     #     state: present
     #   with_items: "{{ disks }}"
 
-    # - name: Create a volume group on top of nvme disks
-    #   community.general.lvg:
-    #     vg: lvmvg.nvme
-    #     pvs: /dev/nvme0n1
+    - name: Create a volume group on top of nvme disks
+      community.general.lvg:
+        vg: lvmvg.nvme
+        pvs: /dev/nvme0n1
 
     # - name: Create a volume group on top of SSD disks
     #   community.general.lvg:
     #     vg: lvmvg.ssd
     #     pvs: /dev/sdb
 
-    - name: Create a volume group on top of nvme disks
-      community.general.lvg:
-        vg: lvmvg.hdd
-        pvs: /dev/sdb
+    # - name: Create a volume group on top of HSS disks
+    #   community.general.lvg:
+    #     vg: lvmvg.hdd
+    #     pvs: /dev/sdb

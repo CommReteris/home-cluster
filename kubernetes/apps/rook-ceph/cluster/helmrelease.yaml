@@ -110,6 +110,12 @@ spec:
         osd: system-node-critical
         mgr: system-cluster-critical
       storage:
+        useAllNodes: false
+        useAllDevices: false
+        nodes:
+          - name: droplet-3
+          - name: droplet-4
+          - name: droplet-5
         storageClassDeviceSets:
           - name: nvme
             count: 3

@@ -1,0 +1,51 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: &mon droplet-4-mon
+spec:
+  storageClassName: &class nvme-lvm
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  # PV for mon must be a filesystem volume.
+  volumeMode: Filesystem
+  csi:
+    driver: &driver local.csi.openebs.io
+    fsType: ext4
+    volumeHandle: *mon
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - &host droplet-4
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: &osd droplet-4-osd-nvme
+spec:
+  storageClassName: *class
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  # PV for OSD must be a block volume
+  volumeMode: Block
+  csi:
+    driver: *driver
+    volumeHandle: *osd
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - *host

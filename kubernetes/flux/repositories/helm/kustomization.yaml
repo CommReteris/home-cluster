@@ -27,6 +27,7 @@ resources:
   - openebs-nfs.yaml
   - openebs-zfslocalpv.yaml
   - prometheus-community.yaml
+  - pydio-cells.yaml
   - rook-ceph.yaml
   - seaweedfs.yaml
   - stakater.yaml

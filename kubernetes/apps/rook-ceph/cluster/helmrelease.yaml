@@ -117,40 +117,12 @@ spec:
           - name: droplet-4
           - name: droplet-5
         storageClassDeviceSets:
-          - name: nvme
-            count: 3
+          - name: nvme-droplet-3
+            count: 1
             portable: false
             tuneDeviceClass: true
             tuneFastDeviceClass: false
             encrypted: false
-            placement:
-              topologySpreadConstraints:
-                - maxSkew: 1
-                  topologyKey: kubernetes.io/hostname
-                  whenUnsatisfiable: DoNotSchedule
-                  labelSelector:
-                    matchExpressions:
-                      - key: app
-                        operator: In
-                        values:
-                          - rook-ceph-osd
-                          - rook-ceph-osd-prepare
-            preparePlacement:
-              podAntiAffinity:
-                preferredDuringSchedulingIgnoredDuringExecution:
-                  - weight: 100
-                    podAffinityTerm:
-                      labelSelector:
-                        matchExpressions:
-                          - key: app
-                            operator: In
-                            values:
-                              - rook-ceph-osd
-                          - key: app
-                            operator: In
-                            values:
-                              - rook-ceph-osd-prepare
-                      topologyKey: kubernetes.io/hostname
             resources:
               requests:
                 cpu: "2"
@@ -166,7 +138,57 @@ spec:
                     requests:
                       storage: 100Gi
                   # IMPORTANT: Change the storage class depending on your environment
-                  storageClassName: nvme-lvm
+                  storageClassName: nvme-lvm-droplet-3
+                  volumeMode: Block
+                  accessModes:
+                    - ReadWriteOnce
+          - name: nvme-droplet-4
+            count: 1
+            portable: false
+            tuneDeviceClass: true
+            tuneFastDeviceClass: false
+            encrypted: false
+            resources:
+              requests:
+                cpu: "2"
+                memory: "4Gi"
+            volumeClaimTemplates:
+              - metadata:
+                  name: data
+                  # if you are looking at giving your OSD a different CRUSH device class than the one detected by Ceph
+                  annotations:
+                    crushDeviceClass: nvme
+                spec:
+                  resources:
+                    requests:
+                      storage: 100Gi
+                  # IMPORTANT: Change the storage class depending on your environment
+                  storageClassName: nvme-lvm-droplet-4
+                  volumeMode: Block
+                  accessModes:
+                    - ReadWriteOnce
+          - name: nvme-droplet-5
+            count: 1
+            portable: false
+            tuneDeviceClass: true
+            tuneFastDeviceClass: false
+            encrypted: false
+            resources:
+              requests:
+                cpu: "2"
+                memory: "4Gi"
+            volumeClaimTemplates:
+              - metadata:
+                  name: data
+                  # if you are looking at giving your OSD a different CRUSH device class than the one detected by Ceph
+                  annotations:
+                    crushDeviceClass: nvme
+                spec:
+                  resources:
+                    requests:
+                      storage: 100Gi
+                  # IMPORTANT: Change the storage class depending on your environment
+                  storageClassName: nvme-lvm-droplet-5
                   volumeMode: Block
                   accessModes:
                     - ReadWriteOnce

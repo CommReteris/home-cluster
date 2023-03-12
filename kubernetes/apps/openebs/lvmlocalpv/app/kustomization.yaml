@@ -5,5 +5,8 @@ resources:
   - helmrelease.yaml
   - hdd-storageclass.yaml
   - nvme-storageclass.yaml
+  - nvme-storageclass-droplet-3.yaml
+  - nvme-storageclass-droplet-4.yaml
+  - nvme-storageclass-droplet-5.yaml
   - ssd-storageclass.yaml
 namespace: openebs

@@ -64,12 +64,12 @@ spec:
         # confirmation: "yes-really-destroy-data"
       mon:
         count: 3
-        volumeClaimTemplate:
-        spec:
-          storageClassName: nvme-lvm
-          resources:
-            requests:
-              storage: 10Gi
+        # volumeClaimTemplate:
+        # spec:
+        #   storageClassName: nvme-lvm
+        #   resources:
+        #     requests:
+        #       storage: 10Gi
       mgr:
         modules:
           - name: rook

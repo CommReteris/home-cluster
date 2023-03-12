@@ -1,10 +1,14 @@
 ---
 - hosts:
     - droplet-0
+    # - droplet-1
+    # - droplet-2
     - droplet-3
     - droplet-4
     - droplet-5
+    # - droplet-6
     - droplet-7
+    # - droplet-oneiros
   become: true
   gather_facts: true
   any_errors_fatal: true
@@ -46,4 +50,9 @@
     - name: Delete var/openebs
       ansible.builtin.file:
         path: /var/openebs
+        state: absent
+
+    - name: Delete var/lib/rancher/k3s/storage
+      ansible.builtin.file:
+        path: /var/lib/rancher/k3s/storage
         state: absent

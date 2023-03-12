@@ -23,6 +23,19 @@
         vg: lvmvg.nvme
         pvs: /dev/nvme0n1
 
+    - name: Create a thin pool of 512g
+      community.general.lvol:
+        vg: lvmvg.nvme
+        thinpool: ceph.thinpool
+        size: 512g
+
+    - name: Create a thin volume of 128g
+      community.general.lvol:
+        vg: lvmvg.nvme
+        lv: ceph.disk
+        thinpool: ceph.thinpool
+        size: 500g
+
     - name: Create a volume group on top of SSD disks
       community.general.lvg:
         vg: lvmvg.ssd

@@ -158,9 +158,9 @@ spec:
           database: nextcloud
       primary:
         persistence:
-          enabled: false
-          # storageClass: nvme-lvm
-          # accessMode: ReadWriteOnce
+          enabled: true
+          storageClass: ceph-block
+          accessMode: ReadWriteOnce
           # Use an existing Persistent Volume Claim (must be created ahead of time)
           # existingClaim: ""
           # storageClass: ""

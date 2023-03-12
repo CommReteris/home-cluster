@@ -9,7 +9,7 @@ parameters:
   storage: "lvm" # unsure if this is required
   vgpattern: "lvmvg.hdd"
   thinProvision: "yes"
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer
 allowedTopologies:
   - matchLabelExpressions:
       - key: openebs.io/nodename

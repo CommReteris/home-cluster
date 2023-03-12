@@ -11,7 +11,7 @@ parameters:
   storage: "lvm" # unsure if this is required
   vgpattern: "lvmvg.ssd"
   thinProvision: "yes"
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer
 allowedTopologies:
   - matchLabelExpressions:
       - key: openebs.io/nodename

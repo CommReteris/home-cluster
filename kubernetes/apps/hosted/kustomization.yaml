@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - cells/ks.yaml
-  # - nextcloud/ks.yaml
+  - vault/ks.yaml

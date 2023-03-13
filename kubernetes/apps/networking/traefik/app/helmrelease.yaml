@@ -94,7 +94,7 @@ spec:
     # Create an IngressRoute for the dashboard
     ingressRoute:
       dashboard:
-        enabled: true
+        enabled: false
         # Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
         annotations:
           kubernetes.io/ingress.class: traefik

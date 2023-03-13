@@ -87,6 +87,10 @@ spec:
 
     vault:
       enabled: true
+      dataStorage:
+        storageClass: ceph-block
+      volumePermissions:
+        enabled: true
       injector:
         annotations: {
           "helm.sh/hook": "pre-install",

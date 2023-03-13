@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: traefik
         namespace: flux-system
-      interval: 5m0s
+      interval: 1h
 
   dependsOn:
     - name: cert-manager
@@ -112,7 +112,7 @@ spec:
         # TLS options (e.g. secret containing certificate)
         tls:
           hosts:
-            - traefik.rengo.local
+            - traefik.rengo.dev
           secretName: traefik-tls
 
     # Customize updateStrategy of traefik pods

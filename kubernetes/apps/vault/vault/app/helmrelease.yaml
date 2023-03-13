@@ -47,8 +47,8 @@ spec:
         enabled: true
       extraVolumes:
         - type: configMap
-          name: cells/cells-vault
-          # namespace: cells
+          name: cells-vault
+          namespace: cells
       postStart:
         - "/bin/sh"
         - "-c"

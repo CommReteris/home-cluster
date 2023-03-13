@@ -17,7 +17,7 @@ spec:
   values:
     env:
       - name: CELLS_KEYRING
-        value: vault://vault-internal.vault:8200/secret?key=master
+        value: vault://vault.vault.svc:8200/secret?key=master
 
     service:
       type: ClusterIP

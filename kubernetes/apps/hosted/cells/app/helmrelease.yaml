@@ -73,7 +73,7 @@ spec:
       enabled: true
       defaultBuckets: "thumbnails pydiods1 personal versions cellsdata binaries"
       persistence:
-        storageClass: ceph-bucket
+        storageClass: ceph-block
         size: 10Gi
       volumePermissions:
         enabled: true

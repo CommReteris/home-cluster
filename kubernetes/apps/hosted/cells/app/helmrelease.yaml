@@ -88,7 +88,7 @@ spec:
     vault:
       enabled: true
       global:
-        # tlsDisable: true
+        tlsDisable: true
       injector:
         loglevel: debug
         allowPrivilegeEscalation: true
@@ -106,7 +106,7 @@ spec:
             matchExpressions:
               - key: kubernetes.io/metadata.name
                 operator: NotIn
-                values: ["hosted", "networking", "calico-system", "tigera-operator", "flux-system", "vault", "kube-system", "kube-public", "kube-node-lease"]
+                values: ["rook-ceph", "monitoring", "networking", "calico-system", "tigera-operator", "flux-system", "vault", "kube-system", "kube-public", "kube-node-lease"]
       server:
         annotations: {
           "helm.sh/hook": "pre-install",

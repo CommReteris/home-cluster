@@ -48,6 +48,7 @@ spec:
       extraVolumes:
         - type: configMap
           name: cells-vault
+          namespace: cells
       postStart:
         - "/bin/sh"
         - "-c"

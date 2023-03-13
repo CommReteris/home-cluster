@@ -14,3 +14,46 @@ spec:
         name: hashicorp
         namespace: flux-system
   interval: 15m
+  values:
+    # global:
+      # tlsDisable: true
+    injector:
+      loglevel: debug
+      allowPrivilegeEscalation: true
+      annotations: {
+        "helm.sh/hook": "pre-install",
+        "helm.sh/hook-weight": "-3"
+      }
+      webhook:
+        annotations: {
+          "helm.sh/hook": "pre-install",
+          "helm.sh/hook-weight": "-3"
+        }
+        failurePolicy: Ignore
+        namespaceSelector:
+          matchExpressions:
+            - key: kubernetes.io/metadata.name
+              operator: NotIn
+              values: ["rook-ceph", "monitoring", "networking", "calico-system", "tigera-operator", "flux-system", "vault", "kube-system", "kube-public", "kube-node-lease"]
+    server:
+      annotations: {
+        "helm.sh/hook": "pre-install",
+        "helm.sh/hook-weight": "-3"
+      }
+      dataStorage:
+        storageClass: ceph-block
+        mountPath: /tmp/vault/data
+      volumePermissions:
+        enabled: true
+      extraVolumes:
+        - type: configMap
+          name: cells-vault
+      postStart:
+        - "/bin/sh"
+        - "-c"
+        - "sleep 5 && cp /vault/userconfig/cells-vault/bootstrap.sh /tmp/bootstrap.sh && chmod +x /tmp/bootstrap.sh && /tmp/bootstrap.sh"
+    statefulset:
+      annotations: {
+        "helm.sh/hook": "pre-install",
+        "helm.sh/hook-weight": "-3"
+      }

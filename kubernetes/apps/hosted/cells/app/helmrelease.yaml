@@ -82,6 +82,12 @@ spec:
       volumePermissions:
         enabled: true
 
+    valuesFrom:
+      - kind: Secret
+        name: cells-minio
+        valuesKey: root-password
+        targetPath: minio.auth.rootPaswword
+
     mongodb:
       enabled: true
       auth:

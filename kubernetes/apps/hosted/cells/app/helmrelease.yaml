@@ -83,6 +83,7 @@ spec:
         enabled: true
       auth:
         existingSecret: cells-minio
+        auth.forceNewKeys: true
 
     mongodb:
       enabled: true

@@ -81,12 +81,11 @@ spec:
         size: 10Gi
       volumePermissions:
         enabled: true
-
-    valuesFrom:
-      - kind: Secret
-        name: cells-minio
-        valuesKey: root-password
-        targetPath: minio.auth.rootPassword
+      valuesFrom:
+        - kind: Secret
+          name: cells-minio
+          valuesKey: root-password
+          targetPath: auth.rootPassword
 
     mongodb:
       enabled: true

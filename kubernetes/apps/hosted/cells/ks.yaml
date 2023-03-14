@@ -12,3 +12,24 @@ spec:
     kind: GitRepository
     name: home-kubernetes
     namespace: flux-system
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: cells
+      namespace: hosted
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: cluster-apps-cells-resources
+  namespace: flux-system
+spec:
+  interval: 15m0s
+  dependsOn:
+    - name: cluster-apps-cells
+  path: ./kubernetes/apps/hosted/cells/resources
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+    namespace: flux-system

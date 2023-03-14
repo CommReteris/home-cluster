@@ -157,7 +157,7 @@ spec:
         allowExternalNameServices: false
         allowEmptyServices: true
         ingressClass: traefik
-        ingressEndpoint: rengo.local
+        ingressEndpoint: rengo.dev
         ip: "${METALLB_TRAEFIK_ADDR}"
         # labelSelector: environment=production,method=traefik
         namespaces: []

@@ -25,7 +25,7 @@ spec:
       # discoveryPort: 8002
       # binds:
         # Set values here if you want to bind the port elsewhere
-      # reverseproxyurl:
+      reverseproxyurl: cells.rengo.dev
       # tlsconfig:
         # selfsigned:
 

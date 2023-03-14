@@ -1,0 +1,30 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "ipv4.rengo.dev"
+    external-dns.home.arpa/enabled: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_ssl_verify off;
+  name: cells
+  namespace: hosted
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host "cells.rengo.dev"
+      http:
+        paths:
+          - backend:
+              service:
+                name: cells
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
+      secretName: cells-tls

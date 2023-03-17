@@ -82,8 +82,8 @@ spec:
       volumePermissions:
         enabled: true
       auth:
-        # existingSecret: cells-minio
-        auth.forceNewKeys: true
+        existingSecret: cells-minio
+        # auth.forceNewKeys: true
 
     mongodb:
       enabled: true

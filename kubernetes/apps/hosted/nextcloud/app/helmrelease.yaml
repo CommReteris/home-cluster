@@ -224,7 +224,7 @@ spec:
         tlsSkipVerify: true
         image:
           repository: xperimental/nextcloud-exporter
-          tag: 0.6.0
+          tag: 0.6.2
           pullPolicy: IfNotPresent
         service:
           type: ClusterIP

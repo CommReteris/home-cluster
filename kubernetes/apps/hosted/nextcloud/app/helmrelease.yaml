@@ -34,7 +34,7 @@ spec:
   values:
     image:
       repository: nextcloud
-      tag: 25.0.4
+      tag: 27.1.3
       pullPolicy: IfNotPresent
 
     # runtimeClassName: nvidia
